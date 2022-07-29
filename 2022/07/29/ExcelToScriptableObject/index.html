@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
+  <link rel="mask-icon" href="/images/test.gif" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Excel导入数据创建ScriptableObject">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExcelToScriptableObject">
+<meta property="og:url" content="http://example.com/2022/07/29/ExcelToScriptableObject/index.html">
+<meta property="og:site_name" content="Forestlyn&#39;s blog">
+<meta property="og:description" content="Excel导入数据创建ScriptableObject">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/07/29/ExcelToScriptableObject/image-ExceltoScriptableObject-1.png">
+<meta property="og:image" content="http://example.com/2022/07/29/ExcelToScriptableObject/image-ExceltoScriptableObject-2.png">
+<meta property="article:published_time" content="2022-07-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-07-29T11:47:05.275Z">
+<meta property="article:author" content="forestlyn">
+<meta property="article:tag" content="游戏工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/07/29/ExcelToScriptableObject/image-ExceltoScriptableObject-1.png">
+
+<link rel="canonical" href="http://example.com/2022/07/29/ExcelToScriptableObject/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ExcelToScriptableObject | Forestlyn's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Forestlyn's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/ExcelToScriptableObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="forestlyn">
+      <meta itemprop="description" content="要和可莉一起去炸鱼吗？虽然被抓到就是一整天禁闭，但是鱼很好吃，所以值得！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Forestlyn's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ExcelToScriptableObject
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-29 00:00:00 / 修改时间：19:47:05" itemprop="dateCreated datePublished" datetime="2022-07-29T00:00:00+08:00">2022-07-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Excel导入数据创建ScriptableObject</p>
+<span id="more"></span>
+
+<h1 id="ExcelToScriptableObject"><a href="#ExcelToScriptableObject" class="headerlink" title="ExcelToScriptableObject"></a>ExcelToScriptableObject</h1><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>该package是为了导入大量数据做的 使用不是很方便 需要自己改动写ScriptableObject赋值代码适配自己的需求。</p>
+<h2 id="导入Package"><a href="#导入Package" class="headerlink" title="导入Package"></a>导入Package</h2><p>Assets/Import Package/Custom Package 选择包导入</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>首先找到脚本<strong>ExcelToScriptableObject</strong>，对方法GetScriptableObjects初始化物体赋值进行修改，每个人初始化的物体属性不同所以需要根据自己需要进行修改。package中有示例。可看后面代码详解。</p>
+<p>Unity上方导航栏中找到ExcelTool，点击选择Import，出现面板如下图左一所示</p>
+<p>选择需要生成的ScriptableObject，出现右图所示界面，选择想要生成的ScriptableObject</p>
+<p>再选择excel，<strong>非常不建议使用xls</strong>，会出现无法初始化list等问题。</p>
+<p><strong>重复导入确保删除之前的生成的ScriptableObject，否则会出现问题，如导入的数据未改变等</strong>。</p>
+<p>解决方案：去文件管理器删除再重新生成</p>
+<p><img src="/2022/07/29/ExcelToScriptableObject/image-ExceltoScriptableObject-1.png" style="zoom:50%;"><img src="/2022/07/29/ExcelToScriptableObject/image-ExceltoScriptableObject-2.png" style="zoom:50%;"></p>
+<h2 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h2><h3 id="重写赋值部分"><a href="#重写赋值部分" class="headerlink" title="重写赋值部分"></a>重写赋值部分</h3><p><code>DataRowCollection</code>可视为二维string数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DataRowCollection data = ReadExcel(excelpath, out int col, out int row, type);</span><br><span class="line"></span><br><span class="line">Item item = ScriptableObject.CreateInstance&lt;Item&gt;();//创建脚本实例</span><br><span class="line"></span><br><span class="line">//给数据赋值 data[i][j]表示为excel第i行第j个格子里的内容，tostring转换为string类型 </span><br><span class="line">//从string转int float 可用 int.TryParse float.Parse 将string类型转int float</span><br><span class="line">item.itemName = data[i][0].ToString();</span><br><span class="line">int.TryParse(data[i][1].ToString(), out item.times);</span><br><span class="line">item.list = new List&lt;string&gt;(data[i][2].ToString().Split(&#x27;;&#x27;));</span><br><span class="line"></span><br><span class="line">//保存第一个参数为gameobject，需要保存的物体，第二个为保存地址 注意包括保存物体的名字</span><br><span class="line">AssetDatabase.CreateAsset(item, &quot;Assets/Items/item&quot; + i + &quot;.asset&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class ExcelWindow : EditorWindow</span><br><span class="line">    &#123;</span><br><span class="line">        public ScriptableObject source;</span><br><span class="line"></span><br><span class="line">        [MenuItem(&quot;ExcelTool/Import&quot;)]</span><br><span class="line">        public static void OnInit()</span><br><span class="line">        &#123;</span><br><span class="line">            //创建窗口 泛型参数为创建窗体的脚本 需要继承EditorWindow 类似挂载在物体上的脚本需要继承MonoBehaviour</span><br><span class="line">            //第一个参数string:标题 第二个参数bool:是否聚焦 </span><br><span class="line">            GetWindow&lt;ExcelWindow&gt;(&quot;导入excel&quot;, true);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    	//绘制UI</span><br><span class="line">        public void OnGUI()</span><br><span class="line">        &#123;</span><br><span class="line">            //开始一行 和EndHorizontal配套使用</span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            //显示一个标签</span><br><span class="line">            GUILayout.Label(&quot;Import Excel&quot;);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line"></span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            GUILayout.Label(&quot;Excel/根据excel后缀选&quot;);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line">            </span><br><span class="line">            //第一个参数：显示一个字段前的标签 第二个参数:字段显示的对象 第三个参数:可选择的类型 第四个参数：是否可选择场景(Scene)中的对象</span><br><span class="line">            source = (ScriptableObject)EditorGUILayout.ObjectField(&quot;选择需要生成的ScriptalbeObject脚本&quot;, source, typeof(ScriptableObject), false);</span><br><span class="line"></span><br><span class="line">            //创建button 点击button变为true 运行里面的代码</span><br><span class="line">            if (GUILayout.Button(&quot;选择Excel/后缀为xlsx&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                //打开一个文件夹 第一个参数：title 第二个：打开的路径 第三个：可选择的文件种类 适配后缀</span><br><span class="line">                string filePath = EditorUtility.OpenFilePanel(&quot;选择Excel/后缀为xlsx&quot;, Application.dataPath, &quot;*xlsx&quot;);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath, source,ExcelType.xlsx);</span><br><span class="line">                //Debug.LogError(&quot;filePath&quot;+filePath);</span><br><span class="line">            &#125;</span><br><span class="line">            if (GUILayout.Button(&quot;选择Excel/后缀为xls(不推荐)&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                string filePath = EditorUtility.OpenFilePanel(&quot;选择Excel/后缀为xls&quot;, Application.dataPath, &quot;*xls&quot;);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath,source, ExcelType.xls);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用过程中可能出现的问题"><a href="#使用过程中可能出现的问题" class="headerlink" title="使用过程中可能出现的问题"></a>使用过程中可能出现的问题</h2><p><strong>不建议使用xls，大概出问题，做的时候用xls测试生成list完全无法生成成功 甚至string 赋值也有问题 可能是我没弄懂 总之xlsx测试就完全没问题</strong></p>
+<ul>
+<li><p>重新导入文件值没变化</p>
+<p>删除之前生成的ScriptableObject 再重试</p>
+</li>
+<li><p>选择ScriptableObject 时没有我想要生成的</p>
+<p>使用前需要先创建一个ScriptableObject实例，指右键Create，不是ScriptableObject C#脚本</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6991464138782277645">Unity实用功能之读写Excel表格｜ 8月更文挑战 - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yupu56/article/details/50580277">(31条消息) Unity Excel 文件读取和写入_PassionY的博客-CSDN博客_unity读取excel文件</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv12931265?from=search&spm_id_from=333.337.0.0">Unity知识记录–自动处理大量数据导入，生成ScriptObject（制作UI界面） - 哔哩哔哩 (bilibili.com)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%85%B7/" rel="tag"><i class="fa fa-tag"></i> 游戏工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/28/%E8%BF%B7%E5%A4%B1%E5%B2%9B/" rel="prev" title="迷失岛">
+      <i class="fa fa-chevron-left"></i> 迷失岛
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ExcelToScriptableObject"><span class="nav-text">ExcelToScriptableObject</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA"><span class="nav-text">提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5Package"><span class="nav-text">导入Package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3"><span class="nav-text">代码详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E8%B5%8B%E5%80%BC%E9%83%A8%E5%88%86"><span class="nav-text">重写赋值部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3"><span class="nav-text">窗口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">使用过程中可能出现的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="forestlyn"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">forestlyn</p>
+  <div class="site-description" itemprop="description">要和可莉一起去炸鱼吗？虽然被抓到就是一整天禁闭，但是鱼很好吃，所以值得！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">forestlyn</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">26k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">24 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
