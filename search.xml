@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ExcelToScriptableObject</title>
+    <url>/2022/07/29/ExcelToScriptableObject/</url>
+    <content><![CDATA[<p>Excel导入数据创建ScriptableObject</p>
+<span id="more"></span>
+
+<h1 id="ExcelToScriptableObject"><a href="#ExcelToScriptableObject" class="headerlink" title="ExcelToScriptableObject"></a>ExcelToScriptableObject</h1><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>该package是为了导入大量数据做的 使用不是很方便 需要自己改动写ScriptableObject赋值代码适配自己的需求。</p>
+<h2 id="导入Package"><a href="#导入Package" class="headerlink" title="导入Package"></a>导入Package</h2><p>Assets&#x2F;Import Package&#x2F;Custom Package 选择包导入</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>首先找到脚本<strong>ExcelToScriptableObject</strong>，对方法GetScriptableObjects初始化物体赋值进行修改，每个人初始化的物体属性不同所以需要根据自己需要进行修改。package中有示例。可看后面代码详解。</p>
+<p>Unity上方导航栏中找到ExcelTool，点击选择Import，出现面板如下图左一所示</p>
+<p>选择需要生成的ScriptableObject，出现右图所示界面，选择想要生成的ScriptableObject</p>
+<p>再选择excel，<strong>非常不建议使用xls</strong>，会出现无法初始化list等问题。</p>
+<p><strong>重复导入确保删除之前的生成的ScriptableObject，否则会出现问题，如导入的数据未改变等</strong>。</p>
+<p>解决方案：去文件管理器删除再重新生成</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-ExceltoScriptableObject-1.png" alt="image-ExceltoScriptableObject-1"></p>
+<h2 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h2><h3 id="重写赋值部分"><a href="#重写赋值部分" class="headerlink" title="重写赋值部分"></a>重写赋值部分</h3><p><code>DataRowCollection</code>可视为二维string数组</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">DataRowCollection data = ReadExcel(excelpath, <span class="keyword">out</span> <span class="built_in">int</span> col, <span class="keyword">out</span> <span class="built_in">int</span> row, type);</span><br><span class="line"></span><br><span class="line">Item item = ScriptableObject.CreateInstance&lt;Item&gt;();<span class="comment">//创建脚本实例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//给数据赋值 data[i][j]表示为excel第i行第j个格子里的内容，tostring转换为string类型 </span></span><br><span class="line"><span class="comment">//从string转int float 可用 int.TryParse float.Parse 将string类型转int float</span></span><br><span class="line">item.itemName = data[i][<span class="number">0</span>].ToString();</span><br><span class="line"><span class="built_in">int</span>.TryParse(data[i][<span class="number">1</span>].ToString(), <span class="keyword">out</span> item.times);</span><br><span class="line">item.list = <span class="keyword">new</span> List&lt;<span class="built_in">string</span>&gt;(data[i][<span class="number">2</span>].ToString().Split(<span class="string">&#x27;;&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//保存第一个参数为gameobject，需要保存的物体，第二个为保存地址 注意包括保存物体的名字</span></span><br><span class="line">AssetDatabase.CreateAsset(item, <span class="string">&quot;Assets/Items/item&quot;</span> + i + <span class="string">&quot;.asset&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ExcelWindow</span> : <span class="title">EditorWindow</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> ScriptableObject source;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">MenuItem(<span class="string">&quot;ExcelTool/Import&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">OnInit</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//创建窗口 泛型参数为创建窗体的脚本 需要继承EditorWindow 类似挂载在物体上的脚本需要继承MonoBehaviour</span></span><br><span class="line">            <span class="comment">//第一个参数string:标题 第二个参数bool:是否聚焦 </span></span><br><span class="line">            GetWindow&lt;ExcelWindow&gt;(<span class="string">&quot;导入excel&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    	<span class="comment">//绘制UI</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnGUI</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//开始一行 和EndHorizontal配套使用</span></span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            <span class="comment">//显示一个标签</span></span><br><span class="line">            GUILayout.Label(<span class="string">&quot;Import Excel&quot;</span>);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line"></span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            GUILayout.Label(<span class="string">&quot;Excel/根据excel后缀选&quot;</span>);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//第一个参数：显示一个字段前的标签 第二个参数:字段显示的对象 第三个参数:可选择的类型 第四个参数：是否可选择场景(Scene)中的对象</span></span><br><span class="line">            source = (ScriptableObject)EditorGUILayout.ObjectField(<span class="string">&quot;选择需要生成的ScriptalbeObject脚本&quot;</span>, source, <span class="keyword">typeof</span>(ScriptableObject), <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//创建button 点击button变为true 运行里面的代码</span></span><br><span class="line">            <span class="keyword">if</span> (GUILayout.Button(<span class="string">&quot;选择Excel/后缀为xlsx&quot;</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//打开一个文件夹 第一个参数：title 第二个：打开的路径 第三个：可选择的文件种类 适配后缀</span></span><br><span class="line">                <span class="built_in">string</span> filePath = EditorUtility.OpenFilePanel(<span class="string">&quot;选择Excel/后缀为xlsx&quot;</span>, Application.dataPath, <span class="string">&quot;*xlsx&quot;</span>);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath, source,ExcelType.xlsx);</span><br><span class="line">                <span class="comment">//Debug.LogError(&quot;filePath&quot;+filePath);</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (GUILayout.Button(<span class="string">&quot;选择Excel/后缀为xls(不推荐)&quot;</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">string</span> filePath = EditorUtility.OpenFilePanel(<span class="string">&quot;选择Excel/后缀为xls&quot;</span>, Application.dataPath, <span class="string">&quot;*xls&quot;</span>);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath,source, ExcelType.xls);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用过程中可能出现的问题"><a href="#使用过程中可能出现的问题" class="headerlink" title="使用过程中可能出现的问题"></a>使用过程中可能出现的问题</h2><p><strong>不建议使用xls，大概出问题，做的时候用xls测试生成list完全无法生成成功 甚至string 赋值也有问题 可能是我没弄懂 总之xlsx测试就完全没问题</strong></p>
+<ul>
+<li><p>重新导入文件值没变化</p>
+<p>删除之前生成的ScriptableObject 再重试</p>
+</li>
+<li><p>选择ScriptableObject 时没有我想要生成的</p>
+<p>使用前需要先创建一个ScriptableObject实例，指右键Create，不是ScriptableObject C#脚本</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://juejin.cn/post/6991464138782277645">Unity实用功能之读写Excel表格｜ 8月更文挑战 - 掘金 (juejin.cn)</a></p>
+<p><a href="https://blog.csdn.net/yupu56/article/details/50580277">(31条消息) Unity Excel 文件读取和写入_PassionY的博客-CSDN博客_unity读取excel文件</a></p>
+<p><a href="https://www.bilibili.com/read/cv12931265?from=search&spm_id_from=333.337.0.0">Unity知识记录–自动处理大量数据导入，生成ScriptObject（制作UI界面） - 哔哩哔哩 (bilibili.com)</a></p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>游戏工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>P2392</title>
     <url>/2021/06/03/P2392%20kkksc03%E8%80%83%E5%89%8D%E4%B8%B4%E6%97%B6%E6%8A%B1%E4%BD%9B%E8%84%9A---01%E8%83%8C%E5%8C%85/</url>
     <content><![CDATA[<p>P2392 kkksc03考前临时抱佛脚—01背包<span id="more"></span></p>
@@ -41,42 +80,28 @@
       </tags>
   </entry>
   <entry>
-    <title>ExcelToScriptableObject</title>
-    <url>/2022/07/29/ExcelToScriptableObject/</url>
-    <content><![CDATA[<p>Excel导入数据创建ScriptableObject</p>
-<span id="more"></span>
+    <title>关于free的一点小困惑</title>
+    <url>/2021/06/08/%E5%85%B3%E4%BA%8Efree%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%9B%B0%E6%83%91/</url>
+    <content><![CDATA[<p>C语言中free函数的一点测试<span id="more"></span></p>
+<h1 id="free"><a href="#free" class="headerlink" title="free"></a>free</h1><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> p = <span class="number">1</span>;</span><br><span class="line">  <span class="type">int</span> *q;</span><br><span class="line">  q = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">  *q = <span class="number">2</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="built_in">free</span>(q);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot; %d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">devC++:</span><br><span class="line">输出结果<span class="number">1</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000B</span>F13E0 <span class="number">1</span> <span class="number">12517712</span> <span class="number">0000000000B</span>F13E0</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001813E0</span> <span class="number">1</span> <span class="number">1573200</span> <span class="number">00000000001813E0</span></span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000</span>AC13E0 <span class="number">1</span> <span class="number">11272528</span> <span class="number">0000000000</span>AC13E0</span><br><span class="line">vscode:</span><br><span class="line">输出结果<span class="number">1</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000761</span>A50 <span class="number">1</span> <span class="number">2</span> <span class="number">0000000000761</span>A50</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000951</span>A50 <span class="number">1</span> <span class="number">2</span> <span class="number">0000000000951</span>A50</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001F</span>1A50 <span class="number">1</span> <span class="number">2</span> <span class="number">00000000001F</span>1A50</span><br></pre></td></tr></table></figure>
 
-<h1 id="ExcelToScriptableObject"><a href="#ExcelToScriptableObject" class="headerlink" title="ExcelToScriptableObject"></a>ExcelToScriptableObject</h1><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>该package是为了导入大量数据做的 使用不是很方便 需要自己改动写ScriptableObject赋值代码适配自己的需求。</p>
-<h2 id="导入Package"><a href="#导入Package" class="headerlink" title="导入Package"></a>导入Package</h2><p>Assets&#x2F;Import Package&#x2F;Custom Package 选择包导入</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>首先找到脚本<strong>ExcelToScriptableObject</strong>，对方法GetScriptableObjects初始化物体赋值进行修改，每个人初始化的物体属性不同所以需要根据自己需要进行修改。package中有示例。可看后面代码详解。</p>
-<p>Unity上方导航栏中找到ExcelTool，点击选择Import，出现面板如下图左一所示</p>
-<p>选择需要生成的ScriptableObject，出现右图所示界面，选择想要生成的ScriptableObject</p>
-<p>再选择excel，<strong>非常不建议使用xls</strong>，会出现无法初始化list等问题。</p>
-<p><strong>重复导入确保删除之前的生成的ScriptableObject，否则会出现问题，如导入的数据未改变等</strong>。</p>
-<p>解决方案：去文件管理器删除再重新生成</p>
-<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-ExceltoScriptableObject-1.png" alt="image-ExceltoScriptableObject-1"></p>
-<h2 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h2><h3 id="重写赋值部分"><a href="#重写赋值部分" class="headerlink" title="重写赋值部分"></a>重写赋值部分</h3><p><code>DataRowCollection</code>可视为二维string数组</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">DataRowCollection data = ReadExcel(excelpath, <span class="keyword">out</span> <span class="built_in">int</span> col, <span class="keyword">out</span> <span class="built_in">int</span> row, type);</span><br><span class="line"></span><br><span class="line">Item item = ScriptableObject.CreateInstance&lt;Item&gt;();<span class="comment">//创建脚本实例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//给数据赋值 data[i][j]表示为excel第i行第j个格子里的内容，tostring转换为string类型 </span></span><br><span class="line"><span class="comment">//从string转int float 可用 int.TryParse float.Parse 将string类型转int float</span></span><br><span class="line">item.itemName = data[i][<span class="number">0</span>].ToString();</span><br><span class="line"><span class="built_in">int</span>.TryParse(data[i][<span class="number">1</span>].ToString(), <span class="keyword">out</span> item.times);</span><br><span class="line">item.list = <span class="keyword">new</span> List&lt;<span class="built_in">string</span>&gt;(data[i][<span class="number">2</span>].ToString().Split(<span class="string">&#x27;;&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//保存第一个参数为gameobject，需要保存的物体，第二个为保存地址 注意包括保存物体的名字</span></span><br><span class="line">AssetDatabase.CreateAsset(item, <span class="string">&quot;Assets/Items/item&quot;</span> + i + <span class="string">&quot;.asset&quot;</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ExcelWindow</span> : <span class="title">EditorWindow</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> ScriptableObject source;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">MenuItem(<span class="string">&quot;ExcelTool/Import&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">OnInit</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//创建窗口 泛型参数为创建窗体的脚本 需要继承EditorWindow 类似挂载在物体上的脚本需要继承MonoBehaviour</span></span><br><span class="line">            <span class="comment">//第一个参数string:标题 第二个参数bool:是否聚焦 </span></span><br><span class="line">            GetWindow&lt;ExcelWindow&gt;(<span class="string">&quot;导入excel&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    	<span class="comment">//绘制UI</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnGUI</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//开始一行 和EndHorizontal配套使用</span></span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            <span class="comment">//显示一个标签</span></span><br><span class="line">            GUILayout.Label(<span class="string">&quot;Import Excel&quot;</span>);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line"></span><br><span class="line">            GUILayout.BeginHorizontal();</span><br><span class="line">            GUILayout.Label(<span class="string">&quot;Excel/根据excel后缀选&quot;</span>);</span><br><span class="line">            GUILayout.EndHorizontal();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//第一个参数：显示一个字段前的标签 第二个参数:字段显示的对象 第三个参数:可选择的类型 第四个参数：是否可选择场景(Scene)中的对象</span></span><br><span class="line">            source = (ScriptableObject)EditorGUILayout.ObjectField(<span class="string">&quot;选择需要生成的ScriptalbeObject脚本&quot;</span>, source, <span class="keyword">typeof</span>(ScriptableObject), <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//创建button 点击button变为true 运行里面的代码</span></span><br><span class="line">            <span class="keyword">if</span> (GUILayout.Button(<span class="string">&quot;选择Excel/后缀为xlsx&quot;</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//打开一个文件夹 第一个参数：title 第二个：打开的路径 第三个：可选择的文件种类 适配后缀</span></span><br><span class="line">                <span class="built_in">string</span> filePath = EditorUtility.OpenFilePanel(<span class="string">&quot;选择Excel/后缀为xlsx&quot;</span>, Application.dataPath, <span class="string">&quot;*xlsx&quot;</span>);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath, source,ExcelType.xlsx);</span><br><span class="line">                <span class="comment">//Debug.LogError(&quot;filePath&quot;+filePath);</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (GUILayout.Button(<span class="string">&quot;选择Excel/后缀为xls(不推荐)&quot;</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">string</span> filePath = EditorUtility.OpenFilePanel(<span class="string">&quot;选择Excel/后缀为xls&quot;</span>, Application.dataPath, <span class="string">&quot;*xls&quot;</span>);</span><br><span class="line">                ExcelToScriptableObject.GetScriptableObjects(filePath,source, ExcelType.xls);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>指针pfree前后指向的地址一致，但是dev似乎把p指向的地址中的值也free了？而vscode中的值还是不变的。</p>
+<p><strong>我的vscode上结果如上，但是老婆的电脑上vscode输出和devc++类似？？？（疑惑增加了）</strong></p>
+<p>但如果对free后的指针进行赋值还是可以实现的，并且此时值为均为所赋值的值。<strong>但这是不正确的操作（赋值操作输出和老婆一样）。</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">devC++:<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001B</span>13E0 <span class="number">1</span> <span class="number">3</span> <span class="number">00000000001B</span>13E0</span><br><span class="line">vscode:<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000791</span>A50 <span class="number">1</span> <span class="number">3</span> <span class="number">0000000000791</span>A50</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用过程中可能出现的问题"><a href="#使用过程中可能出现的问题" class="headerlink" title="使用过程中可能出现的问题"></a>使用过程中可能出现的问题</h2><p><strong>不建议使用xls，大概出问题，做的时候用xls测试生成list完全无法生成成功 甚至string 赋值也有问题 可能是我没弄懂 总之xlsx测试就完全没问题</strong></p>
-<ul>
-<li><p>重新导入文件值没变化</p>
-<p>删除之前生成的ScriptableObject 再重试</p>
-</li>
-<li><p>选择ScriptableObject 时没有我想要生成的</p>
-<p>使用前需要先创建一个ScriptableObject实例，指右键Create，不是ScriptableObject C#脚本</p>
-</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://juejin.cn/post/6991464138782277645">Unity实用功能之读写Excel表格｜ 8月更文挑战 - 掘金 (juejin.cn)</a></p>
-<p><a href="https://blog.csdn.net/yupu56/article/details/50580277">(31条消息) Unity Excel 文件读取和写入_PassionY的博客-CSDN博客_unity读取excel文件</a></p>
-<p><a href="https://www.bilibili.com/read/cv12931265?from=search&spm_id_from=333.337.0.0">Unity知识记录–自动处理大量数据导入，生成ScriptObject（制作UI界面） - 哔哩哔哩 (bilibili.com)</a></p>
+<p><strong>WARN：free只能释放堆空间。像代码区、全局变量与静态变量区、栈区上的变量，都不需要程序员显示释放，这些区域上的空间，不能通过free函数来释放，否则执行时，会出错。</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> p = <span class="number">1</span>;</span><br><span class="line">  <span class="type">int</span> *q;</span><br><span class="line">  q = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">  <span class="built_in">printf</span></span><br><span class="line">  <span class="comment">//有无均不影响，即使分配了空间，在下一个操作中，q指向了p所在空间，而p不是用malloc分配的空间，依旧错误</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%p %p&quot;</span>, &amp;p, q);</span><br><span class="line">  q = &amp;p;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="built_in">free</span>(q);</span><br><span class="line">  *q = <span class="number">3</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot; %d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">vscode执行结果：<span class="number">000000000061F</span>E1C <span class="number">00000000009E1</span>A50 <span class="number">1</span> <span class="number">1</span> <span class="number">000000000061F</span>E1C <span class="number">3</span> <span class="number">3</span> <span class="number">000000000061F</span>E1C</span><br><span class="line">devc++执行结果：<span class="number">000000000062F</span>E14 <span class="number">00000000007</span>A19D0 <span class="number">1</span> <span class="number">1</span> <span class="number">000000000062F</span>E14 <span class="number">3</span> <span class="number">3</span> <span class="number">000000000062F</span>E14</span><br></pre></td></tr></table></figure>
+
+<p>错误，虽然vscode可以执行但是会报错 warning: attempt to free a non-heap object ‘p’ 即释放一个非堆上的空间</p>
+<p>devc++执行不报错但是是错误危险的操作。</p>
+<p>参考资料：<a href="https://blog.csdn.net/weixin_30267691/article/details/98983733">C语言动态内存的申请和释放_weixin_30267691的博客-CSDN博客</a></p>
 ]]></content>
       <categories>
-        <category>C#</category>
+        <category>C,C++</category>
       </categories>
       <tags>
-        <tag>游戏工具</tag>
+        <tag>free函数</tag>
       </tags>
   </entry>
   <entry>
@@ -119,6 +144,40 @@
       <tags>
         <tag>算法</tag>
         <tag>洛谷</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式：单例模式（Singleton）</title>
+    <url>/2021/06/14/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%88Singleton%EF%BC%89/</url>
+    <content><![CDATA[<p>单例模式（Singleton）<span id="more"></span></p>
+<h1 id="单例模式（Singleton）"><a href="#单例模式（Singleton）" class="headerlink" title="单例模式（Singleton）"></a>单例模式（Singleton）</h1><p>只有一个实例时使用，方便获取唯一对象。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Single</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Singleton</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">static</span> Singleton _instance;</span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">static</span> Singleton Instance</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">get</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (_instance == <span class="literal">null</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					Console.WriteLine(<span class="string">&quot;创建&quot;</span>);</span><br><span class="line">					_instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> _instance;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span>()</span> &#123; &#125;</span><br><span class="line">        <span class="comment">//保证不会通过new singleton()创建</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式：外观模式（Facade）</title>
+    <url>/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/</url>
+    <content><![CDATA[<p>外观模式（Facade）<span id="more"></span></p>
+<h1 id="外观模式（Facade）"><a href="#外观模式（Facade）" class="headerlink" title="外观模式（Facade）"></a>外观模式（Facade）</h1><p>将系统内部的互动细节隐藏起来，提供一个简单的接口，客户端只需要通过这个接口就可以操作一个复杂的系统。</p>
+<h2 id="client-客户端，用户"><a href="#client-客户端，用户" class="headerlink" title="client(客户端，用户)"></a>client(客户端，用户)</h2><p>从原本需要操作多个系统改为只用操作一个整合后的界面，即Facade。</p>
+<h2 id="subSystem-子系统"><a href="#subSystem-子系统" class="headerlink" title="subSystem(子系统)"></a>subSystem(子系统)</h2><p>实现各个不同功能的系统，彼此之间需要交互。</p>
+<h2 id="Facade（统一对外的界面）"><a href="#Facade（统一对外的界面）" class="headerlink" title="Facade（统一对外的界面）"></a>Facade（统一对外的界面）</h2><p>整合所有子系统的接口和功能，并提供高级界面（或接口）给客户端使用。</p>
+<p>接收客户端的信息后，将信息传给子系统。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -165,65 +224,6 @@
       </categories>
       <tags>
         <tag>协程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于free的一点小困惑</title>
-    <url>/2021/06/08/%E5%85%B3%E4%BA%8Efree%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%9B%B0%E6%83%91/</url>
-    <content><![CDATA[<p>C语言中free函数的一点测试<span id="more"></span></p>
-<h1 id="free"><a href="#free" class="headerlink" title="free"></a>free</h1><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> p = <span class="number">1</span>;</span><br><span class="line">  <span class="type">int</span> *q;</span><br><span class="line">  q = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">  *q = <span class="number">2</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="built_in">free</span>(q);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot; %d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">devC++:</span><br><span class="line">输出结果<span class="number">1</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000B</span>F13E0 <span class="number">1</span> <span class="number">12517712</span> <span class="number">0000000000B</span>F13E0</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001813E0</span> <span class="number">1</span> <span class="number">1573200</span> <span class="number">00000000001813E0</span></span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000</span>AC13E0 <span class="number">1</span> <span class="number">11272528</span> <span class="number">0000000000</span>AC13E0</span><br><span class="line">vscode:</span><br><span class="line">输出结果<span class="number">1</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000761</span>A50 <span class="number">1</span> <span class="number">2</span> <span class="number">0000000000761</span>A50</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000951</span>A50 <span class="number">1</span> <span class="number">2</span> <span class="number">0000000000951</span>A50</span><br><span class="line">输出结果<span class="number">2</span>：<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001F</span>1A50 <span class="number">1</span> <span class="number">2</span> <span class="number">00000000001F</span>1A50</span><br></pre></td></tr></table></figure>
-
-<p>指针pfree前后指向的地址一致，但是dev似乎把p指向的地址中的值也free了？而vscode中的值还是不变的。</p>
-<p><strong>我的vscode上结果如上，但是老婆的电脑上vscode输出和devc++类似？？？（疑惑增加了）</strong></p>
-<p>但如果对free后的指针进行赋值还是可以实现的，并且此时值为均为所赋值的值。<strong>但这是不正确的操作（赋值操作输出和老婆一样）。</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">devC++:<span class="number">1</span> <span class="number">2</span> <span class="number">00000000001B</span>13E0 <span class="number">1</span> <span class="number">3</span> <span class="number">00000000001B</span>13E0</span><br><span class="line">vscode:<span class="number">1</span> <span class="number">2</span> <span class="number">0000000000791</span>A50 <span class="number">1</span> <span class="number">3</span> <span class="number">0000000000791</span>A50</span><br></pre></td></tr></table></figure>
-
-<p><strong>WARN：free只能释放堆空间。像代码区、全局变量与静态变量区、栈区上的变量，都不需要程序员显示释放，这些区域上的空间，不能通过free函数来释放，否则执行时，会出错。</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> p = <span class="number">1</span>;</span><br><span class="line">  <span class="type">int</span> *q;</span><br><span class="line">  q = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">  <span class="built_in">printf</span></span><br><span class="line">  <span class="comment">//有无均不影响，即使分配了空间，在下一个操作中，q指向了p所在空间，而p不是用malloc分配的空间，依旧错误</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%p %p&quot;</span>, &amp;p, q);</span><br><span class="line">  q = &amp;p;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="built_in">free</span>(q);</span><br><span class="line">  *q = <span class="number">3</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot; %d %d %p&quot;</span>, p, *q, q);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">vscode执行结果：<span class="number">000000000061F</span>E1C <span class="number">00000000009E1</span>A50 <span class="number">1</span> <span class="number">1</span> <span class="number">000000000061F</span>E1C <span class="number">3</span> <span class="number">3</span> <span class="number">000000000061F</span>E1C</span><br><span class="line">devc++执行结果：<span class="number">000000000062F</span>E14 <span class="number">00000000007</span>A19D0 <span class="number">1</span> <span class="number">1</span> <span class="number">000000000062F</span>E14 <span class="number">3</span> <span class="number">3</span> <span class="number">000000000062F</span>E14</span><br></pre></td></tr></table></figure>
-
-<p>错误，虽然vscode可以执行但是会报错 warning: attempt to free a non-heap object ‘p’ 即释放一个非堆上的空间</p>
-<p>devc++执行不报错但是是错误危险的操作。</p>
-<p>参考资料：<a href="https://blog.csdn.net/weixin_30267691/article/details/98983733">C语言动态内存的申请和释放_weixin_30267691的博客-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>C,C++</category>
-      </categories>
-      <tags>
-        <tag>free函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式：外观模式（Facade）</title>
-    <url>/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/</url>
-    <content><![CDATA[<p>外观模式（Facade）<span id="more"></span></p>
-<h1 id="外观模式（Facade）"><a href="#外观模式（Facade）" class="headerlink" title="外观模式（Facade）"></a>外观模式（Facade）</h1><p>将系统内部的互动细节隐藏起来，提供一个简单的接口，客户端只需要通过这个接口就可以操作一个复杂的系统。</p>
-<h2 id="client-客户端，用户"><a href="#client-客户端，用户" class="headerlink" title="client(客户端，用户)"></a>client(客户端，用户)</h2><p>从原本需要操作多个系统改为只用操作一个整合后的界面，即Facade。</p>
-<h2 id="subSystem-子系统"><a href="#subSystem-子系统" class="headerlink" title="subSystem(子系统)"></a>subSystem(子系统)</h2><p>实现各个不同功能的系统，彼此之间需要交互。</p>
-<h2 id="Facade（统一对外的界面）"><a href="#Facade（统一对外的界面）" class="headerlink" title="Facade（统一对外的界面）"></a>Facade（统一对外的界面）</h2><p>整合所有子系统的接口和功能，并提供高级界面（或接口）给客户端使用。</p>
-<p>接收客户端的信息后，将信息传给子系统。</p>
-]]></content>
-      <categories>
-        <category>C#</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式：单例模式（Singleton）</title>
-    <url>/2021/06/14/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%88Singleton%EF%BC%89/</url>
-    <content><![CDATA[<p>单例模式（Singleton）<span id="more"></span></p>
-<h1 id="单例模式（Singleton）"><a href="#单例模式（Singleton）" class="headerlink" title="单例模式（Singleton）"></a>单例模式（Singleton）</h1><p>只有一个实例时使用，方便获取唯一对象。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Single</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Singleton</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">static</span> Singleton _instance;</span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">static</span> Singleton Instance</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">get</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (_instance == <span class="literal">null</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					Console.WriteLine(<span class="string">&quot;创建&quot;</span>);</span><br><span class="line">					_instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> _instance;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span>()</span> &#123; &#125;</span><br><span class="line">        <span class="comment">//保证不会通过new singleton()创建</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>C#</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
