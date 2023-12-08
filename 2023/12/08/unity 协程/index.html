@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="unity 协程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unity 协程">
+<meta property="og:url" content="http://example.com/2023/12/08/unity%20%E5%8D%8F%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Forestlyn&#39;s Blog">
+<meta property="og:description" content="unity 协程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208104425008.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208115153590.png">
+<meta property="article:published_time" content="2023-12-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-12-08T06:29:06.000Z">
+<meta property="article:author" content="Forestlyn">
+<meta property="article:tag" content="协程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208104425008.png">
+
+
+<link rel="canonical" href="http://example.com/2023/12/08/unity%20%E5%8D%8F%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/12/08/unity%20%E5%8D%8F%E7%A8%8B/","path":"2023/12/08/unity 协程/","title":"unity 协程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>unity 协程 | Forestlyn's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Forestlyn's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">have a nice day!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unity-%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">unity 协程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IEnumerator-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">IEnumerator 迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yield"><span class="nav-number">1.1.2.</span> <span class="nav-text">yield</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">协程原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unity-startcoroutine-%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">unity startcoroutine 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Forestlyn</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/08/unity%20%E5%8D%8F%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Forestlyn">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="unity 协程 | Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          unity 协程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-12-08 00:00:00 / 修改时间：14:29:06" itemprop="dateCreated datePublished" datetime="2023-12-08T00:00:00+08:00">2023-12-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>unity 协程<span id="more"></span></p>
+<h1 id="unity-协程"><a href="#unity-协程" class="headerlink" title="unity 协程"></a>unity 协程</h1><p>Unity 开发常用到协程Coroutine，但是unity的协程和monobehaviour绑定，有时候并不想继承mono，但是又想使用协程，这时候就有点麻烦，<del>不如来学习协程原理来自己写一个吧（</del></p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>下面是一个简单的协程，我们可以看到下面除了常用语法，还有两个相对比较陌生的东西<strong>IEnumerator和yield</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UnityCoroutineTest</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> IEnumerator <span class="title">UnityCoroutineTestFunction</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> UnityCoroutineTest_i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (UnityCoroutineTest_i &lt; <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            UnityCoroutineTest_i++;</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="IEnumerator-迭代器"><a href="#IEnumerator-迭代器" class="headerlink" title="IEnumerator 迭代器"></a>IEnumerator 迭代器</h3><p>IEnumerator定义，一个接口，实现了下面的函数</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">System.Collections</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IEnumerator</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//指向当前物体</span></span><br><span class="line">        <span class="built_in">object</span> Current &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">		<span class="comment">//移向下一个</span></span><br><span class="line">        <span class="function"><span class="built_in">bool</span> <span class="title">MoveNext</span>()</span>;</span><br><span class="line">        <span class="comment">//重置</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Reset</span>()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>谈到了IEnumerator，顺便谈谈IEnumerable，可能看上去比较陌生，但其实我们常用的foreach遍历集合数组，背后就是IEnumerable在帮助我们，GetEnumerator获得迭代器，然后用迭代器进行遍历</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">System.Collections</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IEnumerable</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">IEnumerator <span class="title">GetEnumerator</span>()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接看官方文档使用案例，官方文档<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.ienumerator?view=netframework-4.7.1">IEnumerator 接口 (System.Collections) | Microsoft Learn</a></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    coroutineTest = <span class="keyword">new</span> UnityCoroutineTest();</span><br><span class="line">    IEnumerator enumerator = coroutineTest.UnityCoroutineTestFunction();</span><br><span class="line">    <span class="keyword">while</span> (enumerator != <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(enumerator.MoveNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(enumerator.Current);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208104425008.png" alt="image-20231208104425008"></p>
+<h3 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h3><p>根据官方文档来看，实现IEnemerator&#x2F;IEnumerable非常麻烦，需要实现接口类</p>
+<p>但是我们的协程函数，并没有继承IEnumerator，但为什么还是可以使用对应的方法？</p>
+<p>关键就是yield，直接看官方文档解释</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/statements/yield">yield 语句 - 在迭代器中提供下一个元素 - C# | Microsoft Learn</a></p>
+<p>总结就是yield是C#的关键字，其实就是快速定义迭代器的语法糖。</p>
+<h3 id="协程原理"><a href="#协程原理" class="headerlink" title="协程原理"></a>协程原理</h3><p>上面我们知道了yield IEnumerator</p>
+<p>其实我们的协程函数就是一个迭代器函数，那我们为什么可以使用yield return null停住函数到下一帧执行，或者使用yield return new WaitForSeconds等待几秒继续执行呢</p>
+<p>利用Unity的IL2CPP，将c#编译为c++ 截取部分</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UnityCoroutineTest</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562</span>;</span><br><span class="line"><span class="comment">// UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA</span>  : <span class="keyword">public</span> RuntimeObject</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// System.Int32 UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::&lt;&gt;1__state</span></span><br><span class="line">	<span class="type">int32_t</span> ___U3CU3E1__state_0;</span><br><span class="line">	<span class="comment">// System.Object UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::&lt;&gt;2__current</span></span><br><span class="line">	RuntimeObject* ___U3CU3E2__current_1;</span><br><span class="line">	<span class="comment">// System.Int32 UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::&lt;UnityCoroutineTest_i&gt;5__2</span></span><br><span class="line">	<span class="type">int32_t</span> ___U3CUnityCoroutineTest_iU3E5__2_2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// System.Void UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::.ctor(System.Int32)</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">void</span> <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0__ctor_m4DEDAEE22CC7C85C7E65D5C00DFE19D3FE923F09</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">int32_t</span> ___0_U3CU3E1__state, <span class="type">const</span> RuntimeMethod* method)</span> </span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// System.Collections.IEnumerator UnityCoroutineTest::UnityCoroutineTestFunction()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* <span class="title">UnityCoroutineTest_UnityCoroutineTestFunction_m5CE5BCA8CD865CB46FB4694BF146B222BBD4CC30</span> <span class="params">(UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">bool</span> s_Il2CppMethodInitialized;</span><br><span class="line">	<span class="keyword">if</span> (!s_Il2CppMethodInitialized)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">il2cpp_codegen_initialize_runtime_metadata</span>((<span class="type">uintptr_t</span>*)&amp;U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA_il2cpp_TypeInfo_var);</span><br><span class="line">		s_Il2CppMethodInitialized = <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* L_0 = (U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA*)<span class="built_in">il2cpp_codegen_object_new</span>(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA_il2cpp_TypeInfo_var);</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_0);</span><br><span class="line">		<span class="built_in">U3CUnityCoroutineTestFunctionU3Ed__0__ctor_m4DEDAEE22CC7C85C7E65D5C00DFE19D3FE923F09</span>(L_0, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">return</span> L_0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// System.Void UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::.ctor(System.Int32)</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">void</span> <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0__ctor_m4DEDAEE22CC7C85C7E65D5C00DFE19D3FE923F09</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">int32_t</span> ___0_U3CU3E1__state, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2</span>(__this, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="type">int32_t</span> L_0 = ___0_U3CU3E1__state;</span><br><span class="line">		__this-&gt;___U3CU3E1__state_0 = L_0;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// System.Void UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::System.IDisposable.Dispose()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">void</span> <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0_System_IDisposable_Dispose_m8FD2D852D14451272231DB230B32DBA6359386AA</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// System.Boolean UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::MoveNext()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">bool</span> <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0_MoveNext_m3A155395AC6F342CA8666F1337118795E87D2F00</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int32_t</span> V_0 = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int32_t</span> V_1 = <span class="number">0</span>;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int32_t</span> L_0 = __this-&gt;___U3CU3E1__state_0;</span><br><span class="line">		V_0 = L_0;</span><br><span class="line">		<span class="type">int32_t</span> L_1 = V_0;</span><br><span class="line">		<span class="keyword">if</span> (!L_1)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">goto</span> IL_0010;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int32_t</span> L_2 = V_0;</span><br><span class="line">		<span class="keyword">if</span> ((((<span class="type">int32_t</span>)L_2) == ((<span class="type">int32_t</span>)<span class="number">1</span>)))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">goto</span> IL_0040;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> (<span class="type">bool</span>)<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0010:</span><br><span class="line">	&#123;</span><br><span class="line">		__this-&gt;___U3CU3E1__state_0 = (<span class="number">-1</span>);</span><br><span class="line">		<span class="comment">// int UnityCoroutineTest_i = 0;</span></span><br><span class="line">		__this-&gt;___U3CUnityCoroutineTest_iU3E5__2_2 = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">goto</span> IL_0047;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0020:</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// UnityCoroutineTest_i++;</span></span><br><span class="line">		<span class="type">int32_t</span> L_3 = __this-&gt;___U3CUnityCoroutineTest_iU3E5__2_2;</span><br><span class="line">		V_1 = L_3;</span><br><span class="line">		<span class="type">int32_t</span> L_4 = V_1;</span><br><span class="line">		__this-&gt;___U3CUnityCoroutineTest_iU3E5__2_2 = ((<span class="type">int32_t</span>)<span class="built_in">il2cpp_codegen_add</span>(L_4, <span class="number">1</span>));</span><br><span class="line">		<span class="comment">// yield return null;</span></span><br><span class="line">		__this-&gt;___U3CU3E2__current_1 = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="built_in">Il2CppCodeGenWriteBarrier</span>((<span class="type">void</span>**)(&amp;__this-&gt;___U3CU3E2__current_1), (<span class="type">void</span>*)<span class="literal">NULL</span>);</span><br><span class="line">		__this-&gt;___U3CU3E1__state_0 = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> (<span class="type">bool</span>)<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0040:</span><br><span class="line">	&#123;</span><br><span class="line">		__this-&gt;___U3CU3E1__state_0 = (<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0047:</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// while (UnityCoroutineTest_i &lt; 10)</span></span><br><span class="line">		<span class="type">int32_t</span> L_5 = __this-&gt;___U3CUnityCoroutineTest_iU3E5__2_2;</span><br><span class="line">		<span class="keyword">if</span> ((((<span class="type">int32_t</span>)L_5) &lt; ((<span class="type">int32_t</span>)((<span class="type">int32_t</span>)<span class="number">10</span>))))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">goto</span> IL_0020;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// &#125;</span></span><br><span class="line">		<span class="keyword">return</span> (<span class="type">bool</span>)<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// System.Object UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::System.Collections.Generic.IEnumerator&lt;System.Object&gt;.get_Current()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m9ED6C30EC34DBF0ECACE9A93DE5FCDBAFF10D0C9</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		RuntimeObject* L_0 = __this-&gt;___U3CU3E2__current_1;</span><br><span class="line">		<span class="keyword">return</span> L_0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// System.Void UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::System.Collections.IEnumerator.Reset()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">void</span> <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0_System_Collections_IEnumerator_Reset_mC0DAB409F8D496258495CE3857425D58F9848D4A</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A* L_0 = (NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A*)<span class="built_in">il2cpp_codegen_object_new</span>(((RuntimeClass*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A_il2cpp_TypeInfo_var)));</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_0);</span><br><span class="line">		<span class="built_in">NotSupportedException__ctor_m1398D0CDE19B36AA3DE9392879738C1EA2439CDF</span>(L_0, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="built_in">IL2CPP_RAISE_MANAGED_EXCEPTION</span>(L_0, ((RuntimeMethod*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;U3CUnityCoroutineTestFunctionU3Ed__0_System_Collections_IEnumerator_Reset_mC0DAB409F8D496258495CE3857425D58F9848D4A_RuntimeMethod_var)));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// System.Object UnityCoroutineTest/&lt;UnityCoroutineTestFunction&gt;d__0::System.Collections.IEnumerator.get_Current()</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* <span class="title">U3CUnityCoroutineTestFunctionU3Ed__0_System_Collections_IEnumerator_get_Current_m815A583450518900F6F1FC1AC48DB29369377C91</span> <span class="params">(U3CUnityCoroutineTestFunctionU3Ed__0_t9745C4E179E3DDFF3C5734D8AC75AF3E86F14ABA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		RuntimeObject* L_0 = __this-&gt;___U3CU3E2__current_1;</span><br><span class="line">		<span class="keyword">return</span> L_0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __clang__</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> clang diagnostic pop</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对于迭代器函数。将其编译成了类，并且实现了接口函数，那停等又是怎么实现的呢</p>
+<p>查看movenext函数，可以发现其中通过不同的跳转实现了我们实现的逻辑，并对应返回true&#x2F;false</p>
+<p>那协程的实现就可以大致的猜到了,流程如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208115153590.png" alt="image-20231208115153590"></p>
+<h2 id="unity-startcoroutine-原理"><a href="#unity-startcoroutine-原理" class="headerlink" title="unity startcoroutine 原理"></a>unity startcoroutine 原理</h2><p>上面的仅为猜想，实际上是不是这样的呢，<del>看看源码就知道了）</del> 没有源码可看</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR <span class="type">void</span> <span class="title">CoroutineTest_Start_m7030C8C182CF1F69656573098D28E0DCEFBF1F79</span> <span class="params">(CoroutineTest_t7632EEB899E029CCDFF86C210611720ECAB096FA* __this, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">bool</span> s_Il2CppMethodInitialized;</span><br><span class="line">	<span class="keyword">if</span> (!s_Il2CppMethodInitialized)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">il2cpp_codegen_initialize_runtime_metadata</span>((<span class="type">uintptr_t</span>*)&amp;UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562_il2cpp_TypeInfo_var);</span><br><span class="line">		s_Il2CppMethodInitialized = <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// coroutineTest = new UnityCoroutineTest();</span></span><br><span class="line">		UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562* L_0 = (UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562*)<span class="built_in">il2cpp_codegen_object_new</span>(UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562_il2cpp_TypeInfo_var);</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_0);</span><br><span class="line">		<span class="built_in">UnityCoroutineTest__ctor_mAF28F94E6D560827424C4258926A686389211267</span>(L_0, <span class="literal">NULL</span>);</span><br><span class="line">		__this-&gt;___coroutineTest_4 = L_0;</span><br><span class="line">		<span class="built_in">Il2CppCodeGenWriteBarrier</span>((<span class="type">void</span>**)(&amp;__this-&gt;___coroutineTest_4), (<span class="type">void</span>*)L_0);</span><br><span class="line">		<span class="comment">// StartCoroutine(coroutineTest.UnityCoroutineTestFunction());</span></span><br><span class="line">		UnityCoroutineTest_t1C000B5AF0E49BD3FF9C3A33861B2E804321D562* L_1 = __this-&gt;___coroutineTest_4;</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_1);</span><br><span class="line">		RuntimeObject* L_2;</span><br><span class="line">		L_2 = <span class="built_in">UnityCoroutineTest_UnityCoroutineTestFunction_m5CE5BCA8CD865CB46FB4694BF146B222BBD4CC30</span>(L_1, <span class="literal">NULL</span>);</span><br><span class="line">		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_3;</span><br><span class="line">		L_3 = <span class="built_in">MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812</span>(__this, L_2, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="comment">// &#125;</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// UnityEngine.Coroutine UnityEngine.MonoBehaviour::StartCoroutine(System.Collections.IEnumerator)</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* <span class="title">MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812</span> <span class="params">(MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71* __this, RuntimeObject* ___0_routine, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">bool</span> V_0 = <span class="literal">false</span>;</span><br><span class="line">	<span class="type">bool</span> V_1 = <span class="literal">false</span>;</span><br><span class="line">	Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* V_2 = <span class="literal">NULL</span>;</span><br><span class="line">	&#123;</span><br><span class="line">		RuntimeObject* L_0 = ___0_routine;</span><br><span class="line">		V_0 = (<span class="type">bool</span>)((((RuntimeObject*)(RuntimeObject*)L_0) == ((RuntimeObject*)(RuntimeObject*)<span class="literal">NULL</span>))? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">		<span class="type">bool</span> L_1 = V_0;</span><br><span class="line">		<span class="keyword">if</span> (!L_1)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">goto</span> IL_0014;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		NullReferenceException_tBDE63A6D24569B964908408389070C6A9F5005BB* L_2 = (NullReferenceException_tBDE63A6D24569B964908408389070C6A9F5005BB*)<span class="built_in">il2cpp_codegen_object_new</span>(((RuntimeClass*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;NullReferenceException_tBDE63A6D24569B964908408389070C6A9F5005BB_il2cpp_TypeInfo_var)));</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_2);</span><br><span class="line">		<span class="built_in">NullReferenceException__ctor_mA41317A57F5C1C0E3F59C7EB25ABD484564B23D4</span>(L_2, ((String_t*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;_stringLiteral26A69F385CB916B500238120B972B54B804F7DDE)), <span class="literal">NULL</span>);</span><br><span class="line">		<span class="built_in">IL2CPP_RAISE_MANAGED_EXCEPTION</span>(L_2, ((RuntimeMethod*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812_RuntimeMethod_var)));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0014:</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">bool</span> L_3;</span><br><span class="line">        <span class="comment">//检查是否是monobehaviour</span></span><br><span class="line">		L_3 = <span class="built_in">MonoBehaviour_IsObjectMonoBehaviour_mC2F75720102B56F81F3D1329BE96C2C7B336B615</span>(__this, <span class="literal">NULL</span>);</span><br><span class="line">		V_1 = (<span class="type">bool</span>)((((<span class="type">int32_t</span>)L_3) == ((<span class="type">int32_t</span>)<span class="number">0</span>))? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">		<span class="type">bool</span> L_4 = V_1;</span><br><span class="line">		<span class="keyword">if</span> (!L_4)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">goto</span> IL_002c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">		ArgumentException_tAD90411542A20A9C72D5CDA3A84181D8B947A263* L_5 = (ArgumentException_tAD90411542A20A9C72D5CDA3A84181D8B947A263*)<span class="built_in">il2cpp_codegen_object_new</span>(((RuntimeClass*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;ArgumentException_tAD90411542A20A9C72D5CDA3A84181D8B947A263_il2cpp_TypeInfo_var)));</span><br><span class="line">		<span class="built_in">NullCheck</span>(L_5);</span><br><span class="line">		<span class="built_in">ArgumentException__ctor_m026938A67AF9D36BB7ED27F80425D7194B514465</span>(L_5, ((String_t*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;_stringLiteralB354FCF3A750169C4EEFC050334DD9F51BC10E0C)), <span class="literal">NULL</span>);</span><br><span class="line">		<span class="built_in">IL2CPP_RAISE_MANAGED_EXCEPTION</span>(L_5, ((RuntimeMethod*)<span class="built_in">il2cpp_codegen_initialize_runtime_metadata_inline</span>((<span class="type">uintptr_t</span>*)&amp;MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812_RuntimeMethod_var)));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_002c:</span><br><span class="line">	&#123;</span><br><span class="line">		RuntimeObject* L_6 = ___0_routine;</span><br><span class="line">		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_7;</span><br><span class="line">		L_7 = <span class="built_in">MonoBehaviour_StartCoroutineManaged2_m55C19C5C5C65E9883E12101A46F37AB1172C73E8</span>(__this, L_6, <span class="literal">NULL</span>);</span><br><span class="line">		V_2 = L_7;</span><br><span class="line">		<span class="keyword">goto</span> IL_0036;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">IL_0036:</span><br><span class="line">	&#123;</span><br><span class="line">		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_8 = V_2;</span><br><span class="line">		<span class="keyword">return</span> L_8;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// UnityEngine.Coroutine UnityEngine.MonoBehaviour::StartCoroutineManaged2(System.Collections.IEnumerator)</span></span><br><span class="line"><span class="function">IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* <span class="title">MonoBehaviour_StartCoroutineManaged2_m55C19C5C5C65E9883E12101A46F37AB1172C73E8</span> <span class="params">(MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71* __this, RuntimeObject* ___0_enumerator, <span class="type">const</span> RuntimeMethod* method)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">typedef</span> Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* (*MonoBehaviour_StartCoroutineManaged2_m55C19C5C5C65E9883E12101A46F37AB1172C73E8_ftn) (MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71*, RuntimeObject*);</span><br><span class="line">	<span class="type">static</span> MonoBehaviour_StartCoroutineManaged2_m55C19C5C5C65E9883E12101A46F37AB1172C73E8_ftn _il2cpp_icall_func;</span><br><span class="line">	<span class="keyword">if</span> (!_il2cpp_icall_func)</span><br><span class="line">	_il2cpp_icall_func = (MonoBehaviour_StartCoroutineManaged2_m55C19C5C5C65E9883E12101A46F37AB1172C73E8_ftn)<span class="built_in">il2cpp_codegen_resolve_icall</span> (<span class="string">&quot;UnityEngine.MonoBehaviour::StartCoroutineManaged2(System.Collections.IEnumerator)&quot;</span>);</span><br><span class="line">	Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* icallRetVal = _il2cpp_icall_func(__this, ___0_enumerator);</span><br><span class="line">	<span class="keyword">return</span> icallRetVal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等价为以下部分</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Coroutine <span class="title">StartCoroutine</span>(<span class="params">IEnumerator routine</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (routine == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullReferenceException(<span class="string">&quot;routine is null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!IsObjectMonoBehaviour(<span class="keyword">this</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;Coroutines can only be stopped on a MonoBehaviour&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> StartCoroutineManaged2(routine);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">MethodImpl(MethodImplOptions.InternalCall)</span>]</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> Coroutine <span class="title">StartCoroutineManaged2</span>(<span class="params">IEnumerator enumerator</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iwiniwin/p/14878498.html">聊一聊Unity协程背后的实现原理 - iwiniwin - 博客园 (cnblogs.com)</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%8F%E7%A8%8B/" rel="tag"># 协程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/29/ExcelToScriptableObject/" rel="prev" title="ExcelToScriptableObject">
+                  <i class="fa fa-angle-left"></i> ExcelToScriptableObject
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/12/08/%E8%AE%B0%E4%BB%87/" rel="next" title="记仇">
+                  记仇 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Forestlyn</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -19,23 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Forestlyn&#39;s Blog">
-<meta property="og:url" content="http://example.com/archives/2023/index.html">
+    <meta name="description" content="外观模式（Facade）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式：外观模式（Facade）">
+<meta property="og:url" content="http://example.com/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/index.html">
 <meta property="og:site_name" content="Forestlyn&#39;s Blog">
+<meta property="og:description" content="外观模式（Facade）">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-14T08:24:22.297Z">
 <meta property="article:author" content="Forestlyn">
+<meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/archives/2023/">
+<link rel="canonical" href="http://example.com/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2023/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/","path":"2021/06/14/外观模式（Facade）/","title":"设计模式：外观模式（Facade）"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | Forestlyn's Blog</title>
+<title>设计模式：外观模式（Facade） | Forestlyn's Blog</title>
   
 
 
@@ -65,7 +70,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Forestlyn's Blog</h1>
+      <p class="site-title">Forestlyn's Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">have a nice day!</p>
@@ -119,7 +124,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -132,6 +137,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">外观模式（Facade）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#client-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%8C%E7%94%A8%E6%88%B7"><span class="nav-number">1.1.</span> <span class="nav-text">client(客户端，用户)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#subSystem-%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.</span> <span class="nav-text">subSystem(子系统)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Facade%EF%BC%88%E7%BB%9F%E4%B8%80%E5%AF%B9%E5%A4%96%E7%9A%84%E7%95%8C%E9%9D%A2%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">Facade（统一对外的界面）</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -171,69 +177,108 @@
 
     </div>
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 10 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/14/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F%EF%BC%88Facade%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Forestlyn">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="设计模式：外观模式（Facade） | Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式：外观模式（Facade）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+
+      <time title="创建时间：2021-06-14 00:00:00 / 修改时间：16:24:22" itemprop="dateCreated datePublished" datetime="2021-06-14T00:00:00+08:00">2021-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>外观模式（Facade）<span id="more"></span></p>
+<h1 id="外观模式（Facade）"><a href="#外观模式（Facade）" class="headerlink" title="外观模式（Facade）"></a>外观模式（Facade）</h1><p>将系统内部的互动细节隐藏起来，提供一个简单的接口，客户端只需要通过这个接口就可以操作一个复杂的系统。</p>
+<h2 id="client-客户端，用户"><a href="#client-客户端，用户" class="headerlink" title="client(客户端，用户)"></a>client(客户端，用户)</h2><p>从原本需要操作多个系统改为只用操作一个整合后的界面，即Facade。</p>
+<h2 id="subSystem-子系统"><a href="#subSystem-子系统" class="headerlink" title="subSystem(子系统)"></a>subSystem(子系统)</h2><p>实现各个不同功能的系统，彼此之间需要交互。</p>
+<h2 id="Facade（统一对外的界面）"><a href="#Facade（统一对外的界面）" class="headerlink" title="Facade（统一对外的界面）"></a>Facade（统一对外的界面）</h2><p>整合所有子系统的接口和功能，并提供高级界面（或接口）给客户端使用。</p>
+<p>接收客户端的信息后，将信息传给子系统。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-12-08T14:23:50+08:00"
-              content="2023-12-08">
-          12-08
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/12/08/%E8%AE%B0%E4%BB%87/" itemprop="url">
-          <span itemprop="name">记仇</span>
-        </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/08/%E5%85%B3%E4%BA%8Efree%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%9B%B0%E6%83%91/" rel="prev" title="关于free的一点小困惑">
+                  <i class="fa fa-angle-left"></i> 关于free的一点小困惑
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/14/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%88Singleton%EF%BC%89/" rel="next" title="设计模式：单例模式（Singleton）">
+                  设计模式：单例模式（Singleton） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-12-08T00:00:00+08:00"
-              content="2023-12-08">
-          12-08
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/12/08/unity%20%E5%8D%8F%E7%A8%8B/" itemprop="url">
-          <span itemprop="name">unity 协程</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>
