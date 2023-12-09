@@ -29,8 +29,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208104425008.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231208115153590.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231209185855922.png">
 <meta property="article:published_time" content="2023-12-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-12-08T09:29:23.541Z">
+<meta property="article:modified_time" content="2023-12-09T11:12:40.453Z">
 <meta property="article:author" content="forestlyn">
 <meta property="article:tag" content="协程">
 <meta name="twitter:card" content="summary">
@@ -144,7 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unity-%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">unity 协程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IEnumerator-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">IEnumerator 迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yield"><span class="nav-number">1.1.2.</span> <span class="nav-text">yield</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">协程原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unity-startcoroutine-%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">unity startcoroutine 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unity-%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">unity 协程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IEnumerator-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">IEnumerator 迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yield"><span class="nav-number">1.1.2.</span> <span class="nav-text">yield</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">协程原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unity-startcoroutine-%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">unity startcoroutine 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">实现自己的协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -230,9 +231,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-12-08 00:00:00 / 修改时间：17:29:23" itemprop="dateCreated datePublished" datetime="2023-12-08T00:00:00+08:00">2023-12-08</time>
+      <time title="创建时间：2023-12-08 00:00:00" itemprop="dateCreated datePublished" datetime="2023-12-08T00:00:00+08:00">2023-12-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-09 19:12:40" itemprop="dateModified" datetime="2023-12-09T19:12:40+08:00">2023-12-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -251,14 +258,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>15k</span>
+      <span>16k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>26 分钟</span>
+      <span>29 分钟</span>
     </span>
 </div>
 
@@ -300,8 +307,16 @@
 <p>等价为以下部分</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Coroutine <span class="title">StartCoroutine</span>(<span class="params">IEnumerator routine</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (routine == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullReferenceException(<span class="string">&quot;routine is null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!IsObjectMonoBehaviour(<span class="keyword">this</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;Coroutines can only be stopped on a MonoBehaviour&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> StartCoroutineManaged2(routine);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">MethodImpl(MethodImplOptions.InternalCall)</span>]</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> Coroutine <span class="title">StartCoroutineManaged2</span>(<span class="params">IEnumerator enumerator</span>)</span>;</span><br></pre></td></tr></table></figure>
 
+<h2 id="实现自己的协程"><a href="#实现自己的协程" class="headerlink" title="实现自己的协程"></a>实现自己的协程</h2><p>unity中常用的就是返回null 和 waitforseconds ,对于返回我们约定一个接口，返回的值都要实现这个接口，是否完成，对于null ，直接返回true,对于waitforseconds，需要运行一定时间后才会返回true</p>
+<p>在这里我也只实现了这两个返回值，这个可以扩展</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICoroutineYield</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">isDone</span>(<span class="params"><span class="built_in">float</span> deltaTime</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">YieldReturnNULL</span> : <span class="title">ICoroutineYield</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">YieldReturnNULL</span>()</span> &#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">isDone</span>(<span class="params"><span class="built_in">float</span> deltaTime</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">YieldWaitForSeconds</span> : <span class="title">ICoroutineYield</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">float</span> m_time;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">YieldWaitForSeconds</span>(<span class="params"><span class="built_in">float</span> delayTime</span>)</span> &#123; m_time = delayTime; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">isDone</span>(<span class="params"><span class="built_in">float</span> deltaTime</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        m_time -= deltaTime;</span><br><span class="line">        <span class="keyword">return</span> m_time &lt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>协程的更新</p>
+<p>需要注意的点：不要在foreach循环中修改迭代器容器的值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="type">void</span> <span class="title">onUpdate</span><span class="params">(<span class="type">float</span> deltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(coroutineDict.Count==<span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    var keys = <span class="keyword">new</span> <span class="built_in">List</span>&lt;string&gt;(coroutineDict.Keys);</span><br><span class="line">    foreach(var key in keys)</span><br><span class="line">    &#123;</span><br><span class="line">        var list = coroutineDict[key];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; list.Count; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            var coroutine = list[i];</span><br><span class="line">            <span class="keyword">if</span> (!coroutine.Current.<span class="built_in">isDone</span>(deltaTime))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!coroutine.<span class="built_in">MoveNext</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                list.<span class="built_in">RemoveAt</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (coroutineDict[key].Count == <span class="number">0</span>)</span><br><span class="line">            coroutineDict.<span class="built_in">Remove</span>(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231209185855922.png" alt="image-20231209185855922"></p>
+<p>code:<a target="_blank" rel="noopener" href="https://github.com/forestlyn/GameProject/tree/master/SomeTools/MyCoroutines">GameProject&#x2F;SomeTools&#x2F;MyCoroutines at master · forestlyn&#x2F;GameProject (github.com)</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iwiniwin/p/14878498.html">聊一聊Unity协程背后的实现原理 - iwiniwin - 博客园 (cnblogs.com)</a></p>
 
     </div>
@@ -354,13 +369,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">40k</span>
+    <span title="站点总字数">42k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:14</span>
+    <span title="站点阅读时长">1:16</span>
   </span>
 </div>
 
