@@ -28,7 +28,7 @@
 <meta property="og:description" content="设计模式：命令模式（Command)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-12-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-12-12T10:24:59.613Z">
+<meta property="article:modified_time" content="2023-12-12T10:53:49.246Z">
 <meta property="article:author" content="forestlyn">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%9C%A8%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">命令模式在游戏中的应用</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%9C%A8%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">命令模式在游戏中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%8B%E5%89%8D%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.</span> <span class="nav-text">之前的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">命令模式实现</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -229,7 +229,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-12-12 00:00:00 / 修改时间：18:24:59" itemprop="dateCreated datePublished" datetime="2023-12-12T00:00:00+08:00">2023-12-12</time>
+      <time title="创建时间：2023-12-12 00:00:00 / 修改时间：18:53:49" itemprop="dateCreated datePublished" datetime="2023-12-12T00:00:00+08:00">2023-12-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -248,7 +248,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>29</span>
+      <span>784</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -266,7 +266,16 @@
     
     
     <div class="post-body" itemprop="articleBody"><p>设计模式：命令模式（Command) <span id="more"></span></p>
-<h1 id="命令模式在游戏中的应用"><a href="#命令模式在游戏中的应用" class="headerlink" title="命令模式在游戏中的应用"></a>命令模式在游戏中的应用</h1>
+<h1 id="命令模式在游戏中的应用"><a href="#命令模式在游戏中的应用" class="headerlink" title="命令模式在游戏中的应用"></a>命令模式在游戏中的应用</h1><p>最近在做的一个游戏需要撤销重做功能，而这正是命令模式使用的场合，于是尝试使用命令模式实现这个功能</p>
+<p>并且该游戏的操作可能会引发一系列结果，到时候撤销需要将一系列结果撤销&#x3D;。&#x3D;</p>
+<h2 id="之前的实现"><a href="#之前的实现" class="headerlink" title="之前的实现"></a>之前的实现</h2><p>之前忘记了命令模式这个设计模式，实现了一个丑陋的东西</p>
+<p>之前对于对应的操作，调用操作并记录该操作，在操作前后记录该物体的状态，然后撤销时调用该操作对应的撤销操作，十分不方便且会记录一些不需要的状态，并且每个操作都需对应的撤销操作写在case中</p>
+<p>并且一个操作导致一系列的后续结果时，此时撤销将十分麻烦</p>
+<h2 id="命令模式实现"><a href="#命令模式实现" class="headerlink" title="命令模式实现"></a>命令模式实现</h2><p>对于操作，实现一个抽象Command类，里面有执行撤销两个方法，还有两个命令类的字段，记录前后指令，last指令指向什么指令导致该指令执行，next用于记录该一个命令引发了什么指令发生，可能某个指令会导致一系列指令发生，于是使用List记录</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Command</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Execute</span>()</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Undo</span>()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Command last;</span><br><span class="line">    <span class="keyword">protected</span> List&lt;Command&gt; next;</span><br><span class="line">    <span class="keyword">public</span> Command Last &#123; <span class="keyword">get</span> =&gt; last; &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Command&gt; Next</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            next = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (next == <span class="literal">null</span>)</span><br><span class="line">                next = <span class="keyword">new</span> List&lt;Command&gt;();</span><br><span class="line">            <span class="keyword">return</span> next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于具体的command，继承该类并实现执行撤销</p>
+
     </div>
 
     
@@ -287,6 +296,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/78134e07.html" rel="next" title="命令模式">
+                  命令模式 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -317,13 +329,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">42k</span>
+    <span title="站点总字数">47k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:16</span>
+    <span title="站点阅读时长">1:25</span>
   </span>
 </div>
 
