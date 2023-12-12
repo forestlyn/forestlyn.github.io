@@ -353,4 +353,16 @@
         <category>杂记</category>
       </categories>
   </entry>
+  <entry>
+    <title>命令模式</title>
+    <url>//78134e07.html</url>
+    <content><![CDATA[<p>设计模式：命令模式（Command) <span id="more"></span></p>
+<h1 id="命令模式在游戏中的应用"><a href="#命令模式在游戏中的应用" class="headerlink" title="命令模式在游戏中的应用"></a>命令模式在游戏中的应用</h1>]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
 </search>
