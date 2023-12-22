@@ -258,6 +258,7 @@
 <h2 id="23-12-17"><a href="#23-12-17" class="headerlink" title="23.12.17"></a>23.12.17</h2><p>圣诞节8船跳嘿嘿</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/%E5%A5%B3%E7%A5%9E%E5%BC%82%E9%97%BB%E5%BD%955%E7%9A%87%E5%AE%B6%E7%89%88%202023_12_17%2018_06_10.png" alt="女神异闻录5皇家版 2023_12_17 18_06_10"></p>
 <h2 id="大逆转裁判"><a href="#大逆转裁判" class="headerlink" title="大逆转裁判"></a>大逆转裁判</h2><p>1.1：作为新手教程关，又臭又长</p>
+<p>1.2：福尔摩斯太occ了，打不下去一点。。。</p>
 ]]></content>
       <categories>
         <category>杂记</category>
@@ -386,6 +387,51 @@
       </categories>
       <tags>
         <tag>游戏</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VisualStudio写一个dll</title>
+    <url>//ba7c3468.html</url>
+    <content><![CDATA[<p>VisualStudio写一个dll <span id="more"></span></p>
+<h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h2><p>在visualstudio中创建了一个类库应用，这里我选择第一个</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222145610923.png" alt="image-20231222145610923"></p>
+<p>实现dll，我写的如下</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">MyDll</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyTestDll</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyTestDll</span>()</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;hello!&quot;</span>);</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击[你的项目]名字项目右键点击，点击生成，再在打开项目所在文件夹</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222153930611.png" alt="image-20231222153930611"></p>
+<p>打开bin&#x2F;debug（或者release），找到你的项目名字.dll（我这里是MyDll.dll）,这就是你写的的dll啦，到此就实现了一个dll</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222150705891.png" alt="image-20231222150705891"></p>
+]]></content>
+      <categories>
+        <category>c#</category>
+      </categories>
+      <tags>
+        <tag>c#</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VisualStudio导入本地dll</title>
+    <url>//4482fa7b.html</url>
+    <content><![CDATA[<p>VisualStudio导入本地dll <span id="more"></span></p>
+<h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h2><p>在visualstudio中创建了一个控制台应用</p>
+<p>创建后打开项目所在目录，创建include文件夹</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222151841691.png" alt="image-20231222151841691"></p>
+<p>在里面复制想要使用的thing的dll和其依赖，这里复制了MyDll的dll</p>
+<p> 再回到vs，选中项目右键-添加-项目引用-浏览，点击窗口右下方的浏览，在文件管理器中将依赖添加上，dll就会出现在下图所示的浏览中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222152219931.png" alt="image-20231222152219931"></p>
+<p>点击前面对勾导入，就成功导入dll了，接下来就可以使用dll了</p>
+<p>使用过程中有时候会会报错显示需要导入xx包，那是因为需要的依赖没导入，导入即可</p>
+<h2 id="运行例子"><a href="#运行例子" class="headerlink" title="运行例子"></a>运行例子</h2><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> MyDll;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleAppTestDll</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">            MyTestDll myTestDll = <span class="keyword">new</span> MyTestDll();</span><br><span class="line">            myTestDll.Print();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行，成功运行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20231222152450539.png" alt="image-20231222152450539"></p>
+]]></content>
+      <categories>
+        <category>c#</category>
+      </categories>
+      <tags>
+        <tag>c#</tag>
       </tags>
   </entry>
 </search>
