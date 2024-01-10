@@ -438,4 +438,44 @@
         <tag>c#</tag>
       </tags>
   </entry>
+  <entry>
+    <title>制作一个久坐提醒器（windows）</title>
+    <url>//fa6899ba.html</url>
+    <content><![CDATA[<p>制作一个久坐提醒器（windows)<span id="more"></span></p>
+<h1 id="制作一个久坐提醒器（windows"><a href="#制作一个久坐提醒器（windows" class="headerlink" title="制作一个久坐提醒器（windows)"></a>制作一个久坐提醒器（windows)</h1><p>在电脑面前坐着坐着常常一坐就是很久，总是忘记起来休息一下，所有想做个简单的久坐提醒器~</p>
+<p>当然网上也有软件实现</p>
+<p>不过这里想自己动手一下实现，也并不麻烦~</p>
+<p><strong>这里利用bat和windows定时任务实现</strong></p>
+<p>效果如下所示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20240110143928860.png" alt="image-20240110143928860"></p>
+<h2 id="制作过程"><a href="#制作过程" class="headerlink" title="制作过程"></a>制作过程</h2><h2 id="制作bat文件"><a href="#制作bat文件" class="headerlink" title="制作bat文件"></a>制作bat文件</h2><p>新建一个文本文件，复制下面的内容，修改为bat文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">chcp 65001</span><br><span class="line">msg %username% /time:10 &quot;休息一下吧，站起来走走~&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这里简单解释一下</p>
+<p><code>1/time:10 </code>time后数字表示显示多长时间，单位是秒，</p>
+<p><code>&quot;休息一下吧，站起来走走~&quot;</code>时显示的文字，可自行修改 </p>
+<p>在命令行运行一下bat，有的电脑可能报错 msg命令不是内部或者外部命令，解决方法如下</p>
+<ul>
+<li>下载<a href="https://msdl.microsoft.com/download/symbols/msg.exe/BC9D4830c000/msg.exe">msg.exe</a>,修改为msg.exe,放在C:\Windows\System32下即可</li>
+</ul>
+<h2 id="新建定时任务"><a href="#新建定时任务" class="headerlink" title="新建定时任务"></a>新建定时任务</h2><p>打开控制面板，右上角搜索计划任务，点击打开，再点击创建基本任务</p>
+<p><img src="C:\Users\27978\Desktop\N_2RV1_IVJI]I`Q`7WG6C7K.jpg" alt="img"></p>
+<p><img src="C:\Users\27978\Desktop\image-20240110151424272.png" alt="image-20240110151424272"></p>
+<p><img src="C:\Users\27978\Desktop\image-20240110162758254.png" alt="image-20240110162758254"></p>
+<p><img src="C:\Users\27978\Desktop\image-20240110162817344.png" alt="image-20240110162817344"></p>
+<p><img src="C:\Users\27978\Desktop\image-20240110162833014.png" alt="image-20240110162833014"></p>
+<p>这里选择我们制作的脚本</p>
+<p><img src="C:\Users\27978\Desktop\image-20240110162855307.png" alt="image-20240110162855307"></p>
+<p>到现在完成，就可以每天提醒一次了，但是这和我们每小时提醒一次的需求不符。所以选择“当单击完成时打开任务属性对话框”，再点击完成，在随后打开的属性对话框中进一步设置属性。</p>
+<p><img src="C:\Users\27978\Desktop\image-20240110162928435.png" alt="image-20240110162928435"></p>
+<p>选择触发器，点击编辑，设定如下</p>
+<p>点击编辑，设置重复任务间隔1小时，持续时间一天</p>
+<p>点击确定，定时器就设定好啦。</p>
+<p><img src="C:\Users\27978\Desktop\image-20240110163028910.png" alt="image-20240110163028910"></p>
+<p>再查看任务计划程序库，选择自己制作的右键点击运行一下，再右键点击空白处，刷新界面</p>
+<p>如果正确显示上次运行时间和下次运行时间，那就正确设置完成了~</p>
+<p><img src="C:\Users\27978\Desktop\image-20240110163128413.png" alt="image-20240110163128413"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://juejin.cn/post/6854573213352099847">如何在 Windows 上设置一个超超超超级简单的久坐提醒 - 掘金 (juejin.cn)</a></p>
+]]></content>
+  </entry>
 </search>
