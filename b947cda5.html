@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
+  <link rel="mask-icon" href="/images/test.gif" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"forestlyn.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="frp xtcp&#x2F;stcp实现内网穿透远程电脑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="frp xtcp&#x2F;stcp实现内网穿透远程电脑">
+<meta property="og:url" content="https://forestlyn.github.io/b947cda5.html">
+<meta property="og:site_name" content="Forestlyn&#39;s Blog">
+<meta property="og:description" content="frp xtcp&#x2F;stcp实现内网穿透远程电脑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241220163452318.png">
+<meta property="article:published_time" content="2025-01-07T15:28:46.706Z">
+<meta property="article:modified_time" content="2025-01-07T15:30:10.353Z">
+<meta property="article:author" content="forestlyn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241220163452318.png">
+
+
+<link rel="canonical" href="https://forestlyn.github.io/b947cda5.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://forestlyn.github.io/b947cda5.html","path":"/b947cda5.html","title":"frp xtcp/stcp实现内网穿透远程电脑"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>frp xtcp/stcp实现内网穿透远程电脑 | Forestlyn's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Forestlyn's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#frp-xtcp-stcp%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E8%BF%9C%E7%A8%8B%E7%94%B5%E8%84%91"><span class="nav-number">1.</span> <span class="nav-text">frp xtcp&#x2F;stcp实现内网穿透远程电脑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#frp"><span class="nav-number">1.1.</span> <span class="nav-text">frp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8-frps"><span class="nav-number">1.1.1.</span> <span class="nav-text">服务器 frps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#frpc"><span class="nav-number">1.1.2.</span> <span class="nav-text">frpc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">远程</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="forestlyn"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">forestlyn</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/forestlyn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;forestlyn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://forestlyn.github.io/b947cda5.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="forestlyn">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="frp xtcp/stcp实现内网穿透远程电脑 | Forestlyn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          frp xtcp/stcp实现内网穿透远程电脑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-01-07 23:28:46 / 修改时间：23:30:10" itemprop="dateCreated datePublished" datetime="2025-01-07T23:28:46+08:00">2025-01-07</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>frp xtcp&#x2F;stcp实现内网穿透远程电脑<span id="more"></span></p>
+<h1 id="frp-xtcp-stcp实现内网穿透远程电脑"><a href="#frp-xtcp-stcp实现内网穿透远程电脑" class="headerlink" title="frp xtcp&#x2F;stcp实现内网穿透远程电脑"></a>frp xtcp&#x2F;stcp实现内网穿透远程电脑</h1><h2 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h2><h3 id="服务器-frps"><a href="#服务器-frps" class="headerlink" title="服务器 frps"></a>服务器 frps</h3><p>我个人使用的阿里云服务器，学生认证300券白嫖的一个服务器，安装的ubuntu22.04lts</p>
+<p>在服务器上安装frp</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.61.0/frp_0.61.0_linux_amd64.tar.gz</span><br><span class="line">tar xf frp_0.61.0_linux_amd64.tar.gz</span><br><span class="line">mv frp_0.61.0_linux_amd64 frp</span><br><span class="line">cd frp</span><br><span class="line">nano frps.toml</span><br></pre></td></tr></table></figure>
+
+<p>修改frps.toml内容，注意记得在服务器开启对应端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bindPort = 7000</span><br><span class="line">auth.token = &quot;token&quot;</span><br><span class="line"># 默认为 127.0.0.1，如果需要公网访问，需要修改为 0.0.0.0。</span><br><span class="line">webServer.addr = &quot;0.0.0.0&quot;</span><br><span class="line">webServer.port = 7500</span><br><span class="line"># dashboard 用户名密码，可选，默认为空</span><br><span class="line">webServer.user = &quot;user&quot;</span><br><span class="line">webServer.password = &quot;pwd&quot;</span><br></pre></td></tr></table></figure>
+
+<p>设置systemd自启动服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/systemd/system/frps.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description = frps client</span><br><span class="line">After = network.target syslog.target</span><br><span class="line">Wants = network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type = simple</span><br><span class="line"># 启动frps的命令，需修改为您的frps的安装路径</span><br><span class="line">ExecStart = /path/frps -c /path/frps.toml</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy = multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable frps</span><br><span class="line">sudo systemctl start frps</span><br></pre></td></tr></table></figure>
+<p>查看服务状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status frps</span><br></pre></td></tr></table></figure>
+<p>下面这样就是运行起来了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">● frps.service - frps client</span><br><span class="line">     Loaded: loaded (/etc/systemd/system/frps.service; enabled; vendor preset: enabled)</span><br><span class="line">     Active: active (running) since Fri 2024-12-20 14:57:52 CST; 32s ago</span><br></pre></td></tr></table></figure>
+
+<h3 id="frpc"><a href="#frpc" class="headerlink" title="frpc"></a>frpc</h3><p>个人工作电脑都是windows，在github下载对应<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">Releases · fatedier&#x2F;frp</a></p>
+<p>这里是参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43933728/article/details/139362956">frp之XTCP实现内网穿透家用电脑远程桌面公司电脑-CSDN博客</a>实现</p>
+<p>远程电脑设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">serverAddr = &quot;xxx.xxx.xxx.xxx&quot;</span><br><span class="line">serverPort = 7000</span><br><span class="line">webServer.port = 7500</span><br><span class="line">auth.token = &quot;token&quot;</span><br><span class="line"></span><br><span class="line">loginFailExit = false</span><br><span class="line"></span><br><span class="line"># 这里表示如果 xtcp 打洞失败时，使用 stcp 远程链接电脑</span><br><span class="line">[[proxies]]</span><br><span class="line"># stcp的服务名称要和家用电脑配置的serverName一致</span><br><span class="line">name = &quot;xxx&quot;</span><br><span class="line">type = &quot;stcp&quot;</span><br><span class="line"># 这个secretKey要和家用电脑一致</span><br><span class="line">secretKey = &quot;key&quot;</span><br><span class="line">localIP = &quot;127.0.0.1&quot;</span><br><span class="line"># 电脑远程桌面端口（一般情况下会改成其它端口）</span><br><span class="line">localPort = 3389</span><br><span class="line"># 压缩传输内容</span><br><span class="line">transport.useCompression = true</span><br><span class="line"></span><br><span class="line">[[proxies]]</span><br><span class="line"># xtcp的服务名称要和家用电脑配置的serverName一致</span><br><span class="line">name = &quot;***&quot;</span><br><span class="line">type = &quot;xtcp&quot;</span><br><span class="line">secretKey = &quot;key&quot;</span><br><span class="line">localIP = &quot;127.0.0.1&quot;</span><br><span class="line"># 电脑远程桌面端口（一般情况下会改成其它端口）</span><br><span class="line">localPort = 3389</span><br><span class="line"># 压缩传输内容</span><br><span class="line">transport.useCompression = true</span><br></pre></td></tr></table></figure>
+
+<p>访问远程电脑设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">serverAddr = &quot;xxx.xxx.xxx.xxx&quot;</span><br><span class="line">serverPort = 7000</span><br><span class="line">webServer.port = 7500</span><br><span class="line">auth.token = &quot;token&quot;</span><br><span class="line"></span><br><span class="line">loginFailExit = false</span><br><span class="line"></span><br><span class="line">[[visitors]]</span><br><span class="line"># 访问远程电脑电脑 stcp visitors 名称（随意）</span><br><span class="line">name = &quot;stcpname&quot;</span><br><span class="line">type = &quot;stcp&quot;</span><br><span class="line"># 远程电脑 stcp name</span><br><span class="line">serverName = &quot;xxx&quot;</span><br><span class="line">secretKey = &quot;key&quot;</span><br><span class="line"># stcp-visitor 的 bindPort 设置为 -1 表示不需要监听物理端口，只接受 fallback 的连接即可。</span><br><span class="line">bindPort = -1</span><br><span class="line"># 压缩传输内容</span><br><span class="line">transport.useCompression = true</span><br><span class="line"></span><br><span class="line">[[visitors]]</span><br><span class="line"># 家用电脑 xtcp visitors 名称（随意）</span><br><span class="line">name = &quot;xtcpname&quot;</span><br><span class="line">type = &quot;xtcp&quot;</span><br><span class="line"># 公司电脑 xtcp name</span><br><span class="line">serverName = &quot;***&quot;</span><br><span class="line">secretKey = &quot;key&quot;</span><br><span class="line">bindAddr = &quot;127.0.0.1&quot;</span><br><span class="line"># 使用家用电脑的23389端口远程桌面链接到公司电脑3389端口电脑（注意：Windows必须是专业版的，并且要启用远程桌面和设置密码）</span><br><span class="line">bindPort = 23389</span><br><span class="line"># 压缩传输内容</span><br><span class="line">transport.useCompression = true</span><br><span class="line"># 配置了 keepTunnelOpen = true 时，frpc 会定期检测隧道是否打开，如果没有，则会尝试打洞建立隧道，这样可以始终保持隧道打开，在需要连接对端服务时，可以避免延迟。</span><br><span class="line">keepTunnelOpen = true</span><br><span class="line"># 如果 xtcp 打洞失败，则使用 stcp 进行链接，fallbackTo = 上面的 stcp name</span><br><span class="line">fallbackTo = &quot;stcpname&quot;</span><br><span class="line"># 当连接 127.0.0.1:23389 超过 2000ms p2p 打洞还未成功的话，会回退到使用 stcpname 建立连接。</span><br><span class="line">fallbackTimeoutMs = 2000</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><p>这时开启两个电脑的frpc，即可远程电脑</p>
+<p>使用cmd进入frp安装目录，执行下列指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frpc -c frpc.toml</span><br></pre></td></tr></table></figure>
+
+<p>再使用远程桌面连接127.0.0.1:23389</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241220163452318.png" alt="image-20241220163452318"></p>
+<p>输入账号密码，远程成功！</p>
+<p>很可惜，由于校园网太复杂，xtcp打洞失败，只能stcp了</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/fa6899ba.html" rel="prev" title="制作一个久坐提醒器（windows）">
+                  <i class="fa fa-angle-left"></i> 制作一个久坐提醒器（windows）
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2024034079号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">forestlyn</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">51k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:32</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
