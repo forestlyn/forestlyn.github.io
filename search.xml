@@ -525,7 +525,9 @@
   <entry>
     <title>tinyrenderer学习过程记录</title>
     <url>//26e71b0a.html</url>
-    <content><![CDATA[<h1 id="TinyRenderer"><a href="#TinyRenderer" class="headerlink" title="TinyRenderer"></a>TinyRenderer</h1><p><a href="https://github.com/ssloy/tinyrenderer/wiki">https://github.com/ssloy/tinyrenderer/wiki</a></p>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="TinyRenderer"><a href="#TinyRenderer" class="headerlink" title="TinyRenderer"></a>TinyRenderer</h1><p><a href="https://github.com/ssloy/tinyrenderer/wiki">https://github.com/ssloy/tinyrenderer/wiki</a></p>
 <p>参考：</p>
 <p><a href="https://zhuanlan.zhihu.com/p/399056546">从零构建光栅器，tinyrenderer笔记（上） - 知乎</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/400791821">从零构建光栅器，tinyrenderer笔记（下） - 知乎</a></p>
