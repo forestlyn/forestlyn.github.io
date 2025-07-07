@@ -712,4 +712,98 @@
         <category>杂记</category>
       </categories>
   </entry>
+  <entry>
+    <title>搭建属于自己的Qmsg私有云和机器人</title>
+    <url>//7c064536.html</url>
+    <content><![CDATA[<p>记录一下搭建Qmsg私有云和机器人踩坑记录XD</p>
+<span id="more"></span>
+
+<h1 id="搭建属于自己的Qmsg私有云和机器人"><a href="#搭建属于自己的Qmsg私有云和机器人" class="headerlink" title="搭建属于自己的Qmsg私有云和机器人"></a>搭建属于自己的Qmsg私有云和机器人</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>建议先搭建机器人再搭建私有云</p>
+<h2 id="搭建私有云"><a href="#搭建私有云" class="headerlink" title="搭建私有云"></a>搭建私有云</h2><p>参考文档：<a href="https://qmsg.zendee.cn/docs/plus/">私有云 | Qmsg酱</a></p>
+<p>首先我使用的阿里云服务器，系统使用的Ubuntu</p>
+<p>虽然官方推荐的docker版本是24.0.x但是本人安装的是Docker version 28.3.1，目前还没碰到什么问题</p>
+<h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><p>在 Ubuntu 上安装 Docker 的步骤如下：</p>
+<ol>
+<li><p>卸载旧版本（如果有）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装依赖包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg \</span><br><span class="line">    lsb-release</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 Docker 官方 GPG 密钥</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/apt/keyrings</span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 Docker 仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> \</span><br><span class="line">  <span class="string">&quot;deb [arch=<span class="subst">$(dpkg --print-architecture)</span> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  <span class="subst">$(lsb_release -cs)</span> stable&quot;</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 Docker Engine</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>这里就不写具体步骤了，文档上写的很清楚，这里只写本人遇到的坑</p>
+<ol>
+<li><p>redis下载不成功</p>
+<p>在测试过程中redis一直下载不成功，使用docker pull redis指令下载下来的镜像也是几年前的，这里本人配置了阿里云的加速也没有用</p>
+<p>注意这里的redis版本一定是要大于7的，下载的几年前的版本太低了就无法使用</p>
+<p>于是选择下载了该镜像源，修改qmsg-redis-Dockerfile的redis版本为7.0.14</p>
+<p><a href="https://docker.aityp.com/image/docker.io/library/redis:7.0.14">docker.io&#x2F;library&#x2F;redis:7.0.14 - 镜像下载 | docker.io</a></p>
+</li>
+<li><p>修改密码不成功</p>
+<p>不确定是什么原因，在修改网页密码后，输入自己设置的密码一直显示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/1e83d12f564164f426c68f63abb3b44a.png" alt="img"></p>
+<p>但是换回默认密码123456，uninstall再install，就可以登陆进去</p>
+</li>
+<li><p>授权码</p>
+<p>在文档中有一个授权码，这个需要加官方群向官方人员申请</p>
+</li>
+</ol>
+<h2 id="搭建自己的机器人"><a href="#搭建自己的机器人" class="headerlink" title="搭建自己的机器人"></a>搭建自己的机器人</h2><p>参考文档：<a href="https://qmsg.zendee.cn/docs/pvt/">捐赠版 | Qmsg酱</a></p>
+<p>这里选择的还是docker搭建</p>
+<p>同样这里就不写具体步骤了，文档上写的很清楚，这里只写本人遇到的坑</p>
+<ol>
+<li><p>node无法下载</p>
+<p>还是碰到了镜像下载不下来的问题</p>
+<p>于是选择下载了该镜像源，修改Dockerfile的node版本为7.0.14</p>
+<p><a href="https://docker.aityp.com/image/docker.io/library/node:20.19.3">docker.io&#x2F;library&#x2F;node:20.19.3 - 镜像下载 | docker.io</a></p>
+</li>
+<li><p>下载包超时</p>
+<p>apt update 一行超时，研究了一下，感觉可能是这个问题</p>
+<p>对于debian 目前支持两个source list</p>
+<p>参考：<a href="https://mirrors.tuna.tsinghua.edu.cn/help/debian/">debian | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a></p>
+<blockquote>
+<p>大部分 Debian 的软件源配置文件使用传统的 One-Line-Style，路径为 <code>/etc/apt/sources.list</code>；但是对于容器镜像，从 Debian 12 开始，其软件源配置文件变更为 DEB822 格式，路径为 <code>/etc/apt/sources.list.d/debian.sources</code>。一般情况下，将对应文件中 Debian 默认的源地址 <code>http://deb.debian.org/</code> 替换为镜像地址即可。</p>
+</blockquote>
+<p>因此我将两个sources的镜像源全部替换为阿里云镜像源，此时apt-get update &amp;&amp; apt-get install -y curl 一行速度起飞了</p>
+<p>sources list 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># sources.list</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm main contrib non-free non-free-firmware</span><br><span class="line">deb http://mirrors.aliyun.com/debian-security bookworm-security main</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm-updates main contrib non-free non-free-firmware</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm-backports main contrib non-free non-free-firmware</span><br><span class="line"></span><br><span class="line">#debian.sources`</span><br><span class="line">Types: deb</span><br><span class="line">URIs: http://mirrors.aliyun.com/debian</span><br><span class="line">Suites: bookworm bookworm-updates bookworm-backports</span><br><span class="line">Components: main contrib non-free non-free-firmware</span><br><span class="line">Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg</span><br><span class="line"></span><br><span class="line">Types: deb</span><br><span class="line">URIs: http://mirrors.aliyun.com/debian-security</span><br><span class="line">Suites: bookworm-security</span><br><span class="line">Components: main contrib non-free non-free-firmware</span><br><span class="line">Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载QQNT时间过长</p>
+<p>这个直接去github下载，不在docekrfile中下载了</p>
+<p>下载下来的压缩包放Dockerfile同级目录下</p>
+<p><a href="https://github.com/1244453393/QmsgNtClient-NapCatQQ/releases/tag/v1.0.18">Release v1.0.18 · 1244453393&#x2F;QmsgNtClient-NapCatQQ</a></p>
+</li>
+<li><p>nmp安装时间过长</p>
+<p>好不容易折腾了上面一堆，又卡在了RUN cd .&#x2F;QmsgNtClient-NapCatQQ &amp;&amp; <br>npm config set registry <a href="https://registry.npmmirror.com/">https://registry.npmmirror.com</a> &amp;&amp; <br>npm i<br>把我服务器卡死动不了了，重启了</p>
+<p>询问gpt，建议我  npm install –omit&#x3D;dev，遂改之</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; \</span><br><span class="line">    npm config set registry https://registry.npmmirror.com &amp;&amp; \</span><br><span class="line">    npm install --omit=dev</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>由于docker 制作镜像其实带有缓存，加快的原因有一部分是改了dockerfile，也有一部分是因为前面卡着下载缓存了一部分，总之仅作参考</strong></p>
+<p>最后放一下修改后的Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">20.19</span>.<span class="number">3</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> DIEYI <span class="keyword">from</span> NapCatQQ</span><br><span class="line"><span class="comment"># 设置环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND=noninteractive</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;Acquire::https::Verify-Peer &quot;false&quot;;&#x27;</span> &gt;&gt; /etc/apt/apt.conf.d/99noverify</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/sources.list</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> debian.sources /etc/apt/sources.list.d/debian.sources</span></span><br><span class="line"><span class="comment">#RUN sed -i &#x27;s/http:\/\/mirrors.tuna.tsinghua.edu.cn/http:\/\/mirrors.cloud.aliyuncs.com/g&#x27; /etc/apt/sources.list</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></span><br><span class="line"><span class="comment">#RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; curl -I https://mirrors.aliyun.com/debian</span></span><br><span class="line"><span class="comment"># 安装必要的软件包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y \</span></span><br><span class="line"><span class="language-bash">    libnss3 \</span></span><br><span class="line"><span class="language-bash">    libnotify4 \</span></span><br><span class="line"><span class="language-bash">    libsecret-1-0 \</span></span><br><span class="line"><span class="language-bash">    libgbm1 \</span></span><br><span class="line"><span class="language-bash">    libasound2 \</span></span><br><span class="line"><span class="language-bash">    fonts-wqy-zenhei \</span></span><br><span class="line"><span class="language-bash">    gnutls-bin \</span></span><br><span class="line"><span class="language-bash">    libglib2.0-dev \</span></span><br><span class="line"><span class="language-bash">    libdbus-1-3 \</span></span><br><span class="line"><span class="language-bash">    libgtk-3-0 \</span></span><br><span class="line"><span class="language-bash">    libxss1 \</span></span><br><span class="line"><span class="language-bash">    libxtst6 \</span></span><br><span class="line"><span class="language-bash">    libatspi2.0-0 \</span></span><br><span class="line"><span class="language-bash">    libx11-xcb1 \</span></span><br><span class="line"><span class="language-bash">    ffmpeg \</span></span><br><span class="line"><span class="language-bash">    unzip \</span></span><br><span class="line"><span class="language-bash">    openbox \</span></span><br><span class="line"><span class="language-bash">    xorg \</span></span><br><span class="line"><span class="language-bash">    dbus-user-session \</span></span><br><span class="line"><span class="language-bash">    xvfb \</span></span><br><span class="line"><span class="language-bash">    supervisor \</span></span><br><span class="line"><span class="language-bash">    xdg-utils \</span></span><br><span class="line"><span class="language-bash">    git \</span></span><br><span class="line"><span class="language-bash">    fluxbox \</span></span><br><span class="line"><span class="language-bash">    curl &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt-get clean --no-install-recommends &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt autoremove -y &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt clean &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">rm</span> -rf \</span></span><br><span class="line"><span class="language-bash">    /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="language-bash">    /tmp/* \</span></span><br><span class="line"><span class="language-bash">    /var/tmp/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr/src/app</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN curl -L -o /tmp/QmsgNtClient-NapCatQQ.zip https://ghfast.top/https://github.com/1244453393/QmsgNtClient-NapCatQQ/releases/download/v$(curl https://fastly.jsdelivr.net/gh/1244453393/QmsgNtClient-NapCatQQ@main/package.json | grep &#x27;&quot;version&quot;:&#x27; | sed -E &#x27;s/.*([0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;).*/\1/&#x27;)/QmsgNtClient-NapCatQQ.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> QmsgNtClient-NapCatQQ.zip /tmp/QmsgNtClient-NapCatQQ.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d ./QmsgNtClient-NapCatQQ</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d /tmp/QmsgNtClient-NapCatQQ</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> start.sh ./start.sh</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">arch</span>=$(<span class="built_in">arch</span> | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    curl -o linuxqq.deb https://dldir1.qq.com/qqfile/qq/QQNT/5aa2d8d6/linuxqq_3.2.17-34740_<span class="variable">$&#123;arch&#125;</span>.deb &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    dpkg -i --force-depends linuxqq.deb &amp;&amp; <span class="built_in">rm</span> linuxqq.deb &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">chmod</span> +x start.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&quot;(async () =&gt; &#123;await import(&#x27;file:///usr/src/app/QmsgNtClient-NapCatQQ/napcat.mjs&#x27;);&#125;)();&quot;</span> &gt; /opt/QQ/resources/app/loadNapCat.js &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    sed -i <span class="string">&#x27;s|&quot;main&quot;: &quot;[^&quot;]*&quot;|&quot;main&quot;: &quot;./loadNapCat.js&quot;|&#x27;</span> /opt/QQ/resources/app/package.json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; npm config set registry https://registry.npmmirror.com/ &amp;&amp; npm i</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> ./QmsgNtClient-NapCatQQ &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    npm config <span class="built_in">set</span> registry https://registry.npmmirror.com &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    npm install --omit=dev</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/config</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/logs</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /root/.config/QQ</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;bash&quot;</span>, <span class="string">&quot;start.sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>最后的最后，在配置这一步，本人又卡了好久，配置这里在搭建私有云的文档中orz</p>
+<p>然后由于本人先搭建的私有云再搭建的机器人，因此install unistall了一下私有云，重新配置了一下</p>
+<p>开始愉快的用bot了！</p>
+<p>然后不知道本人没使用正确还是测试有问题，总之webui测试没成功？但是按照api文档是可以的 很怪</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250707221444760.png" alt="image-20250707221444760"></p>
+]]></content>
+      <categories>
+        <category>整点好玩的</category>
+      </categories>
+      <tags>
+        <tag>整点好玩的</tag>
+      </tags>
+  </entry>
 </search>
