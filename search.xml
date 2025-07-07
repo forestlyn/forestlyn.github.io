@@ -718,7 +718,7 @@
     <content><![CDATA[<p>记录一下搭建Qmsg私有云和机器人踩坑记录XD</p>
 <span id="more"></span>
 
-<h1 id="搭建属于自己的Qmsg私有云和机器人"><a href="#搭建属于自己的Qmsg私有云和机器人" class="headerlink" title="搭建属于自己的Qmsg私有云和机器人"></a>搭建属于自己的Qmsg私有云和机器人</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>建议先搭建机器人再搭建私有云</p>
+<h1 id="搭建属于自己的Qmsg私有云和机器人"><a href="#搭建属于自己的Qmsg私有云和机器人" class="headerlink" title="搭建属于自己的Qmsg私有云和机器人"></a>搭建属于自己的Qmsg私有云和机器人</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建议先搭建机器人再搭建私有云</p>
 <h2 id="搭建私有云"><a href="#搭建私有云" class="headerlink" title="搭建私有云"></a>搭建私有云</h2><p>参考文档：<a href="https://qmsg.zendee.cn/docs/plus/">私有云 | Qmsg酱</a></p>
 <p>首先我使用的阿里云服务器，系统使用的Ubuntu</p>
 <p>虽然官方推荐的docker版本是24.0.x但是本人安装的是Docker version 28.3.1，目前还没碰到什么问题</p>
