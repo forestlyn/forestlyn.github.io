@@ -762,7 +762,7 @@
 <ol>
 <li><p>node无法下载</p>
 <p>还是碰到了镜像下载不下来的问题</p>
-<p>于是选择下载了该镜像源，修改Dockerfile的node版本为7.0.14</p>
+<p>于是选择下载了该镜像源，修改Dockerfile的node版本为20.19.3</p>
 <p><a href="https://docker.aityp.com/image/docker.io/library/node:20.19.3">docker.io&#x2F;library&#x2F;node:20.19.3 - 镜像下载 | docker.io</a></p>
 </li>
 <li><p>下载包超时</p>
