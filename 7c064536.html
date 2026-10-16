@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
-  <link rel="mask-icon" href="/images/test.gif" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"forestlyn.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="记录一下搭建Qmsg私有云和机器人踩坑记录XD">
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>搭建属于自己的Qmsg私有云和机器人 · Forestlyn&#39;s Blog</title>
+<meta name="description" content="记录编程、游戏开发和日常。">
+<link rel="canonical" href="https://forestlyn.github.io/7c064536.html">
+<link rel="icon" href="/images/test.gif">
+<meta name="description" content="记录编程、游戏开发和日常。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建属于自己的Qmsg私有云和机器人">
 <meta property="og:url" content="https://forestlyn.github.io/7c064536.html">
 <meta property="og:site_name" content="Forestlyn&#39;s Blog">
-<meta property="og:description" content="记录一下搭建Qmsg私有云和机器人踩坑记录XD">
+<meta property="og:description" content="记录编程、游戏开发和日常。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/1e83d12f564164f426c68f63abb3b44a.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250707221444760.png">
@@ -35,240 +20,19 @@
 <meta property="article:tag" content="整点好玩的">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/1e83d12f564164f426c68f63abb3b44a.png">
+<link rel="stylesheet" href="/css/editorial.css"><script src="/js/editorial.js" defer></script>
+<meta name="generator" content="Hexo 7.0.0"></head><body><div class="shell">
+<header class="header"><a class="brand" href="/">Forestlyn’s Blog</a><nav aria-label="主导航">
 
-
-<link rel="canonical" href="https://forestlyn.github.io/7c064536.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://forestlyn.github.io/7c064536.html","path":"/7c064536.html","title":"搭建属于自己的Qmsg私有云和机器人"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>搭建属于自己的Qmsg私有云和机器人 | Forestlyn's Blog</title>
-  
-
-
-
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Forestlyn's Blog</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84Qmsg%E7%A7%81%E6%9C%89%E4%BA%91%E5%92%8C%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="nav-number">1.</span> <span class="nav-text">搭建属于自己的Qmsg私有云和机器人</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91"><span class="nav-number">1.2.</span> <span class="nav-text">搭建私有云</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">1.2.2.</span> <span class="nav-text">部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="nav-number">1.3.</span> <span class="nav-text">搭建自己的机器人</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="forestlyn"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">forestlyn</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">19</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/forestlyn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;forestlyn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://forestlyn.github.io/7c064536.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="forestlyn">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="搭建属于自己的Qmsg私有云和机器人 | Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          搭建属于自己的Qmsg私有云和机器人
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-07-08 00:10:25 / 修改时间：09:16:29" itemprop="dateCreated datePublished" datetime="2025-07-08T00:10:25+08:00">2025-07-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B4%E7%82%B9%E5%A5%BD%E7%8E%A9%E7%9A%84/" itemprop="url" rel="index"><span itemprop="name">整点好玩的</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>5.9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>记录一下搭建Qmsg私有云和机器人踩坑记录XD</p>
+<a href="/" >首页</a>
+<a href="/archives/" >文章归档</a>
+<a href="/tags/" >标签</a>
+<a href="/about/" >关于</a>
+<a href="https://github.com/forestlyn" target="_blank" rel="noopener">GitHub ↗</a></nav></header>
+<main>
+<section class="article-heading"><a class="back" href="/archives/">← 返回文章列表</a><div class="eyebrow">整点好玩的</div><h1>搭建属于自己的Qmsg私有云和机器人</h1><div class="article-meta">Forestlyn <span>·</span> 2025-07-08 <span>·</span> 约 12 分钟阅读</div><div class="post-tags"><a href="/tags/%E6%95%B4%E7%82%B9%E5%A5%BD%E7%8E%A9%E7%9A%84/"># 整点好玩的</a></div>
+</section>
+<div class="article-layout"><article class="prose"><div class="post-content"><p>记录一下搭建Qmsg私有云和机器人踩坑记录XD</p>
 <span id="more"></span>
 
 <h1 id="搭建属于自己的Qmsg私有云和机器人"><a href="#搭建属于自己的Qmsg私有云和机器人" class="headerlink" title="搭建属于自己的Qmsg私有云和机器人"></a>搭建属于自己的Qmsg私有云和机器人</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建议先搭建机器人再搭建私有云</p>
@@ -278,19 +42,28 @@
 <h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><p>在 Ubuntu 上安装 Docker 的步骤如下：</p>
 <ol>
 <li><p>卸载旧版本（如果有）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="bash 代码"><code class="hljs">sudo apt-get remove docker docker-engine docker.io containerd runc</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </li>
 <li><p>安装依赖包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg \</span><br><span class="line">    lsb-release</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="bash 代码"><code class="hljs">sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </li>
 <li><p>添加 Docker 官方 GPG 密钥</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /etc/apt/keyrings</span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="bash 代码"><code class="hljs">sudo <span class="hljs-built_in">mkdir</span> -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </li>
 <li><p>设置 Docker 仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> \</span><br><span class="line">  <span class="string">&quot;deb [arch=<span class="subst">$(dpkg --print-architecture)</span> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  <span class="subst">$(lsb_release -cs)</span> stable&quot;</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="bash 代码"><code class="hljs"><span class="hljs-built_in">echo</span> \
+  <span class="hljs-string">&quot;deb [arch=<span class="hljs-subst">$(dpkg --print-architecture)</span> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  <span class="hljs-subst">$(lsb_release -cs)</span> stable&quot;</span> | sudo <span class="hljs-built_in">tee</span> /etc/apt/sources.list.d/docker.list &gt; /dev/null</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </li>
 <li><p>安装 Docker Engine</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br></pre></td></tr></table></figure></li>
+<div class="code-block"><div class="code-toolbar"><span>bash</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="bash 代码"><code class="hljs">sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div></li>
 </ol>
 <h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>这里就不写具体步骤了，文档上写的很清楚，这里只写本人遇到的坑</p>
 <ol>
@@ -327,7 +100,24 @@
 </blockquote>
 <p>因此我将两个sources的镜像源全部替换为阿里云镜像源，此时apt-get update &amp;&amp; apt-get install -y curl 一行速度起飞了</p>
 <p>sources list 如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># sources.list</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm main contrib non-free non-free-firmware</span><br><span class="line">deb http://mirrors.aliyun.com/debian-security bookworm-security main</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm-updates main contrib non-free non-free-firmware</span><br><span class="line">deb http://mirrors.aliyun.com/debian bookworm-backports main contrib non-free non-free-firmware</span><br><span class="line"></span><br><span class="line">#debian.sources`</span><br><span class="line">Types: deb</span><br><span class="line">URIs: http://mirrors.aliyun.com/debian</span><br><span class="line">Suites: bookworm bookworm-updates bookworm-backports</span><br><span class="line">Components: main contrib non-free non-free-firmware</span><br><span class="line">Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg</span><br><span class="line"></span><br><span class="line">Types: deb</span><br><span class="line">URIs: http://mirrors.aliyun.com/debian-security</span><br><span class="line">Suites: bookworm-security</span><br><span class="line">Components: main contrib non-free non-free-firmware</span><br><span class="line">Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">   <span class="hljs-meta"># sources.list</span>
+   deb http:<span class="hljs-comment">//mirrors.aliyun.com/debian bookworm main contrib non-free non-free-firmware</span>
+   deb http:<span class="hljs-comment">//mirrors.aliyun.com/debian-security bookworm-security main</span>
+   deb http:<span class="hljs-comment">//mirrors.aliyun.com/debian bookworm-updates main contrib non-free non-free-firmware</span>
+   deb http:<span class="hljs-comment">//mirrors.aliyun.com/debian bookworm-backports main contrib non-free non-free-firmware</span>
+   
+   <span class="hljs-meta">#debian.sources`</span>
+   Types: deb
+   URIs: http:<span class="hljs-comment">//mirrors.aliyun.com/debian</span>
+   Suites: bookworm bookworm-updates bookworm-backports
+   Components: main contrib non-free non-free-firmware
+   Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+   
+   Types: deb
+   URIs: http:<span class="hljs-comment">//mirrors.aliyun.com/debian-security</span>
+   Suites: bookworm-security
+   Components: main contrib non-free non-free-firmware
+   Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </li>
 <li><p>下载QQNT时间过长</p>
 <p>这个直接去github下载，不在docekrfile中下载了</p>
@@ -337,11 +127,85 @@
 <li><p>nmp安装时间过长</p>
 <p>好不容易折腾了上面一堆，又卡在了RUN cd .&#x2F;QmsgNtClient-NapCatQQ &amp;&amp; <br>npm config set registry <a target="_blank" rel="noopener" href="https://registry.npmmirror.com/">https://registry.npmmirror.com</a> &amp;&amp; <br>npm i<br>把我服务器卡死动不了了，重启了</p>
 <p>询问gpt，建议我  npm install –omit&#x3D;dev，遂改之</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; \</span><br><span class="line">    npm config set registry https://registry.npmmirror.com &amp;&amp; \</span><br><span class="line">    npm install --omit=dev</span><br></pre></td></tr></table></figure></li>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">   RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; \
+       npm config set registry https:<span class="hljs-comment">//registry.npmmirror.com &amp;&amp; \
+       npm install --omit=dev</span></code></pre><span class="copy-status" role="status" aria-live="polite"></span></div></li>
 </ol>
 <p><strong>由于docker 制作镜像其实带有缓存，加快的原因有一部分是改了dockerfile，也有一部分是因为前面卡着下载缓存了一部分，总之仅作参考</strong></p>
 <p>最后放一下修改后的Dockerfile</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">20.19</span>.<span class="number">3</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> DIEYI <span class="keyword">from</span> NapCatQQ</span><br><span class="line"><span class="comment"># 设置环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND=noninteractive</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;Acquire::https::Verify-Peer &quot;false&quot;;&#x27;</span> &gt;&gt; /etc/apt/apt.conf.d/99noverify</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/sources.list</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> debian.sources /etc/apt/sources.list.d/debian.sources</span></span><br><span class="line"><span class="comment">#RUN sed -i &#x27;s/http:\/\/mirrors.tuna.tsinghua.edu.cn/http:\/\/mirrors.cloud.aliyuncs.com/g&#x27; /etc/apt/sources.list</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></span><br><span class="line"><span class="comment">#RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; curl -I https://mirrors.aliyun.com/debian</span></span><br><span class="line"><span class="comment"># 安装必要的软件包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y \</span></span><br><span class="line"><span class="language-bash">    libnss3 \</span></span><br><span class="line"><span class="language-bash">    libnotify4 \</span></span><br><span class="line"><span class="language-bash">    libsecret-1-0 \</span></span><br><span class="line"><span class="language-bash">    libgbm1 \</span></span><br><span class="line"><span class="language-bash">    libasound2 \</span></span><br><span class="line"><span class="language-bash">    fonts-wqy-zenhei \</span></span><br><span class="line"><span class="language-bash">    gnutls-bin \</span></span><br><span class="line"><span class="language-bash">    libglib2.0-dev \</span></span><br><span class="line"><span class="language-bash">    libdbus-1-3 \</span></span><br><span class="line"><span class="language-bash">    libgtk-3-0 \</span></span><br><span class="line"><span class="language-bash">    libxss1 \</span></span><br><span class="line"><span class="language-bash">    libxtst6 \</span></span><br><span class="line"><span class="language-bash">    libatspi2.0-0 \</span></span><br><span class="line"><span class="language-bash">    libx11-xcb1 \</span></span><br><span class="line"><span class="language-bash">    ffmpeg \</span></span><br><span class="line"><span class="language-bash">    unzip \</span></span><br><span class="line"><span class="language-bash">    openbox \</span></span><br><span class="line"><span class="language-bash">    xorg \</span></span><br><span class="line"><span class="language-bash">    dbus-user-session \</span></span><br><span class="line"><span class="language-bash">    xvfb \</span></span><br><span class="line"><span class="language-bash">    supervisor \</span></span><br><span class="line"><span class="language-bash">    xdg-utils \</span></span><br><span class="line"><span class="language-bash">    git \</span></span><br><span class="line"><span class="language-bash">    fluxbox \</span></span><br><span class="line"><span class="language-bash">    curl &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt-get clean --no-install-recommends &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt autoremove -y &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt clean &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">rm</span> -rf \</span></span><br><span class="line"><span class="language-bash">    /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="language-bash">    /tmp/* \</span></span><br><span class="line"><span class="language-bash">    /var/tmp/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr/src/app</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN curl -L -o /tmp/QmsgNtClient-NapCatQQ.zip https://ghfast.top/https://github.com/1244453393/QmsgNtClient-NapCatQQ/releases/download/v$(curl https://fastly.jsdelivr.net/gh/1244453393/QmsgNtClient-NapCatQQ@main/package.json | grep &#x27;&quot;version&quot;:&#x27; | sed -E &#x27;s/.*([0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;).*/\1/&#x27;)/QmsgNtClient-NapCatQQ.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> QmsgNtClient-NapCatQQ.zip /tmp/QmsgNtClient-NapCatQQ.zip</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d ./QmsgNtClient-NapCatQQ</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d /tmp/QmsgNtClient-NapCatQQ</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> start.sh ./start.sh</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">arch</span>=$(<span class="built_in">arch</span> | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    curl -o linuxqq.deb https://dldir1.qq.com/qqfile/qq/QQNT/5aa2d8d6/linuxqq_3.2.17-34740_<span class="variable">$&#123;arch&#125;</span>.deb &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    dpkg -i --force-depends linuxqq.deb &amp;&amp; <span class="built_in">rm</span> linuxqq.deb &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">chmod</span> +x start.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&quot;(async () =&gt; &#123;await import(&#x27;file:///usr/src/app/QmsgNtClient-NapCatQQ/napcat.mjs&#x27;);&#125;)();&quot;</span> &gt; /opt/QQ/resources/app/loadNapCat.js &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    sed -i <span class="string">&#x27;s|&quot;main&quot;: &quot;[^&quot;]*&quot;|&quot;main&quot;: &quot;./loadNapCat.js&quot;|&#x27;</span> /opt/QQ/resources/app/package.json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; npm config set registry https://registry.npmmirror.com/ &amp;&amp; npm i</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> ./QmsgNtClient-NapCatQQ &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    npm config <span class="built_in">set</span> registry https://registry.npmmirror.com &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    npm install --omit=dev</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/config</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/logs</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="language-bash"> /root/.config/QQ</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;bash&quot;</span>, <span class="string">&quot;start.sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>dockerfile</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="dockerfile 代码"><code class="hljs"><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">20.19</span>.<span class="hljs-number">3</span>
+<span class="hljs-keyword">MAINTAINER</span> DIEYI <span class="hljs-keyword">from</span> NapCatQQ
+<span class="hljs-comment"># 设置环境变量</span>
+<span class="hljs-keyword">ENV</span> DEBIAN_FRONTEND=noninteractive
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;Acquire::https::Verify-Peer &quot;false&quot;;&#x27;</span> &gt;&gt; /etc/apt/apt.conf.d/99noverify</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/sources.list</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> debian.sources /etc/apt/sources.list.d/debian.sources</span>
+<span class="hljs-comment">#RUN sed -i &#x27;s/http:\/\/mirrors.tuna.tsinghua.edu.cn/http:\/\/mirrors.cloud.aliyuncs.com/g&#x27; /etc/apt/sources.list</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span>
+<span class="hljs-comment">#RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; curl -I https://mirrors.aliyun.com/debian</span>
+<span class="hljs-comment"># 安装必要的软件包</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y \
+    libnss3 \
+    libnotify4 \
+    libsecret-1-0 \
+    libgbm1 \
+    libasound2 \
+    fonts-wqy-zenhei \
+    gnutls-bin \
+    libglib2.0-dev \
+    libdbus-1-3 \
+    libgtk-3-0 \
+    libxss1 \
+    libxtst6 \
+    libatspi2.0-0 \
+    libx11-xcb1 \
+    ffmpeg \
+    unzip \
+    openbox \
+    xorg \
+    dbus-user-session \
+    xvfb \
+    supervisor \
+    xdg-utils \
+    git \
+    fluxbox \
+    curl &amp;&amp; \
+    apt-get clean --no-install-recommends &amp;&amp; \
+    apt autoremove -y &amp;&amp; \
+    apt clean &amp;&amp; \
+    <span class="hljs-built_in">rm</span> -rf \
+    /var/lib/apt/lists/* \
+    /tmp/* \
+    /var/tmp/*</span>
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /usr/src/app</span>
+
+<span class="hljs-comment">#RUN curl -L -o /tmp/QmsgNtClient-NapCatQQ.zip https://ghfast.top/https://github.com/1244453393/QmsgNtClient-NapCatQQ/releases/download/v$(curl https://fastly.jsdelivr.net/gh/1244453393/QmsgNtClient-NapCatQQ@main/package.json | grep &#x27;&quot;version&quot;:&#x27; | sed -E &#x27;s/.*([0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;\.[0-9]&#123;1,&#125;).*/\1/&#x27;)/QmsgNtClient-NapCatQQ.zip</span>
+
+<span class="hljs-keyword">COPY</span><span class="language-bash"> QmsgNtClient-NapCatQQ.zip /tmp/QmsgNtClient-NapCatQQ.zip</span>
+
+<span class="hljs-keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d ./QmsgNtClient-NapCatQQ</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> unzip -o /tmp/QmsgNtClient-NapCatQQ.zip -d /tmp/QmsgNtClient-NapCatQQ</span>
+
+<span class="hljs-keyword">COPY</span><span class="language-bash"> start.sh ./start.sh</span>
+
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">arch</span>=$(<span class="hljs-built_in">arch</span> | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) &amp;&amp; \
+    curl -o linuxqq.deb https://dldir1.qq.com/qqfile/qq/QQNT/5aa2d8d6/linuxqq_3.2.17-34740_<span class="hljs-variable">$&#123;arch&#125;</span>.deb &amp;&amp; \
+    dpkg -i --force-depends linuxqq.deb &amp;&amp; <span class="hljs-built_in">rm</span> linuxqq.deb &amp;&amp; \
+    <span class="hljs-built_in">chmod</span> +x start.sh &amp;&amp; \
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;(async () =&gt; &#123;await import(&#x27;file:///usr/src/app/QmsgNtClient-NapCatQQ/napcat.mjs&#x27;);&#125;)();&quot;</span> &gt; /opt/QQ/resources/app/loadNapCat.js &amp;&amp; \
+    sed -i <span class="hljs-string">&#x27;s|&quot;main&quot;: &quot;[^&quot;]*&quot;|&quot;main&quot;: &quot;./loadNapCat.js&quot;|&#x27;</span> /opt/QQ/resources/app/package.json</span>
+
+<span class="hljs-comment">#RUN cd ./QmsgNtClient-NapCatQQ &amp;&amp; npm config set registry https://registry.npmmirror.com/ &amp;&amp; npm i</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">cd</span> ./QmsgNtClient-NapCatQQ &amp;&amp; \
+    npm config <span class="hljs-built_in">set</span> registry https://registry.npmmirror.com &amp;&amp; \
+    npm install --omit=dev</span>
+
+<span class="hljs-keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/config</span>
+<span class="hljs-keyword">VOLUME</span><span class="language-bash"> /usr/src/app/QmsgNtClient-NapCatQQ/logs</span>
+<span class="hljs-keyword">VOLUME</span><span class="language-bash"> /root/.config/QQ</span>
+
+<span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;bash&quot;</span>, <span class="hljs-string">&quot;start.sh&quot;</span>]</span></code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <ol start="5">
 <li><p>最后的最后，在配置这一步，本人又卡了好久，配置这里在搭建私有云的文档中orz</p>
@@ -351,105 +215,9 @@
 </li>
 </ol>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250707221444760.png" alt="image-20250707221444760"></p>
-
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%95%B4%E7%82%B9%E5%A5%BD%E7%8E%A9%E7%9A%84/" rel="tag"><i class="fa fa-tag"></i> 整点好玩的</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/26e71b0a.html" rel="prev" title="tinyrenderer学习过程记录">
-                  <i class="fa fa-angle-left"></i> tinyrenderer学习过程记录
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/7a0bd185.html" rel="next" title="games104作业记录">
-                  games104作业记录 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
 </div>
-
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2024034079号 </a>
-  </div>
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">forestlyn</span>
-  </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">93k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">2:48</span>
-  </span>
-</div>
-
-    </div>
-  </footer>
-
-  
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-
-</body>
-</html>
+<nav class="post-navigation" aria-label="相邻文章"><a class="previous-post" href="/7a0bd185.html"><span>← 前一篇</span><strong>games104作业记录</strong></a><a class="next-post" href="/26e71b0a.html"><span>后一篇 →</span><strong>tinyrenderer学习过程记录</strong></a></nav>
+<div class="article-end">— 感谢阅读 —<p><a href="/archives/">其他文章 ↗</a></p></div></article>
+<aside class="toc"><span class="eyebrow">目录</span><div class="toc-links"><a class="toc-level-1" href="#%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84Qmsg%E7%A7%81%E6%9C%89%E4%BA%91%E5%92%8C%E6%9C%BA%E5%99%A8%E4%BA%BA">搭建属于自己的Qmsg私有云和机器人</a><a class="toc-level-2" href="#%E5%89%8D%E8%A8%80">前言</a><a class="toc-level-2" href="#%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BA%91">搭建私有云</a><a class="toc-level-3" href="#%E5%AE%89%E8%A3%85docker">安装docker</a><a class="toc-level-3" href="#%E9%83%A8%E7%BD%B2">部署</a><a class="toc-level-2" href="#%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA">搭建自己的机器人</a></div><a class="back-top" href="#">回到顶部 ↑</a></aside></div>
+</main><footer><a class="brand" href="/">Forestlyn’s Blog</a><small>© 2026 Forestlyn</small></footer>
+</div></body></html>

@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
-  <link rel="mask-icon" href="/images/test.gif" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"forestlyn.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="P6510 奶牛排队（RMQ）">
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P6510 · Forestlyn&#39;s Blog</title>
+<meta name="description" content="记录编程、游戏开发和日常。">
+<link rel="canonical" href="https://forestlyn.github.io/e9558fce.html">
+<link rel="icon" href="/images/test.gif">
+<meta name="description" content="记录编程、游戏开发和日常。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P6510">
 <meta property="og:url" content="https://forestlyn.github.io/e9558fce.html">
 <meta property="og:site_name" content="Forestlyn&#39;s Blog">
-<meta property="og:description" content="P6510 奶牛排队（RMQ）">
+<meta property="og:description" content="记录编程、游戏开发和日常。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-13T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-12-09T11:28:14.306Z">
@@ -33,246 +18,19 @@
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="洛谷">
 <meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/css/editorial.css"><script src="/js/editorial.js" defer></script>
+<meta name="generator" content="Hexo 7.0.0"></head><body><div class="shell">
+<header class="header"><a class="brand" href="/">Forestlyn’s Blog</a><nav aria-label="主导航">
 
-
-<link rel="canonical" href="https://forestlyn.github.io/e9558fce.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://forestlyn.github.io/e9558fce.html","path":"/e9558fce.html","title":"P6510"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>P6510 | Forestlyn's Blog</title>
-  
-
-
-
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Forestlyn's Blog</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#P6510-%E5%A5%B6%E7%89%9B%E6%8E%92%E9%98%9F%EF%BC%88RMQ%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">P6510 奶牛排队（RMQ）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">1.4.</span> <span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%87%E4%B8%8D%E4%BA%86%EF%BC%8C%E5%A4%AA%E5%9E%83%E4%BA%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">1(过不了，太垃了)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RMQ"><span class="nav-number">1.4.2.</span> <span class="nav-text">2(RMQ)</span></a></li></ol></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="forestlyn"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">forestlyn</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">19</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/forestlyn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;forestlyn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://forestlyn.github.io/e9558fce.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="forestlyn">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="P6510 | Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          P6510
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-07-14 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-14T00:00:00+08:00">2021-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-09 19:28:14" itemprop="dateModified" datetime="2023-12-09T19:28:14+08:00">2023-12-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C,C++</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>P6510 奶牛排队（RMQ）<span id="more"></span></p>
+<a href="/" >首页</a>
+<a href="/archives/" >文章归档</a>
+<a href="/tags/" >标签</a>
+<a href="/about/" >关于</a>
+<a href="https://github.com/forestlyn" target="_blank" rel="noopener">GitHub ↗</a></nav></header>
+<main>
+<section class="article-heading"><a class="back" href="/archives/">← 返回文章列表</a><div class="eyebrow">C,C++</div><h1>P6510</h1><div class="article-meta">Forestlyn <span>·</span> 2021-07-14 <span>·</span> 约 11 分钟阅读</div><div class="post-tags"><a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a><a href="/tags/%E6%B4%9B%E8%B0%B7/"># 洛谷</a></div>
+</section>
+<div class="article-layout"><article class="prose"><div class="post-content"><p>P6510 奶牛排队（RMQ）<span id="more"></span></p>
 <h1 id="P6510-奶牛排队（RMQ）"><a href="#P6510-奶牛排队（RMQ）" class="headerlink" title="P6510 奶牛排队（RMQ）"></a>P6510 奶牛排队（RMQ）</h1><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6510">P6510 奶牛排队 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p>
 <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>奶牛在熊大妈的带领下排成了一条直队。</p>
 <p>显然，不同的奶牛身高不一定相同……</p>
@@ -281,18 +39,238 @@
 <h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>第一行一个正整数 N，表示奶牛的头数。</p>
 <p>接下来 N行，每行一个正整数，从上到下表示从左到右奶牛的身高 hi。</p>
 <h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>一行一个整数，表示最多奶牛数。</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="1-过不了，太垃了"><a href="#1-过不了，太垃了" class="headerlink" title="1(过不了，太垃了)"></a>1(过不了，太垃了)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//呜呜，最坏情况O(n*n)过不了,tle了一个点</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n)</span>;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>] = &#123;&#125;;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> n;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);</span><br><span class="line">  <span class="type">int</span> ans = find(a, n);</span><br><span class="line">  <span class="keyword">if</span> (ans == <span class="number">1</span>)</span><br><span class="line">    ans = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a[], <span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> left, right, ans = <span class="number">0</span>;</span><br><span class="line">  left = right = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (a[i] &gt; a[right]) <span class="comment">//读取的下一数大于最右边的数</span></span><br><span class="line">      right = i;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (a[i] &lt;= a[left]) <span class="comment">//读取下一个数小于等于最左边的数</span></span><br><span class="line">      left = right = i;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (a[left] &lt; a[i] &amp;&amp; a[right] &gt;= a[i]) <span class="comment">//读取的下一个数在两者之间,较复杂</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">//后面存在比最右边大的数且不存在比最左边小的数则right等于改变为那个数</span></span><br><span class="line">      <span class="comment">//否则重新从now开始</span></span><br><span class="line">      <span class="type">int</span> flag = <span class="number">0</span>, now = i;</span><br><span class="line">      <span class="keyword">for</span> (; i &lt; n; i++)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &gt; a[right])</span><br><span class="line">        &#123;</span><br><span class="line">          right = i;</span><br><span class="line">          flag = <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= a[left])</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (flag == <span class="number">0</span>)</span><br><span class="line">        left = right = now;</span><br><span class="line">      i = now;</span><br><span class="line">    &#125;</span><br><span class="line">    ans = ans &gt; (right - left + <span class="number">1</span>) ? ans : right - left + <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="1-过不了，太垃了"><a href="#1-过不了，太垃了" class="headerlink" title="1(过不了，太垃了)"></a>1(过不了，太垃了)</h3><div class="code-block"><div class="code-toolbar"><span>c</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c 代码"><code class="hljs"><span class="hljs-comment">//呜呜，最坏情况O(n*n)过不了,tle了一个点</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> a[], <span class="hljs-type">int</span> n)</span>;
+<span class="hljs-type">int</span> a[<span class="hljs-number">100005</span>] = &#123;&#125;;
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>
+&#123;
+  <span class="hljs-type">int</span> n;
+  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a[i]);
+  <span class="hljs-type">int</span> ans = find(a, n);
+  <span class="hljs-keyword">if</span> (ans == <span class="hljs-number">1</span>)
+    ans = <span class="hljs-number">0</span>;
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, ans);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> a[], <span class="hljs-type">int</span> n)</span>
+&#123;
+  <span class="hljs-type">int</span> left, right, ans = <span class="hljs-number">0</span>;
+  left = right = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)
+  &#123;
+    <span class="hljs-keyword">if</span> (a[i] &gt; a[right]) <span class="hljs-comment">//读取的下一数大于最右边的数</span>
+      right = i;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a[i] &lt;= a[left]) <span class="hljs-comment">//读取下一个数小于等于最左边的数</span>
+      left = right = i;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a[left] &lt; a[i] &amp;&amp; a[right] &gt;= a[i]) <span class="hljs-comment">//读取的下一个数在两者之间,较复杂</span>
+    &#123;
+      <span class="hljs-comment">//后面存在比最右边大的数且不存在比最左边小的数则right等于改变为那个数</span>
+      <span class="hljs-comment">//否则重新从now开始</span>
+      <span class="hljs-type">int</span> flag = <span class="hljs-number">0</span>, now = i;
+      <span class="hljs-keyword">for</span> (; i &lt; n; i++)
+      &#123;
+        <span class="hljs-keyword">if</span> (a[i] &gt; a[right])
+        &#123;
+          right = i;
+          flag = <span class="hljs-number">1</span>;
+          <span class="hljs-keyword">break</span>;
+        &#125;
+        <span class="hljs-keyword">if</span> (a[i] &lt;= a[left])
+          <span class="hljs-keyword">break</span>;
+      &#125;
+      <span class="hljs-keyword">if</span> (flag == <span class="hljs-number">0</span>)
+        left = right = now;
+      i = now;
+    &#125;
+    ans = ans &gt; (right - left + <span class="hljs-number">1</span>) ? ans : right - left + <span class="hljs-number">1</span>;
+  &#125;
+  <span class="hljs-keyword">return</span> ans;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <h3 id="2-RMQ"><a href="#2-RMQ" class="headerlink" title="2(RMQ)"></a>2(RMQ)</h3><p>区间最值查询，先做预处理求最值 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max[i][j]是从i个数开始包括i在内1&lt;&lt;j个数的最大值，min同理</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>python</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="python 代码"><code class="hljs"><span class="hljs-built_in">max</span>[i][j]是从i个数开始包括i在内<span class="hljs-number">1</span>&lt;&lt;j个数的最大值，<span class="hljs-built_in">min</span>同理</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">themin</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (x &lt; y)</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">themax</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (x &gt; y)</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//max[i][0],min[i][0]就是数组中的a[i]的值,本质是动态规划</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">rmq</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i, j;</span><br><span class="line">  <span class="keyword">for</span> (j = <span class="number">1</span>; (<span class="number">1</span> &lt;&lt; j) &lt;= n; j++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i + (<span class="number">1</span> &lt;&lt; j) - <span class="number">1</span> &lt; n; i++)<span class="comment">//保证不越界</span></span><br><span class="line">    &#123;</span><br><span class="line">      max[i][j] = themax(max[i][j - <span class="number">1</span>], max[i + <span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>)][j - <span class="number">1</span>]);</span><br><span class="line">      min[i][j] = themin(min[i][j - <span class="number">1</span>], min[i + <span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>)][j - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c 代码"><code class="hljs"><span class="hljs-type">int</span> <span class="hljs-title function_">themin</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (x &lt; y)
+    <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">return</span> y;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">themax</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (x &gt; y)
+    <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">return</span> y;
+&#125;
+<span class="hljs-comment">//max[i][0],min[i][0]就是数组中的a[i]的值,本质是动态规划</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">rmq</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>
+&#123;
+  <span class="hljs-type">int</span> i, j;
+  <span class="hljs-keyword">for</span> (j = <span class="hljs-number">1</span>; (<span class="hljs-number">1</span> &lt;&lt; j) &lt;= n; j++)
+  &#123;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i + (<span class="hljs-number">1</span> &lt;&lt; j) - <span class="hljs-number">1</span> &lt; n; i++)<span class="hljs-comment">//保证不越界</span>
+    &#123;
+      max[i][j] = themax(max[i][j - <span class="hljs-number">1</span>], max[i + <span class="hljs-number">1</span> &lt;&lt; (j - <span class="hljs-number">1</span>)][j - <span class="hljs-number">1</span>]);
+      min[i][j] = themin(min[i][j - <span class="hljs-number">1</span>], min[i + <span class="hljs-number">1</span> &lt;&lt; (j - <span class="hljs-number">1</span>)][j - <span class="hljs-number">1</span>]);
+    &#125;
+  &#125;
+  <span class="hljs-keyword">return</span>;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>rmq区间二分，找到当前区间的序列，继续二分</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">rmq</span><span class="params">(<span class="type">int</span> n)</span>;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>] = &#123;&#125;;</span><br><span class="line"><span class="type">int</span> max[<span class="number">100005</span>][<span class="number">20</span>] = &#123;&#125;;</span><br><span class="line"><span class="type">int</span> min[<span class="number">100005</span>][<span class="number">20</span>] = &#123;&#125;; <span class="comment">//max min 里面存放最值的位置</span></span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">themin</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (a[x] &lt; a[y])</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">themax</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (a[x] &gt;= a[y])</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">minpos</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> k = <span class="built_in">log</span>(right - left + <span class="number">1</span>) / <span class="built_in">log</span>(<span class="number">2</span>);<span class="comment">//一定要除log(2),骂骂咧咧,搞半天错在这里</span></span><br><span class="line">  <span class="keyword">return</span> themin(min[left][k], min[right + <span class="number">1</span> - (<span class="number">1</span> &lt;&lt; k)][k]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">maxpos</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> k = <span class="built_in">log</span>(right - left + <span class="number">1</span>) / <span class="built_in">log</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">return</span> themax(max[left][k], max[right + <span class="number">1</span> - (<span class="number">1</span> &lt;&lt; k)][k]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> n;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);</span><br><span class="line">    max[i][<span class="number">0</span>] = min[i][<span class="number">0</span>] = i;</span><br><span class="line">  &#125;</span><br><span class="line">  rmq(n);</span><br><span class="line">  find(<span class="number">0</span>, n - <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">if</span> (ans == <span class="number">1</span>)</span><br><span class="line">    ans = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">rmq</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i, j;</span><br><span class="line">  <span class="keyword">for</span> (j = <span class="number">1</span>; (<span class="number">1</span> &lt;&lt; j) &lt;= n; j++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i + (<span class="number">1</span> &lt;&lt; j) - <span class="number">1</span> &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      max[i][j] = themax(max[i][j - <span class="number">1</span>], max[i + (<span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>))][j - <span class="number">1</span>]);</span><br><span class="line">      min[i][j] = themin(min[i][j - <span class="number">1</span>], min[i + (<span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>))][j - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (right &lt;= left)<span class="comment">//左端点大于等于右端点，结束</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">int</span> l = minpos(left, right);</span><br><span class="line">  <span class="type">int</span> r = maxpos(left, right);</span><br><span class="line">  <span class="keyword">if</span> (l &lt;= r)<span class="comment">//当前区间有合法最大最小的序列解，当前序列不可能存在于其它序列中，二分</span></span><br><span class="line">  &#123;</span><br><span class="line">    ans = ans &gt; r - l + <span class="number">1</span> ? ans : r - l + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// printf(&quot;%d %d %d\n&quot;, l, r, ans);</span></span><br><span class="line">    <span class="comment">// getchar();</span></span><br><span class="line">    find(left, l - <span class="number">1</span>);</span><br><span class="line">    find(r + <span class="number">1</span>, right);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span><span class="comment">//没有合法解，三分</span></span><br><span class="line">  &#123;</span><br><span class="line">    find(r + <span class="number">1</span>, l - <span class="number">1</span>);</span><br><span class="line">    find(left, r);</span><br><span class="line">    find(l, right);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c 代码"><code class="hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>;
+<span class="hljs-type">void</span> <span class="hljs-title function_">rmq</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>;
+<span class="hljs-type">int</span> a[<span class="hljs-number">100005</span>] = &#123;&#125;;
+<span class="hljs-type">int</span> max[<span class="hljs-number">100005</span>][<span class="hljs-number">20</span>] = &#123;&#125;;
+<span class="hljs-type">int</span> min[<span class="hljs-number">100005</span>][<span class="hljs-number">20</span>] = &#123;&#125;; <span class="hljs-comment">//max min 里面存放最值的位置</span>
+<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;
+<span class="hljs-type">int</span> <span class="hljs-title function_">themin</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (a[x] &lt; a[y])
+    <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">return</span> y;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">themax</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (a[x] &gt;= a[y])
+    <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">return</span> y;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">minpos</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>
+&#123;
+  <span class="hljs-type">int</span> k = <span class="hljs-built_in">log</span>(right - left + <span class="hljs-number">1</span>) / <span class="hljs-built_in">log</span>(<span class="hljs-number">2</span>);<span class="hljs-comment">//一定要除log(2),骂骂咧咧,搞半天错在这里</span>
+  <span class="hljs-keyword">return</span> themin(min[left][k], min[right + <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> &lt;&lt; k)][k]);
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">maxpos</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>
+&#123;
+  <span class="hljs-type">int</span> k = <span class="hljs-built_in">log</span>(right - left + <span class="hljs-number">1</span>) / <span class="hljs-built_in">log</span>(<span class="hljs-number">2</span>);
+  <span class="hljs-keyword">return</span> themax(max[left][k], max[right + <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> &lt;&lt; k)][k]);
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>
+&#123;
+  <span class="hljs-type">int</span> n;
+  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+  &#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a[i]);
+    max[i][<span class="hljs-number">0</span>] = min[i][<span class="hljs-number">0</span>] = i;
+  &#125;
+  rmq(n);
+  find(<span class="hljs-number">0</span>, n - <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">if</span> (ans == <span class="hljs-number">1</span>)
+    ans = <span class="hljs-number">0</span>;
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, ans);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-type">void</span> <span class="hljs-title function_">rmq</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>
+&#123;
+  <span class="hljs-type">int</span> i, j;
+  <span class="hljs-keyword">for</span> (j = <span class="hljs-number">1</span>; (<span class="hljs-number">1</span> &lt;&lt; j) &lt;= n; j++)
+  &#123;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i + (<span class="hljs-number">1</span> &lt;&lt; j) - <span class="hljs-number">1</span> &lt; n; i++)
+    &#123;
+      max[i][j] = themax(max[i][j - <span class="hljs-number">1</span>], max[i + (<span class="hljs-number">1</span> &lt;&lt; (j - <span class="hljs-number">1</span>))][j - <span class="hljs-number">1</span>]);
+      min[i][j] = themin(min[i][j - <span class="hljs-number">1</span>], min[i + (<span class="hljs-number">1</span> &lt;&lt; (j - <span class="hljs-number">1</span>))][j - <span class="hljs-number">1</span>]);
+    &#125;
+  &#125;
+  <span class="hljs-keyword">return</span>;
+&#125;
+<span class="hljs-type">void</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (right &lt;= left)<span class="hljs-comment">//左端点大于等于右端点，结束</span>
+    <span class="hljs-keyword">return</span>;
+  <span class="hljs-type">int</span> l = minpos(left, right);
+  <span class="hljs-type">int</span> r = maxpos(left, right);
+  <span class="hljs-keyword">if</span> (l &lt;= r)<span class="hljs-comment">//当前区间有合法最大最小的序列解，当前序列不可能存在于其它序列中，二分</span>
+  &#123;
+    ans = ans &gt; r - l + <span class="hljs-number">1</span> ? ans : r - l + <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// printf(&quot;%d %d %d\n&quot;, l, r, ans);</span>
+    <span class="hljs-comment">// getchar();</span>
+    find(left, l - <span class="hljs-number">1</span>);
+    find(r + <span class="hljs-number">1</span>, right);
+  &#125;
+  <span class="hljs-keyword">else</span><span class="hljs-comment">//没有合法解，三分</span>
+  &#123;
+    find(r + <span class="hljs-number">1</span>, l - <span class="hljs-number">1</span>);
+    find(left, r);
+    find(l, right);
+  &#125;
+  <span class="hljs-keyword">return</span>;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>枚举右端点得到解</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> n)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">rmq</span><span class="params">(<span class="type">int</span> n)</span>;</span><br><span class="line"><span class="type">int</span> a[<span class="number">100005</span>] = &#123;&#125;;</span><br><span class="line"><span class="type">int</span> min[<span class="number">100005</span>][<span class="number">20</span>] = &#123;&#125;; <span class="comment">//min 里面存放最值的位置</span></span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">themin</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (a[x] &lt; a[y])</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">minpos</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> k = <span class="built_in">log</span>(right - left + <span class="number">1</span>) / <span class="built_in">log</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">return</span> themin(min[left][k], min[right + <span class="number">1</span> - (<span class="number">1</span> &lt;&lt; k)][k]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> n;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);</span><br><span class="line">    min[i][<span class="number">0</span>] = i;</span><br><span class="line">  &#125;</span><br><span class="line">  rmq(n);</span><br><span class="line">  find(n);</span><br><span class="line">  <span class="keyword">if</span> (ans == <span class="number">1</span>)</span><br><span class="line">    ans = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">rmq</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line"><span class="comment">//存入区间最小值的位置</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i, j;</span><br><span class="line">  <span class="keyword">for</span> (j = <span class="number">1</span>; (<span class="number">1</span> &lt;&lt; j) &lt;= n; j++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i + (<span class="number">1</span> &lt;&lt; j) - <span class="number">1</span> &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      min[i][j] = themin(min[i][j - <span class="number">1</span>], min[i + (<span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>))][j - <span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line"><span class="comment">//枚举最右端点B，找到左边比它大或者等于的点C，最小值点A一定在C右边,找到区间最小值点是最优解</span></span><br><span class="line"><span class="comment">//然后这时找到的AB区间内不会再有下一个区间比当前区间更优的点B存在</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> maxposs = i, minposs;</span><br><span class="line">    <span class="type">int</span> j = i - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (a[maxposs] &gt; a[j] &amp;&amp; j &gt;= <span class="number">0</span>)</span><br><span class="line">      j--;</span><br><span class="line">    <span class="keyword">if</span> (j &gt;= <span class="number">0</span>)</span><br><span class="line">      minposs = minpos(j + <span class="number">1</span>, maxposs);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      minposs = minpos(<span class="number">0</span>, maxposs);</span><br><span class="line">    ans = ans &gt; (maxposs - minposs + <span class="number">1</span>) ? ans : maxposs - minposs + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//printf(&quot; %d %d %d\n&quot;, minposs, maxposs, ans);</span></span><br><span class="line">    i = minposs;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c 代码"><code class="hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>;
+<span class="hljs-type">void</span> <span class="hljs-title function_">rmq</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>;
+<span class="hljs-type">int</span> a[<span class="hljs-number">100005</span>] = &#123;&#125;;
+<span class="hljs-type">int</span> min[<span class="hljs-number">100005</span>][<span class="hljs-number">20</span>] = &#123;&#125;; <span class="hljs-comment">//min 里面存放最值的位置</span>
+<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;
+<span class="hljs-type">int</span> <span class="hljs-title function_">themin</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>
+&#123;
+  <span class="hljs-keyword">if</span> (a[x] &lt; a[y])
+    <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">return</span> y;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">minpos</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>
+&#123;
+  <span class="hljs-type">int</span> k = <span class="hljs-built_in">log</span>(right - left + <span class="hljs-number">1</span>) / <span class="hljs-built_in">log</span>(<span class="hljs-number">2</span>);
+  <span class="hljs-keyword">return</span> themin(min[left][k], min[right + <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> &lt;&lt; k)][k]);
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>
+&#123;
+  <span class="hljs-type">int</span> n;
+  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+  &#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a[i]);
+    min[i][<span class="hljs-number">0</span>] = i;
+  &#125;
+  rmq(n);
+  find(n);
+  <span class="hljs-keyword">if</span> (ans == <span class="hljs-number">1</span>)
+    ans = <span class="hljs-number">0</span>;
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, ans);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-type">void</span> <span class="hljs-title function_">rmq</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>
+<span class="hljs-comment">//存入区间最小值的位置</span>
+&#123;
+  <span class="hljs-type">int</span> i, j;
+  <span class="hljs-keyword">for</span> (j = <span class="hljs-number">1</span>; (<span class="hljs-number">1</span> &lt;&lt; j) &lt;= n; j++)
+  &#123;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i + (<span class="hljs-number">1</span> &lt;&lt; j) - <span class="hljs-number">1</span> &lt; n; i++)
+    &#123;
+      min[i][j] = themin(min[i][j - <span class="hljs-number">1</span>], min[i + (<span class="hljs-number">1</span> &lt;&lt; (j - <span class="hljs-number">1</span>))][j - <span class="hljs-number">1</span>]);
+    &#125;
+  &#125;
+  <span class="hljs-keyword">return</span>;
+&#125;
+<span class="hljs-type">int</span> <span class="hljs-title function_">find</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span>
+<span class="hljs-comment">//枚举最右端点B，找到左边比它大或者等于的点C，最小值点A一定在C右边,找到区间最小值点是最优解</span>
+<span class="hljs-comment">//然后这时找到的AB区间内不会再有下一个区间比当前区间更优的点B存在</span>
+&#123;
+  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = n - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--)
+  &#123;
+    <span class="hljs-type">int</span> maxposs = i, minposs;
+    <span class="hljs-type">int</span> j = i - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (a[maxposs] &gt; a[j] &amp;&amp; j &gt;= <span class="hljs-number">0</span>)
+      j--;
+    <span class="hljs-keyword">if</span> (j &gt;= <span class="hljs-number">0</span>)
+      minposs = minpos(j + <span class="hljs-number">1</span>, maxposs);
+    <span class="hljs-keyword">else</span>
+      minposs = minpos(<span class="hljs-number">0</span>, maxposs);
+    ans = ans &gt; (maxposs - minposs + <span class="hljs-number">1</span>) ? ans : maxposs - minposs + <span class="hljs-number">1</span>;
+    <span class="hljs-comment">//printf(&quot; %d %d %d\n&quot;, minposs, maxposs, ans);</span>
+    i = minposs;
+  &#125;
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 
 
@@ -302,106 +280,9 @@
 
 
 
-
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
-              <a href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag"><i class="fa fa-tag"></i> 洛谷</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/b6e70bfe.html" rel="prev" title="设计模式：单例模式（Singleton）">
-                  <i class="fa fa-angle-left"></i> 设计模式：单例模式（Singleton）
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/f5048c5d.html" rel="next" title="迷失岛">
-                  迷失岛 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
 </div>
-
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2024034079号 </a>
-  </div>
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">forestlyn</span>
-  </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">93k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">2:48</span>
-  </span>
-</div>
-
-    </div>
-  </footer>
-
-  
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-
-</body>
-</html>
+<nav class="post-navigation" aria-label="相邻文章"><a class="previous-post" href="/f5048c5d.html"><span>← 前一篇</span><strong>迷失岛</strong></a><a class="next-post" href="/b6e70bfe.html"><span>后一篇 →</span><strong>设计模式：单例模式（Singleton）</strong></a></nav>
+<div class="article-end">— 感谢阅读 —<p><a href="/archives/">其他文章 ↗</a></p></div></article>
+<aside class="toc"><span class="eyebrow">目录</span><div class="toc-links"><a class="toc-level-1" href="#P6510-%E5%A5%B6%E7%89%9B%E6%8E%92%E9%98%9F%EF%BC%88RMQ%EF%BC%89">P6510 奶牛排队（RMQ）</a><a class="toc-level-2" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0">题目描述</a><a class="toc-level-2" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F">输入格式</a><a class="toc-level-2" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F">输出格式</a><a class="toc-level-2" href="#%E9%A2%98%E8%A7%A3">题解</a><a class="toc-level-3" href="#1-%E8%BF%87%E4%B8%8D%E4%BA%86%EF%BC%8C%E5%A4%AA%E5%9E%83%E4%BA%86">1(过不了，太垃了)</a><a class="toc-level-3" href="#2-RMQ">2(RMQ)</a></div><a class="back-top" href="#">回到顶部 ↑</a></aside></div>
+</main><footer><a class="brand" href="/">Forestlyn’s Blog</a><small>© 2026 Forestlyn</small></footer>
+</div></body></html>

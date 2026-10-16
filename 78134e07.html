@@ -1,271 +1,35 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
-  <link rel="mask-icon" href="/images/test.gif" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"forestlyn.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="设计模式：命令模式（Command)">
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>命令模式在游戏中的应用 · Forestlyn&#39;s Blog</title>
+<meta name="description" content="记录编程、游戏开发和日常。">
+<link rel="canonical" href="https://forestlyn.github.io/78134e07.html">
+<link rel="icon" href="/images/test.gif">
+<meta name="description" content="记录编程、游戏开发和日常。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令模式在游戏中的应用">
 <meta property="og:url" content="https://forestlyn.github.io/78134e07.html">
 <meta property="og:site_name" content="Forestlyn&#39;s Blog">
-<meta property="og:description" content="设计模式：命令模式（Command)">
+<meta property="og:description" content="记录编程、游戏开发和日常。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-12-11T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-12-12T15:29:54.812Z">
 <meta property="article:author" content="forestlyn">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/css/editorial.css"><script src="/js/editorial.js" defer></script>
+<meta name="generator" content="Hexo 7.0.0"></head><body><div class="shell">
+<header class="header"><a class="brand" href="/">Forestlyn’s Blog</a><nav aria-label="主导航">
 
-
-<link rel="canonical" href="https://forestlyn.github.io/78134e07.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://forestlyn.github.io/78134e07.html","path":"/78134e07.html","title":"命令模式在游戏中的应用"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>命令模式在游戏中的应用 | Forestlyn's Blog</title>
-  
-
-
-
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Forestlyn's Blog</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%9C%A8%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">命令模式在游戏中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%8B%E5%89%8D%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.</span> <span class="nav-text">之前的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">命令模式实现</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="forestlyn"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">forestlyn</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">19</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/forestlyn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;forestlyn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://forestlyn.github.io/78134e07.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="forestlyn">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="命令模式在游戏中的应用 | Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          命令模式在游戏中的应用
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-12-12 00:00:00 / 修改时间：23:29:54" itemprop="dateCreated datePublished" datetime="2023-12-12T00:00:00+08:00">2023-12-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>4.3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>设计模式：命令模式（Command) <span id="more"></span></p>
+<a href="/" >首页</a>
+<a href="/archives/" >文章归档</a>
+<a href="/tags/" >标签</a>
+<a href="/about/" >关于</a>
+<a href="https://github.com/forestlyn" target="_blank" rel="noopener">GitHub ↗</a></nav></header>
+<main>
+<section class="article-heading"><a class="back" href="/archives/">← 返回文章列表</a><div class="eyebrow">C#</div><h1>命令模式在游戏中的应用</h1><div class="article-meta">Forestlyn <span>·</span> 2023-12-12 <span>·</span> 约 10 分钟阅读</div><div class="post-tags"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"># 设计模式</a></div>
+</section>
+<div class="article-layout"><article class="prose"><div class="post-content"><p>设计模式：命令模式（Command) <span id="more"></span></p>
 <h1 id="命令模式在游戏中的应用"><a href="#命令模式在游戏中的应用" class="headerlink" title="命令模式在游戏中的应用"></a>命令模式在游戏中的应用</h1><p>最近在做的一个游戏需要撤销重做功能，而这正是命令模式使用的场合，于是尝试使用命令模式实现这个功能</p>
 <p>并且该游戏的操作可能会引发一系列结果，到时候撤销需要将一系列结果撤销&#x3D;。&#x3D;</p>
 <p>这里就不讲命令模式是什么了直接上链接<a target="_blank" rel="noopener" href="https://gpp.tkchu.me/command.html">命令模式 · Design Patterns Revisited · 游戏设计模式 (tkchu.me)</a></p>
@@ -273,118 +37,212 @@
 <p>之前对于对应的操作，调用操作并记录该操作，在操作前后记录该物体的状态，然后撤销时调用该操作对应的撤销操作，十分不方便且会记录一些不需要的状态，并且每个操作都需对应的撤销操作写在case中</p>
 <p>并且一个操作导致一系列的后续结果时，此时撤销将十分麻烦</p>
 <h2 id="命令模式实现"><a href="#命令模式实现" class="headerlink" title="命令模式实现"></a>命令模式实现</h2><p>对于操作，实现一个抽象Command类，里面有执行撤销两个方法，还有两个命令类的字段，记录前后指令，last指令指向什么指令导致该指令执行，next用于记录该一个命令引发了什么指令发生，可能某个指令会导致一系列指令发生，于是使用List记录</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Command</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Execute</span>()</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Undo</span>()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Command last;</span><br><span class="line">    <span class="keyword">protected</span> List&lt;Command&gt; next;</span><br><span class="line">    <span class="keyword">public</span> Command Last &#123; <span class="keyword">get</span> =&gt; last; &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Command&gt; Next</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            next = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (next == <span class="literal">null</span>)</span><br><span class="line">                next = <span class="keyword">new</span> List&lt;Command&gt;();</span><br><span class="line">            <span class="keyword">return</span> next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c#</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c# 代码"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Command</span>
+&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>()</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Undo</span>()</span>;
+
+    <span class="hljs-keyword">protected</span> Command last;
+    <span class="hljs-keyword">protected</span> List&lt;Command&gt; next;
+    <span class="hljs-keyword">public</span> Command Last &#123; <span class="hljs-keyword">get</span> =&gt; last; &#125;
+    <span class="hljs-keyword">public</span> List&lt;Command&gt; Next
+    &#123;
+        <span class="hljs-keyword">set</span>
+        &#123;
+            next = <span class="hljs-keyword">value</span>;
+        &#125;
+        <span class="hljs-keyword">get</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (next == <span class="hljs-literal">null</span>)
+                next = <span class="hljs-keyword">new</span> List&lt;Command&gt;();
+            <span class="hljs-keyword">return</span> next;
+        &#125;
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>对于具体的command，继承该类并实现执行、撤销方法</p>
 <p>现在的结构是：</p>
 <p>PlayerCommand实现了player的command父类，其下一堆子类实现具体command</p>
 <p>以玩家移动为例子</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">PlayerCommand</span> : <span class="title">Command</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> Player player;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayerCommand</span>(<span class="params">Player player</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.player = player;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerMove</span> : <span class="title">PlayerCommand</span></span><br><span class="line">&#123;</span><br><span class="line">    Vector2 dir;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayerMove</span>(<span class="params">Player player,Vector2 dir</span>):<span class="title">base</span>(<span class="params">player</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.dir = dir;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        player.Move(dir);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Undo</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        player.Move(-dir);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c#</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c# 代码"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PlayerCommand</span> : <span class="hljs-title">Command</span>
+&#123;
+    <span class="hljs-keyword">protected</span> Player player;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PlayerCommand</span>(<span class="hljs-params">Player player</span>)</span>
+    &#123;
+        <span class="hljs-keyword">this</span>.player = player;
+    &#125;
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PlayerMove</span> : <span class="hljs-title">PlayerCommand</span>
+&#123;
+    Vector2 dir;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PlayerMove</span>(<span class="hljs-params">Player player,Vector2 dir</span>):<span class="hljs-title">base</span>(<span class="hljs-params">player</span>)</span> &#123;
+        <span class="hljs-keyword">this</span>.dir = dir;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>()</span>
+    &#123;
+        player.Move(dir);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Undo</span>()</span>
+    &#123;
+        player.Move(-dir);
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>对于指令的执行实际调用对应的操作，并将其添加到RedoManager已执行操作中，对指令的撤销重做执行交给redomanager管理执行，到此重做撤销就方便的实现啦</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Move</span>(<span class="params">Vector2 dir</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Command cmd = <span class="keyword">new</span> PlayerMove(player, dir);</span><br><span class="line">    cmd.Execute();</span><br><span class="line">    RedoManager.Instance.AddCommand(cmd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c#</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c# 代码"><code class="hljs"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Move</span>(<span class="hljs-params">Vector2 dir</span>)</span>
+&#123;
+    Command cmd = <span class="hljs-keyword">new</span> PlayerMove(player, dir);
+    cmd.Execute();
+    RedoManager.Instance.AddCommand(cmd);
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RedoManager</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> RedoCommandList redo;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RedoManager instance;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> RedoManager Instance &#123; <span class="keyword">get</span> &#123; <span class="keyword">return</span> instance; &#125; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Awake</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        instance = <span class="keyword">this</span>;</span><br><span class="line">        redo = <span class="keyword">new</span> RedoCommandList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddCommand</span>(<span class="params">Command command</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        redo.AppendRedoCommand(command, <span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 重做</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Redo</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Command command = redo.GetUndoCommand(<span class="keyword">out</span> <span class="built_in">bool</span> flag);</span><br><span class="line">        <span class="keyword">if</span> (!flag) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        command.Execute();</span><br><span class="line"></span><br><span class="line">        redo.RedoHelp(command);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 撤销</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Undo</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Command command = redo.GetRedoCommand(<span class="keyword">out</span> <span class="built_in">bool</span> flag);</span><br><span class="line">        <span class="keyword">if</span> (!flag) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        undo(command);</span><br><span class="line"></span><br><span class="line">        redo.UndoHelp(command);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">undo</span>(<span class="params">Command cmd</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">foreach</span> (Command command <span class="keyword">in</span> cmd.Next)</span><br><span class="line">        &#123;</span><br><span class="line">            undo(command);</span><br><span class="line">        &#125;</span><br><span class="line">        cmd.Undo();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> MyInputSystem;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RedoCommandList</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 可重做队列，即撤销后放入其中</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Command&gt; undoList;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 可撤销队列，即已经做了的放入其中</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Command&gt; redoList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RedoCommandList</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        undoList = <span class="keyword">new</span> List&lt;Command&gt;();</span><br><span class="line">        redoList = <span class="keyword">new</span> List&lt;Command&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 已经执行事件放入其中</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;command&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;flag&quot;&gt;</span>true 新执行事件，而非重做事件<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AppendRedoCommand</span>(<span class="params">Command command, <span class="built_in">bool</span> flag</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        redoList.Add(command);</span><br><span class="line">        <span class="keyword">if</span> (flag)</span><br><span class="line">        &#123;</span><br><span class="line">            undoList.Clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 撤销的事件放入其中</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;command&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AppendUndoCommand</span>(<span class="params">Command command</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        undoList.Add(command);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 获得已撤销的事件，并移除</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;flag&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Command <span class="title">GetUndoCommand</span>(<span class="params"><span class="keyword">out</span> <span class="built_in">bool</span> flag</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Command t = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (undoList.Count != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="literal">true</span>;</span><br><span class="line">            t = undoList[undoList.Count - <span class="number">1</span>];</span><br><span class="line">            undoList.RemoveAt(undoList.Count - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 获得已经做了的事件，并移除</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;flag&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Command <span class="title">GetRedoCommand</span>(<span class="params"><span class="keyword">out</span> <span class="built_in">bool</span> flag</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Command t = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (redoList.Count != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="literal">true</span>;</span><br><span class="line">            t = redoList[redoList.Count - <span class="number">1</span>];</span><br><span class="line">            redoList.RemoveAt(redoList.Count - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">RedoHelp</span>(<span class="params">Command command</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        AppendRedoCommand(command, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">internal</span> <span class="keyword">void</span> <span class="title">UndoHelp</span>(<span class="params">Command command</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        AppendUndoCommand(command);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>c#</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c# 代码"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">RedoManager</span> : <span class="hljs-title">MonoBehaviour</span>
+&#123;
+    <span class="hljs-keyword">private</span> RedoCommandList redo;
 
-    </div>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> RedoManager instance;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> RedoManager Instance &#123; <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> instance; &#125; &#125;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Awake</span>()</span>
+    &#123;
+        instance = <span class="hljs-keyword">this</span>;
+        redo = <span class="hljs-keyword">new</span> RedoCommandList();
+    &#125;
 
-    
-    
-    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddCommand</span>(<span class="hljs-params">Command command</span>)</span>
+    &#123;
+        redo.AppendRedoCommand(command, <span class="hljs-literal">true</span>);
+    &#125;
 
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"><i class="fa fa-tag"></i> 设计模式</a>
-          </div>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 重做</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Redo</span>()</span>
+    &#123;
+        Command command = redo.GetUndoCommand(<span class="hljs-keyword">out</span> <span class="hljs-built_in">bool</span> flag);
+        <span class="hljs-keyword">if</span> (!flag) <span class="hljs-keyword">return</span>;
 
-        
+        command.Execute();
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/71ed4341.html" rel="prev" title="Play game!">
-                  <i class="fa fa-angle-left"></i> Play game!
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/4482fa7b.html" rel="next" title="VisualStudio导入本地dll">
-                  VisualStudio导入本地dll <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
+        redo.RedoHelp(command);
+    &#125;
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 撤销</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Undo</span>()</span>
+    &#123;
+        Command command = redo.GetRedoCommand(<span class="hljs-keyword">out</span> <span class="hljs-built_in">bool</span> flag);
+        <span class="hljs-keyword">if</span> (!flag) <span class="hljs-keyword">return</span>;
+
+        undo(command);
+
+        redo.UndoHelp(command);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">undo</span>(<span class="hljs-params">Command cmd</span>)</span>
+    &#123;
+        <span class="hljs-keyword">foreach</span> (Command command <span class="hljs-keyword">in</span> cmd.Next)
+        &#123;
+            undo(command);
+        &#125;
+        cmd.Undo();
+    &#125;
+
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+<div class="code-block"><div class="code-toolbar"><span>c#</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="c# 代码"><code class="hljs"><span class="hljs-keyword">using</span> MyInputSystem;
+<span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">RedoCommandList</span>
+&#123;
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 可重做队列，即撤销后放入其中</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-keyword">private</span> List&lt;Command&gt; undoList;
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 可撤销队列，即已经做了的放入其中</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-keyword">private</span> List&lt;Command&gt; redoList;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RedoCommandList</span>()</span>
+    &#123;
+        undoList = <span class="hljs-keyword">new</span> List&lt;Command&gt;();
+        redoList = <span class="hljs-keyword">new</span> List&lt;Command&gt;();
+    &#125;
+
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 已经执行事件放入其中</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;command&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;flag&quot;&gt;</span>true 新执行事件，而非重做事件<span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AppendRedoCommand</span>(<span class="hljs-params">Command command, <span class="hljs-built_in">bool</span> flag</span>)</span>
+    &#123;
+        redoList.Add(command);
+        <span class="hljs-keyword">if</span> (flag)
+        &#123;
+            undoList.Clear();
+        &#125;
+    &#125;
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 撤销的事件放入其中</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;command&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AppendUndoCommand</span>(<span class="hljs-params">Command command</span>)</span>
+    &#123;
+        undoList.Add(command);
+    &#125;
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 获得已撤销的事件，并移除</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;flag&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span><span class="hljs-doctag">&lt;/returns&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Command <span class="hljs-title">GetUndoCommand</span>(<span class="hljs-params"><span class="hljs-keyword">out</span> <span class="hljs-built_in">bool</span> flag</span>)</span>
+    &#123;
+        Command t = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">if</span> (undoList.Count != <span class="hljs-number">0</span>)
+        &#123;
+            flag = <span class="hljs-literal">true</span>;
+            t = undoList[undoList.Count - <span class="hljs-number">1</span>];
+            undoList.RemoveAt(undoList.Count - <span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">else</span>
+            flag = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> t;
+    &#125;
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> 获得已经做了的事件，并移除</span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;flag&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span>
+    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span><span class="hljs-doctag">&lt;/returns&gt;</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Command <span class="hljs-title">GetRedoCommand</span>(<span class="hljs-params"><span class="hljs-keyword">out</span> <span class="hljs-built_in">bool</span> flag</span>)</span>
+    &#123;
+        Command t = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">if</span> (redoList.Count != <span class="hljs-number">0</span>)
+        &#123;
+            flag = <span class="hljs-literal">true</span>;
+            t = redoList[redoList.Count - <span class="hljs-number">1</span>];
+            redoList.RemoveAt(redoList.Count - <span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">else</span>
+            flag = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> t;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">void</span> <span class="hljs-title">RedoHelp</span>(<span class="hljs-params">Command command</span>)</span>
+    &#123;
+        AppendRedoCommand(command, <span class="hljs-literal">false</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UndoHelp</span>(<span class="hljs-params">Command command</span>)</span>
+    &#123;
+        AppendUndoCommand(command);
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 </div>
-
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2024034079号 </a>
-  </div>
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">forestlyn</span>
-  </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">93k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">2:48</span>
-  </span>
-</div>
-
-    </div>
-  </footer>
-
-  
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-
-</body>
-</html>
+<nav class="post-navigation" aria-label="相邻文章"><a class="previous-post" href="/ba7c3468.html"><span>← 前一篇</span><strong>VisualStudio写一个dll</strong></a><a class="next-post" href="/335d71e2.html"><span>后一篇 →</span><strong>unity 协程</strong></a></nav>
+<div class="article-end">— 感谢阅读 —<p><a href="/archives/">其他文章 ↗</a></p></div></article>
+<aside class="toc"><span class="eyebrow">目录</span><div class="toc-links"><a class="toc-level-1" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%9C%A8%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">命令模式在游戏中的应用</a><a class="toc-level-2" href="#%E4%B9%8B%E5%89%8D%E7%9A%84%E5%AE%9E%E7%8E%B0">之前的实现</a><a class="toc-level-2" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0">命令模式实现</a></div><a class="back-top" href="#">回到顶部 ↑</a></aside></div>
+</main><footer><a class="brand" href="/">Forestlyn’s Blog</a><small>© 2026 Forestlyn</small></footer>
+</div></body></html>

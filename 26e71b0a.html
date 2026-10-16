@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/test.gif">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/test.gif">
-  <link rel="mask-icon" href="/images/test.gif" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"forestlyn.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="tinyrenderer学习过程记录">
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tinyrenderer学习过程记录 · Forestlyn&#39;s Blog</title>
+<meta name="description" content="记录编程、游戏开发和日常。">
+<link rel="canonical" href="https://forestlyn.github.io/26e71b0a.html">
+<link rel="icon" href="/images/test.gif">
+<meta name="description" content="记录编程、游戏开发和日常。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tinyrenderer学习过程记录">
 <meta property="og:url" content="https://forestlyn.github.io/26e71b0a.html">
 <meta property="og:site_name" content="Forestlyn&#39;s Blog">
-<meta property="og:description" content="tinyrenderer学习过程记录">
+<meta property="og:description" content="记录编程、游戏开发和日常。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202410032103351.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004153009255.png">
@@ -68,268 +53,247 @@
 <meta property="article:tag" content="图形学">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202410032103351.png">
+<link rel="stylesheet" href="/css/editorial.css"><script src="/js/editorial.js" defer></script>
+<meta name="generator" content="Hexo 7.0.0"></head><body><div class="shell">
+<header class="header"><a class="brand" href="/">Forestlyn’s Blog</a><nav aria-label="主导航">
 
-
-<link rel="canonical" href="https://forestlyn.github.io/26e71b0a.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://forestlyn.github.io/26e71b0a.html","path":"/26e71b0a.html","title":"tinyrenderer学习过程记录"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>tinyrenderer学习过程记录 | Forestlyn's Blog</title>
-  
-
-
-
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Forestlyn's Blog</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">万里长空，与卿共游。<br>韶华千年，不过转瞬。</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup"><div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close" role="button">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div class="search-result-container no-result">
-  <div class="search-result-icon">
-    <i class="fa fa-spinner fa-pulse fa-5x"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TinyRenderer"><span class="nav-number">1.</span> <span class="nav-text">TinyRenderer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson1-%E7%94%BB%E7%BA%BF"><span class="nav-number">2.</span> <span class="nav-text">lesson1 画线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson2-%E7%94%BB%E5%AE%9E%E5%BF%83%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="nav-number">3.</span> <span class="nav-text">lesson2 画实心三角形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%BB%E5%AE%9E%E5%BF%83%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="nav-number">3.1.</span> <span class="nav-text">画实心三角形</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF1"><span class="nav-number">3.1.1.</span> <span class="nav-text">思路1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF2"><span class="nav-number">3.1.2.</span> <span class="nav-text">思路2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson3-zbuffer-and-texture"><span class="nav-number">4.</span> <span class="nav-text">lesson3 zbuffer and texture</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#zbuffer"><span class="nav-number">4.1.</span> <span class="nav-text">zbuffer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#home-assignment"><span class="nav-number">4.2.</span> <span class="nav-text">home assignment</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson4-%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1"><span class="nav-number">5.</span> <span class="nav-text">lesson4 透视投影</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson5-%E7%A7%BB%E5%8A%A8%E7%9B%B8%E6%9C%BA"><span class="nav-number">6.</span> <span class="nav-text">lesson5 移动相机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson6-shader"><span class="nav-number">7.</span> <span class="nav-text">lesson6 shader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fix-%E9%80%8F%E8%A7%86%E9%94%99%E8%AF%AF"><span class="nav-number">7.1.</span> <span class="nav-text">fix 透视错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%BA%BF%E7%A9%BA%E9%97%B4"><span class="nav-number">7.2.</span> <span class="nav-text">切线空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson7-Shadow-mapping"><span class="nav-number">8.</span> <span class="nav-text">lesson7 Shadow mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0glow"><span class="nav-number">8.1.</span> <span class="nav-text">增加glow</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson8-Ambient-occlusion-%E7%8E%AF%E5%A2%83%E5%85%89%E9%81%AE%E6%8C%A1"><span class="nav-number">9.</span> <span class="nav-text">lesson8 Ambient occlusion 环境光遮挡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E7%90%83%E4%B8%8A%E7%82%B9"><span class="nav-number">9.1.</span> <span class="nav-text">取球上点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fix-draw-sphere-bug"><span class="nav-number">9.1.1.</span> <span class="nav-text">fix draw sphere bug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AEocclusion%E7%BB%98%E5%88%B6"><span class="nav-number">9.2.</span> <span class="nav-text">根据occlusion绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">9.3.</span> <span class="nav-text">使用梯度计算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lesson9-Real-OpenGL-GLSL-application"><span class="nav-number">10.</span> <span class="nav-text">lesson9:Real OpenGL (GLSL) application</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shader-glsl"><span class="nav-number">10.1.</span> <span class="nav-text">shader:glsl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8shader%E5%8A%A0%E5%BF%AB%E7%BB%98%E5%88%B6%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1"><span class="nav-number">10.2.</span> <span class="nav-text">使用shader加快绘制正交投影</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="forestlyn"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">forestlyn</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">19</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/forestlyn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;forestlyn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://forestlyn.github.io/26e71b0a.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="forestlyn">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="tinyrenderer学习过程记录 | Forestlyn's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          tinyrenderer学习过程记录
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-02-19 11:15:30 / 修改时间：19:25:25" itemprop="dateCreated datePublished" datetime="2025-02-19T11:15:30+08:00">2025-02-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">图形学</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>14k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>25 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>tinyrenderer学习过程记录<span id="more"></span></p>
+<a href="/" >首页</a>
+<a href="/archives/" >文章归档</a>
+<a href="/tags/" >标签</a>
+<a href="/about/" >关于</a>
+<a href="https://github.com/forestlyn" target="_blank" rel="noopener">GitHub ↗</a></nav></header>
+<main>
+<section class="article-heading"><a class="back" href="/archives/">← 返回文章列表</a><div class="eyebrow">图形学</div><h1>tinyrenderer学习过程记录</h1><div class="article-meta">Forestlyn <span>·</span> 2025-02-19 <span>·</span> 约 29 分钟阅读</div><div class="post-tags"><a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/"># 图形学</a></div>
+</section>
+<div class="article-layout"><article class="prose"><div class="post-content"><p>tinyrenderer学习过程记录<span id="more"></span></p>
 <h1 id="TinyRenderer"><a href="#TinyRenderer" class="headerlink" title="TinyRenderer"></a>TinyRenderer</h1><p><a target="_blank" rel="noopener" href="https://github.com/ssloy/tinyrenderer/wiki">https://github.com/ssloy/tinyrenderer/wiki</a></p>
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/399056546">从零构建光栅器，tinyrenderer笔记（上） - 知乎</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/400791821">从零构建光栅器，tinyrenderer笔记（下） - 知乎</a></p>
 <h1 id="lesson1-画线"><a href="#lesson1-画线" class="headerlink" title="lesson1 画线"></a>lesson1 画线</h1><p><a target="_blank" rel="noopener" href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-1:-Bresenham%E2%80%99s-Line-Drawing-Algorithm">Lesson 1: Bresenham’s Line Drawing Algorithm · ssloy&#x2F;tinyrenderer Wiki (github.com)</a></p>
 <p>不想交换xy，于是使用maxDelta 但思路方法类似</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">line</span><span class="params">(<span class="type">int</span> x0, <span class="type">int</span> y0, <span class="type">int</span> x1, <span class="type">int</span> y1, TGAImage &amp;image, TGAColor color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> dx = <span class="built_in">abs</span>(x0 - x1);</span><br><span class="line">	<span class="type">int</span> dy = <span class="built_in">abs</span>(y0 - y1);</span><br><span class="line">	<span class="type">int</span> maxDelta = dx &gt; dy ? dx : dy;</span><br><span class="line">	<span class="type">int</span> x_delta = x0 &lt; x1 ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">	<span class="type">int</span> y_delta = y0 &lt; y1 ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">	<span class="type">int</span> x = x0;</span><br><span class="line">	<span class="type">int</span> y = y0;</span><br><span class="line">	<span class="type">int</span> x_error = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> y_error = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> t = <span class="number">0</span>; t &lt;= maxDelta; t++)</span><br><span class="line">	&#123;</span><br><span class="line">		image.<span class="built_in">set</span>(x, y, color);</span><br><span class="line">		x_error += dx * <span class="number">2</span>;</span><br><span class="line">		y_error += dy * <span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span> (x_error &gt; maxDelta)</span><br><span class="line">		&#123;</span><br><span class="line">			x += x_delta;</span><br><span class="line">			x_error -= maxDelta * <span class="number">2</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (y_error &gt; maxDelta)</span><br><span class="line">		&#123;</span><br><span class="line">			y += y_delta;</span><br><span class="line">			y_error -= maxDelta * <span class="number">2</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">line</span><span class="hljs-params">(<span class="hljs-type">int</span> x0, <span class="hljs-type">int</span> y0, <span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> y1, TGAImage &amp;image, TGAColor color)</span>
+</span>&#123;
+	<span class="hljs-type">int</span> dx = <span class="hljs-built_in">abs</span>(x0 - x1);
+	<span class="hljs-type">int</span> dy = <span class="hljs-built_in">abs</span>(y0 - y1);
+	<span class="hljs-type">int</span> maxDelta = dx &gt; dy ? dx : dy;
+	<span class="hljs-type">int</span> x_delta = x0 &lt; x1 ? <span class="hljs-number">1</span> : <span class="hljs-number">-1</span>;
+	<span class="hljs-type">int</span> y_delta = y0 &lt; y1 ? <span class="hljs-number">1</span> : <span class="hljs-number">-1</span>;
+	<span class="hljs-type">int</span> x = x0;
+	<span class="hljs-type">int</span> y = y0;
+	<span class="hljs-type">int</span> x_error = <span class="hljs-number">0</span>;
+	<span class="hljs-type">int</span> y_error = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> t = <span class="hljs-number">0</span>; t &lt;= maxDelta; t++)
+	&#123;
+		image.<span class="hljs-built_in">set</span>(x, y, color);
+		x_error += dx * <span class="hljs-number">2</span>;
+		y_error += dy * <span class="hljs-number">2</span>;
+		<span class="hljs-keyword">if</span> (x_error &gt; maxDelta)
+		&#123;
+			x += x_delta;
+			x_error -= maxDelta * <span class="hljs-number">2</span>;
+		&#125;
+		<span class="hljs-keyword">if</span> (y_error &gt; maxDelta)
+		&#123;
+			y += y_delta;
+			y_error -= maxDelta * <span class="hljs-number">2</span>;
+		&#125;
+	&#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202410032103351.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202410032103351.png"></p>
 <h1 id="lesson2-画实心三角形"><a href="#lesson2-画实心三角形" class="headerlink" title="lesson2 画实心三角形"></a>lesson2 画实心三角形</h1><p><a target="_blank" rel="noopener" href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-2:-Triangle-rasterization-and-back-face-culling">Lesson 2: Triangle rasterization and back face culling · ssloy&#x2F;tinyrenderer Wiki (github.com)</a></p>
 <h2 id="画实心三角形"><a href="#画实心三角形" class="headerlink" title="画实心三角形"></a>画实心三角形</h2><h3 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h3><p>思路1，如下图所示从xmin-xmax，扫描相交的两个点，再画线</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004153009255.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004153009255.png"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">line</span><span class="params">(Vec2i t0, Vec2i t1, TGAImage &amp;image, TGAColor color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">line</span>(t0.x, t0.y, t1.x, t1.y, image, color);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">inRange</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> x0, <span class="type">int</span> x1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (x &lt;= x0 &amp;&amp; x &gt;= x1)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">if</span> (x &gt;= x0 &amp;&amp; x &lt;= x1)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Vec3i <span class="title">calculateIntersection</span><span class="params">(<span class="type">int</span> x, Vec2i t0, Vec2i t1, Vec2i t2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">float</span> dx1 = t1.x - t0.x;</span><br><span class="line">	<span class="type">float</span> dx2 = t2.x - t1.x;</span><br><span class="line">	<span class="type">float</span> dx3 = t0.x - t2.x;</span><br><span class="line">	<span class="type">float</span> dy1 = t1.y - t0.y;</span><br><span class="line">	<span class="type">float</span> dy2 = t2.y - t1.y;</span><br><span class="line">	<span class="type">float</span> dy3 = t0.y - t2.y;</span><br><span class="line">	<span class="type">float</span> y1 = <span class="number">-1</span>;</span><br><span class="line">	<span class="comment">// 注意dx=0</span></span><br><span class="line">	<span class="keyword">if</span> (dx1 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t0.x, t1.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y1 = (x - t0.x) / dx1 * dy1 + t0.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">float</span> y2 = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">if</span> (dx2 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t1.x, t2.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y2 = (x - t1.x) / dx2 * dy2 + t1.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">float</span> y3 = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">if</span> (dx3 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t0.x, t2.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y3 = (x - t2.x) / dx3 * dy3 + t2.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Vec3i</span>(y1, y2, y3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">triangle</span><span class="params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> minx = t0.x &lt; t1.x ? t0.x : t1.x;</span><br><span class="line">	minx = minx &lt; t2.x ? minx : t2.x;</span><br><span class="line">	<span class="type">int</span> maxx = t0.x &lt; t1.x ? t1.x : t0.x;</span><br><span class="line">	maxx = maxx &lt; t2.x ? t2.x : maxx;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> x = minx; x &lt;= maxx; x++)</span><br><span class="line">	&#123;</span><br><span class="line">		Vec3i res = <span class="built_in">calculateIntersection</span>(x, t0, t1, t2);</span><br><span class="line">		<span class="keyword">if</span> (res.x == <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">line</span>(x, res.y, x, res.z, image, color);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (res.y == <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">line</span>(x, res.x, x, res.z, image, color);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (res.z == <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">line</span>(x, res.x, x, res.y, image, color);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">line</span><span class="hljs-params">(Vec2i t0, Vec2i t1, TGAImage &amp;image, TGAColor color)</span>
+</span>&#123;
+	<span class="hljs-built_in">line</span>(t0.x, t0.y, t1.x, t1.y, image, color);
+&#125;
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">inRange</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> x0, <span class="hljs-type">int</span> x1)</span>
+</span>&#123;
+	<span class="hljs-keyword">if</span> (x &lt;= x0 &amp;&amp; x &gt;= x1)
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">if</span> (x &gt;= x0 &amp;&amp; x &lt;= x1)
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;
+<span class="hljs-function">Vec3i <span class="hljs-title">calculateIntersection</span><span class="hljs-params">(<span class="hljs-type">int</span> x, Vec2i t0, Vec2i t1, Vec2i t2)</span>
+</span>&#123;
+	<span class="hljs-type">float</span> dx1 = t1.x - t0.x;
+	<span class="hljs-type">float</span> dx2 = t2.x - t1.x;
+	<span class="hljs-type">float</span> dx3 = t0.x - t2.x;
+	<span class="hljs-type">float</span> dy1 = t1.y - t0.y;
+	<span class="hljs-type">float</span> dy2 = t2.y - t1.y;
+	<span class="hljs-type">float</span> dy3 = t0.y - t2.y;
+	<span class="hljs-type">float</span> y1 = <span class="hljs-number">-1</span>;
+	<span class="hljs-comment">// 注意dx=0</span>
+	<span class="hljs-keyword">if</span> (dx1 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t0.x, t1.x))
+	&#123;
+		y1 = (x - t0.x) / dx1 * dy1 + t0.y;
+	&#125;
+	<span class="hljs-type">float</span> y2 = <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">if</span> (dx2 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t1.x, t2.x))
+	&#123;
+		y2 = (x - t1.x) / dx2 * dy2 + t1.y;
+	&#125;
+	<span class="hljs-type">float</span> y3 = <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">if</span> (dx3 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t0.x, t2.x))
+	&#123;
+		y3 = (x - t2.x) / dx3 * dy3 + t2.y;
+	&#125;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec3i</span>(y1, y2, y3);
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">triangle</span><span class="hljs-params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span>
+</span>&#123;
+	<span class="hljs-type">int</span> minx = t0.x &lt; t1.x ? t0.x : t1.x;
+	minx = minx &lt; t2.x ? minx : t2.x;
+	<span class="hljs-type">int</span> maxx = t0.x &lt; t1.x ? t1.x : t0.x;
+	maxx = maxx &lt; t2.x ? t2.x : maxx;
+
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> x = minx; x &lt;= maxx; x++)
+	&#123;
+		Vec3i res = <span class="hljs-built_in">calculateIntersection</span>(x, t0, t1, t2);
+		<span class="hljs-keyword">if</span> (res.x == <span class="hljs-number">-1</span>)
+		&#123;
+			<span class="hljs-built_in">line</span>(x, res.y, x, res.z, image, color);
+		&#125;
+		<span class="hljs-keyword">if</span> (res.y == <span class="hljs-number">-1</span>)
+		&#123;
+			<span class="hljs-built_in">line</span>(x, res.x, x, res.z, image, color);
+		&#125;
+		<span class="hljs-keyword">if</span> (res.z == <span class="hljs-number">-1</span>)
+		&#123;
+			<span class="hljs-built_in">line</span>(x, res.x, x, res.y, image, color);
+		&#125;
+	&#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>很奇怪，少了一条线，分析发现两端点合一时导致没有-1，因此少画一根线</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004155914840.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004155914840.png"></p>
 <p>修改calculateIntersection 考虑多种情况 </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2i <span class="title">calculateIntersection</span><span class="params">(<span class="type">int</span> x, Vec2i t0, Vec2i t1, Vec2i t2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">float</span> dx1 = t1.x - t0.x;</span><br><span class="line">	<span class="type">float</span> dx2 = t2.x - t1.x;</span><br><span class="line">	<span class="type">float</span> dx3 = t0.x - t2.x;</span><br><span class="line">	<span class="type">float</span> dy1 = t1.y - t0.y;</span><br><span class="line">	<span class="type">float</span> dy2 = t2.y - t1.y;</span><br><span class="line">	<span class="type">float</span> dy3 = t0.y - t2.y;</span><br><span class="line">	<span class="type">float</span> y1 = <span class="number">-1</span>;</span><br><span class="line">	<span class="comment">// 注意dx=0</span></span><br><span class="line">	<span class="keyword">if</span> (x == t0.x)</span><br><span class="line">		y1 = t0.y;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (dx1 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t0.x, t1.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y1 = (x - t0.x) / dx1 * dy1 + t0.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// printf(&quot;1 %f\n&quot;, y1);</span></span><br><span class="line">	<span class="type">float</span> y2 = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">if</span> (x == t1.x)</span><br><span class="line">		y2 = t1.y;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (dx2 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t1.x, t2.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y2 = (x - t1.x) / dx2 * dy2 + t1.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// printf(&quot;2 %f\n&quot;, y2);</span></span><br><span class="line">	<span class="type">float</span> y3 = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">if</span> (x == t2.x)</span><br><span class="line">		y3 = t2.y;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (dx3 != <span class="number">0</span> &amp;&amp; <span class="built_in">inRange</span>(x, t0.x, t2.x))</span><br><span class="line">	&#123;</span><br><span class="line">		y3 = (x - t2.x) / dx3 * dy3 + t2.y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// printf(&quot;3 %f\n&quot;, y3);</span></span><br><span class="line">	<span class="keyword">if</span> (y1 == <span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y2, y3);</span><br><span class="line">	<span class="keyword">if</span> (y2 == <span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y1, y3);</span><br><span class="line">	<span class="keyword">if</span> (y3 == <span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y1, y2);</span><br><span class="line">	<span class="keyword">if</span> (y1 == y2 || y1 == y3)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y2, y3);</span><br><span class="line">	<span class="keyword">if</span> (y2 == y3)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y1, y3);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Vec2i</span>(y1, y2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">triangle</span><span class="params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> minx = t0.x &lt; t1.x ? t0.x : t1.x;</span><br><span class="line">	minx = minx &lt; t2.x ? minx : t2.x;</span><br><span class="line">	<span class="type">int</span> maxx = t0.x &lt; t1.x ? t1.x : t0.x;</span><br><span class="line">	maxx = maxx &lt; t2.x ? t2.x : maxx;</span><br><span class="line">	<span class="comment">// line(t0, t1, image, color);</span></span><br><span class="line">	<span class="comment">// line(t1, t2, image, color);</span></span><br><span class="line">	<span class="comment">// line(t2, t0, image, color);</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> x = minx; x &lt;= maxx; x++)</span><br><span class="line">	&#123;</span><br><span class="line">		Vec2i res = <span class="built_in">calculateIntersection</span>(x, t0, t1, t2);</span><br><span class="line">		<span class="built_in">line</span>(x, res.x, x, res.y, image, color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function">Vec2i <span class="hljs-title">calculateIntersection</span><span class="hljs-params">(<span class="hljs-type">int</span> x, Vec2i t0, Vec2i t1, Vec2i t2)</span>
+</span>&#123;
+	<span class="hljs-type">float</span> dx1 = t1.x - t0.x;
+	<span class="hljs-type">float</span> dx2 = t2.x - t1.x;
+	<span class="hljs-type">float</span> dx3 = t0.x - t2.x;
+	<span class="hljs-type">float</span> dy1 = t1.y - t0.y;
+	<span class="hljs-type">float</span> dy2 = t2.y - t1.y;
+	<span class="hljs-type">float</span> dy3 = t0.y - t2.y;
+	<span class="hljs-type">float</span> y1 = <span class="hljs-number">-1</span>;
+	<span class="hljs-comment">// 注意dx=0</span>
+	<span class="hljs-keyword">if</span> (x == t0.x)
+		y1 = t0.y;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dx1 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t0.x, t1.x))
+	&#123;
+		y1 = (x - t0.x) / dx1 * dy1 + t0.y;
+	&#125;
+	<span class="hljs-comment">// printf(&quot;1 %f\n&quot;, y1);</span>
+	<span class="hljs-type">float</span> y2 = <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">if</span> (x == t1.x)
+		y2 = t1.y;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dx2 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t1.x, t2.x))
+	&#123;
+		y2 = (x - t1.x) / dx2 * dy2 + t1.y;
+	&#125;
+	<span class="hljs-comment">// printf(&quot;2 %f\n&quot;, y2);</span>
+	<span class="hljs-type">float</span> y3 = <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">if</span> (x == t2.x)
+		y3 = t2.y;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dx3 != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">inRange</span>(x, t0.x, t2.x))
+	&#123;
+		y3 = (x - t2.x) / dx3 * dy3 + t2.y;
+	&#125;
+	<span class="hljs-comment">// printf(&quot;3 %f\n&quot;, y3);</span>
+	<span class="hljs-keyword">if</span> (y1 == <span class="hljs-number">-1</span>)
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y2, y3);
+	<span class="hljs-keyword">if</span> (y2 == <span class="hljs-number">-1</span>)
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y1, y3);
+	<span class="hljs-keyword">if</span> (y3 == <span class="hljs-number">-1</span>)
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y1, y2);
+	<span class="hljs-keyword">if</span> (y1 == y2 || y1 == y3)
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y2, y3);
+	<span class="hljs-keyword">if</span> (y2 == y3)
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y1, y3);
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec2i</span>(y1, y2);
+&#125;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">triangle</span><span class="hljs-params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span>
+</span>&#123;
+	<span class="hljs-type">int</span> minx = t0.x &lt; t1.x ? t0.x : t1.x;
+	minx = minx &lt; t2.x ? minx : t2.x;
+	<span class="hljs-type">int</span> maxx = t0.x &lt; t1.x ? t1.x : t0.x;
+	maxx = maxx &lt; t2.x ? t2.x : maxx;
+	<span class="hljs-comment">// line(t0, t1, image, color);</span>
+	<span class="hljs-comment">// line(t1, t2, image, color);</span>
+	<span class="hljs-comment">// line(t2, t0, image, color);</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> x = minx; x &lt;= maxx; x++)
+	&#123;
+		Vec2i res = <span class="hljs-built_in">calculateIntersection</span>(x, t0, t1, t2);
+		<span class="hljs-built_in">line</span>(x, res.x, x, res.y, image, color);
+	&#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <h3 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h3><p>判断点P是否在三角形内，如下，叉乘获得垂直向量，再变换z&#x3D;1即可</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004175415622.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004175415622.png"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec3f <span class="title">barycentric</span><span class="params">(Vec2i ab, Vec2i ac, Vec2i pa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Vec3f u = <span class="built_in">Vec3f</span>(ab.x, ac.x, pa.x) ^ <span class="built_in">Vec3f</span>(ab.y, ac.y, pa.y);</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">abs</span>(u.z) &lt; <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec3f</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Vec3f</span>(<span class="number">1</span> - u.x / u.z - u.y / u.z, u.x / u.z, u.y / u.z);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Vec3f <span class="title">barycentric</span><span class="params">(Vec2i a, Vec2i b, Vec2i c, Vec2i p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">barycentric</span>(<span class="built_in">Vec2i</span>(b.x - a.x, b.y - a.y),</span><br><span class="line">					   <span class="built_in">Vec2i</span>(c.x - a.x, c.y - a.y),</span><br><span class="line">					   <span class="built_in">Vec2i</span>(a.x - p.x, a.y - p.y));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">triangle</span><span class="params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> minx = std::<span class="built_in">min</span>(t0.x, t1.x);</span><br><span class="line">	minx = std::<span class="built_in">min</span>(minx, t2.x);</span><br><span class="line">	minx = std::<span class="built_in">max</span>(minx, <span class="number">0</span>);</span><br><span class="line">	<span class="type">int</span> maxx = std::<span class="built_in">max</span>(t0.x, t1.x);</span><br><span class="line">	maxx = std::<span class="built_in">max</span>(maxx, t2.x);</span><br><span class="line">	maxx = std::<span class="built_in">min</span>(width - <span class="number">1</span>, maxx);</span><br><span class="line">	<span class="type">int</span> miny = std::<span class="built_in">min</span>(t0.y, t1.y);</span><br><span class="line">	miny = std::<span class="built_in">min</span>(miny, t2.y);</span><br><span class="line">	miny = std::<span class="built_in">max</span>(miny, <span class="number">0</span>);</span><br><span class="line">	<span class="type">int</span> maxy = std::<span class="built_in">max</span>(t0.y, t1.y);</span><br><span class="line">	maxy = std::<span class="built_in">max</span>(maxy, t2.y);</span><br><span class="line">	maxy = std::<span class="built_in">min</span>(height - <span class="number">1</span>, maxy);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> x = minx; x &lt;= maxx; x++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> y = miny; y &lt;= maxy; y++)</span><br><span class="line">		&#123;</span><br><span class="line">			Vec3f res = <span class="built_in">barycentric</span>(t0, t1, t2, <span class="built_in">Vec2i</span>(x, y));</span><br><span class="line">			<span class="keyword">if</span> (res.x &lt; <span class="number">0</span> || res.y &lt; <span class="number">0</span> || res.z &lt; <span class="number">0</span>)</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			image.<span class="built_in">set</span>(x, y, color);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function">Vec3f <span class="hljs-title">barycentric</span><span class="hljs-params">(Vec2i ab, Vec2i ac, Vec2i pa)</span>
+</span>&#123;
+	Vec3f u = <span class="hljs-built_in">Vec3f</span>(ab.x, ac.x, pa.x) ^ <span class="hljs-built_in">Vec3f</span>(ab.y, ac.y, pa.y);
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(u.z) &lt; <span class="hljs-number">1</span>)
+	&#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec3f</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);
+	&#125;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec3f</span>(<span class="hljs-number">1</span> - u.x / u.z - u.y / u.z, u.x / u.z, u.y / u.z);
+&#125;
+
+<span class="hljs-function">Vec3f <span class="hljs-title">barycentric</span><span class="hljs-params">(Vec2i a, Vec2i b, Vec2i c, Vec2i p)</span>
+</span>&#123;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">barycentric</span>(<span class="hljs-built_in">Vec2i</span>(b.x - a.x, b.y - a.y),
+					   <span class="hljs-built_in">Vec2i</span>(c.x - a.x, c.y - a.y),
+					   <span class="hljs-built_in">Vec2i</span>(a.x - p.x, a.y - p.y));
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">triangle</span><span class="hljs-params">(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage &amp;image, TGAColor color)</span>
+</span>&#123;
+	<span class="hljs-type">int</span> minx = std::<span class="hljs-built_in">min</span>(t0.x, t1.x);
+	minx = std::<span class="hljs-built_in">min</span>(minx, t2.x);
+	minx = std::<span class="hljs-built_in">max</span>(minx, <span class="hljs-number">0</span>);
+	<span class="hljs-type">int</span> maxx = std::<span class="hljs-built_in">max</span>(t0.x, t1.x);
+	maxx = std::<span class="hljs-built_in">max</span>(maxx, t2.x);
+	maxx = std::<span class="hljs-built_in">min</span>(width - <span class="hljs-number">1</span>, maxx);
+	<span class="hljs-type">int</span> miny = std::<span class="hljs-built_in">min</span>(t0.y, t1.y);
+	miny = std::<span class="hljs-built_in">min</span>(miny, t2.y);
+	miny = std::<span class="hljs-built_in">max</span>(miny, <span class="hljs-number">0</span>);
+	<span class="hljs-type">int</span> maxy = std::<span class="hljs-built_in">max</span>(t0.y, t1.y);
+	maxy = std::<span class="hljs-built_in">max</span>(maxy, t2.y);
+	maxy = std::<span class="hljs-built_in">min</span>(height - <span class="hljs-number">1</span>, maxy);
+
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> x = minx; x &lt;= maxx; x++)
+	&#123;
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> y = miny; y &lt;= maxy; y++)
+		&#123;
+			Vec3f res = <span class="hljs-built_in">barycentric</span>(t0, t1, t2, <span class="hljs-built_in">Vec2i</span>(x, y));
+			<span class="hljs-keyword">if</span> (res.x &lt; <span class="hljs-number">0</span> || res.y &lt; <span class="hljs-number">0</span> || res.z &lt; <span class="hljs-number">0</span>)
+				<span class="hljs-keyword">continue</span>;
+			image.<span class="hljs-built_in">set</span>(x, y, color);
+		&#125;
+	&#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>发现存在问题，有部分黑点，猜测是绘制不正确，即<br>• If two triangles have two common vertices, there should be no holes between them because of rasterization rounding.</p>
 <p>思路一正常绘制</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004202933058.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241004202933058.png"></p>
 <p>经过测试发现 先加再除！！很重要，float计算精度不够，存在误差！</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec3f <span class="title">barycentric</span><span class="params">(Vec2i ab, Vec2i ac, Vec2i pa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Vec3f u = <span class="built_in">Vec3f</span>(ab.x, ac.x, pa.x) ^ <span class="built_in">Vec3f</span>(ab.y, ac.y, pa.y);</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">abs</span>(u.z) &lt; <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Vec3f</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ((<span class="number">1</span> - (u.x + u.y) / u.z) == <span class="number">0</span> &amp;&amp; (<span class="number">1</span> - (u.x) / u.z - (u.y) / u.z) != <span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%.20f %.20f\n&quot;</span>, <span class="number">1</span> - (u.x + u.y) / u.z, <span class="number">1</span> - (u.x) / u.z - (u.y) / u.z);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Vec3f</span>(<span class="number">1</span> - (u.x + u.y) / u.z, u.x / u.z, u.y / u.z);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function">Vec3f <span class="hljs-title">barycentric</span><span class="hljs-params">(Vec2i ab, Vec2i ac, Vec2i pa)</span>
+</span>&#123;
+	Vec3f u = <span class="hljs-built_in">Vec3f</span>(ab.x, ac.x, pa.x) ^ <span class="hljs-built_in">Vec3f</span>(ab.y, ac.y, pa.y);
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(u.z) &lt; <span class="hljs-number">1</span>)
+	&#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec3f</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);
+	&#125;
+	<span class="hljs-keyword">if</span> ((<span class="hljs-number">1</span> - (u.x + u.y) / u.z) == <span class="hljs-number">0</span> &amp;&amp; (<span class="hljs-number">1</span> - (u.x) / u.z - (u.y) / u.z) != <span class="hljs-number">0</span>)
+		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%.20f %.20f\n&quot;</span>, <span class="hljs-number">1</span> - (u.x + u.y) / u.z, <span class="hljs-number">1</span> - (u.x) / u.z - (u.y) / u.z);
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Vec3f</span>(<span class="hljs-number">1</span> - (u.x + u.y) / u.z, u.x / u.z, u.y / u.z);
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <h1 id="lesson3-zbuffer-and-texture"><a href="#lesson3-zbuffer-and-texture" class="headerlink" title="lesson3 zbuffer and texture"></a>lesson3 zbuffer and texture</h1><h2 id="zbuffer"><a href="#zbuffer" class="headerlink" title="zbuffer"></a>zbuffer</h2><p><a target="_blank" rel="noopener" href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-3:-Hidden-faces-removal-(z-buffer)">Lesson 3: Hidden faces removal (z buffer) · ssloy&#x2F;tinyrenderer Wiki (github.com)</a></p>
 <p>增加zbuffer</p>
@@ -354,7 +318,23 @@
 <h1 id="lesson5-移动相机"><a href="#lesson5-移动相机" class="headerlink" title="lesson5 移动相机"></a>lesson5 移动相机</h1><p><a target="_blank" rel="noopener" href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-5:-Moving-the-camera">Lesson 5: Moving the camera · ssloy&#x2F;tinyrenderer Wiki (github.com)</a></p>
 <p>实现Model to Camera View</p>
 <p>正交矩阵逆矩阵&#x3D;正交矩阵转置</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Matrix <span class="title">lookat</span><span class="params">(Vec3f eye, Vec3f center, Vec3f up)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Vec3f z = (eye - center).<span class="built_in">normalize</span>();</span><br><span class="line">	Vec3f x = (up ^ z).<span class="built_in">normalize</span>();</span><br><span class="line">	Vec3f y = (z ^ x).<span class="built_in">normalize</span>();</span><br><span class="line">	Matrix subO = Matrix::<span class="built_in">identity</span>(<span class="number">4</span>);</span><br><span class="line">	Matrix view = Matrix::<span class="built_in">identity</span>(<span class="number">4</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		view[<span class="number">0</span>][i] = x[i];</span><br><span class="line">		view[<span class="number">1</span>][i] = y[i];</span><br><span class="line">		view[<span class="number">2</span>][i] = z[i];</span><br><span class="line">		subO[i][<span class="number">3</span>] = -eye[i];</span><br><span class="line">	&#125;</span><br><span class="line">	Matrix ModelView = view * subO;</span><br><span class="line">	<span class="keyword">return</span> ModelView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-function">Matrix <span class="hljs-title">lookat</span><span class="hljs-params">(Vec3f eye, Vec3f center, Vec3f up)</span>
+</span>&#123;
+	Vec3f z = (eye - center).<span class="hljs-built_in">normalize</span>();
+	Vec3f x = (up ^ z).<span class="hljs-built_in">normalize</span>();
+	Vec3f y = (z ^ x).<span class="hljs-built_in">normalize</span>();
+	Matrix subO = Matrix::<span class="hljs-built_in">identity</span>(<span class="hljs-number">4</span>);
+	Matrix view = Matrix::<span class="hljs-built_in">identity</span>(<span class="hljs-number">4</span>);
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)
+	&#123;
+		view[<span class="hljs-number">0</span>][i] = x[i];
+		view[<span class="hljs-number">1</span>][i] = y[i];
+		view[<span class="hljs-number">2</span>][i] = z[i];
+		subO[i][<span class="hljs-number">3</span>] = -eye[i];
+	&#125;
+	Matrix ModelView = view * subO;
+	<span class="hljs-keyword">return</span> ModelView;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/a993af4e479153e4f27412c0507968c33d3a9870">forestlyn&#x2F;TinyRenderer at a993af4e479153e4f27412c0507968c33d3a9870 (github.com)</a></p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241008135407573.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241008135407573.png"></p>
@@ -369,7 +349,8 @@
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23706933">(22 封私信) 为什么要有切线空间（Tangent Space），它的作用是什么？ - 知乎 (zhihu.com)</a></p>
 <p>暂时不理解为什么都要转换XD</p>
 <p>现在理解了：法线给的世界空间的法线XD</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Vec3f n = <span class="built_in">proj</span>&lt;<span class="number">3</span>&gt;(uniform_MIT * <span class="built_in">embed</span>&lt;<span class="number">4</span>&gt;(model-&gt;<span class="built_in">normal</span>(uv))).<span class="built_in">normalize</span>();</span><br><span class="line">Vec3f l = <span class="built_in">proj</span>&lt;<span class="number">3</span>&gt;(uniform_M * <span class="built_in">embed</span>&lt;<span class="number">4</span>&gt;(light_dir)).<span class="built_in">normalize</span>();</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">		Vec3f n = <span class="hljs-built_in">proj</span>&lt;<span class="hljs-number">3</span>&gt;(uniform_MIT * <span class="hljs-built_in">embed</span>&lt;<span class="hljs-number">4</span>&gt;(model-&gt;<span class="hljs-built_in">normal</span>(uv))).<span class="hljs-built_in">normalize</span>();
+		Vec3f l = <span class="hljs-built_in">proj</span>&lt;<span class="hljs-number">3</span>&gt;(uniform_M * <span class="hljs-built_in">embed</span>&lt;<span class="hljs-number">4</span>&gt;(light_dir)).<span class="hljs-built_in">normalize</span>();</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241009224510177.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241009224510177.png"></p>
 <h2 id="fix-透视错误"><a href="#fix-透视错误" class="headerlink" title="fix 透视错误"></a>fix 透视错误</h2><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/403259571">https://zhuanlan.zhihu.com/p/403259571</a></p>
@@ -383,7 +364,8 @@
 <p>非常明显的存在锐利边缘，存在错误</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241106201915240.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241106201915240.png"></p>
 <p>破案了 修改后还用的世界空间贴图导致的😇</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// load_texture(filename, &quot;_nm.tga&quot;, normalmap_);</span><br><span class="line">load_texture(filename, &quot;_nm_tangent.tga&quot;, normalmap_);</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-comment">// load_texture(filename, &quot;_nm.tga&quot;, normalmap_);</span>
+<span class="hljs-built_in">load_texture</span>(filename, <span class="hljs-string">&quot;_nm_tangent.tga&quot;</span>, normalmap_);</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/a7c59f59799d95bfd91e24ffb357c47b591fdd66">forestlyn&#x2F;TinyRenderer at a7c59f59799d95bfd91e24ffb357c47b591fdd66</a></p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241106221021200.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241106221021200.png"></p>
@@ -396,11 +378,12 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/93e48d1b709a2adaa9f51accd240fbcd7f9b6340">forestlyn&#x2F;TinyRenderer at 93e48d1b709a2adaa9f51accd240fbcd7f9b6340</a></p>
 <p>some bug: depth设置为2000会出现，设置为200时正常，2不正常</p>
 <p>发现是没有同步修改depth XD</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> frag_depth = std::<span class="built_in">max</span>(<span class="number">0</span>, std::<span class="built_in">min</span>(<span class="number">255</span>, <span class="built_in">int</span>(z / w + <span class="number">.5</span>)));</span><br><span class="line"><span class="type">int</span> frag_depth = std::<span class="built_in">max</span>(<span class="number">0</span>, std::<span class="built_in">min</span>((<span class="type">int</span>)depth, <span class="built_in">int</span>(z / w + <span class="number">.5</span>)));</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs"><span class="hljs-type">int</span> frag_depth = std::<span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, std::<span class="hljs-built_in">min</span>(<span class="hljs-number">255</span>, <span class="hljs-built_in">int</span>(z / w + <span class="hljs-number">.5</span>)));
+<span class="hljs-type">int</span> frag_depth = std::<span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, std::<span class="hljs-built_in">min</span>((<span class="hljs-type">int</span>)depth, <span class="hljs-built_in">int</span>(z / w + <span class="hljs-number">.5</span>)));</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241108230037262.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241108230037262.png"></p>
 <h2 id="增加glow"><a href="#增加glow" class="headerlink" title="增加glow"></a>增加glow</h2><p>在model中增加读取glowmap，再在颜色中加glow颜色</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">color[i] = std::min&lt;float&gt;(20 + c[i] * shadow * (1.2 * diff + .6 * spec) + glow[i] * 10, 255);</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>python</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="python 代码"><code class="hljs">color[i] = std::<span class="hljs-built_in">min</span>&lt;<span class="hljs-built_in">float</span>&gt;(<span class="hljs-number">20</span> + c[i] * shadow * (<span class="hljs-number">1.2</span> * diff + <span class="hljs-number">.6</span> * spec) + glow[i] * <span class="hljs-number">10</span>, <span class="hljs-number">255</span>);</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/5375f1e929d0b61147f8227c6cfe38c25d2358e0">forestlyn&#x2F;TinyRenderer at 5375f1e929d0b61147f8227c6cfe38c25d2358e0</a></p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241120233647444.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241120233647444.png"></p>
@@ -416,7 +399,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241218105356168.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20241218105356168.png"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250113141041417.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250113141041417.png"></p>
 <h3 id="fix-draw-sphere-bug"><a href="#fix-draw-sphere-bug" class="headerlink" title="fix draw sphere bug"></a>fix draw sphere bug</h3><p>破案了，原来是画了第一个不对的之后忘记clear了</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sphereImage.<span class="built_in">clear</span>();</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">	sphereImage.<span class="hljs-built_in">clear</span>();</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/c7af07962275f49da0510a6d23f5650aa5569d3a">forestlyn&#x2F;TinyRenderer at c7af07962275f49da0510a6d23f5650aa5569d3a</a></p>
 <p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250114220743083.png">https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250114220743083.png</a></p>
@@ -424,14 +407,24 @@
 <p>不修改绘制三角形，于是修改了一下zshader</p>
 <p>注意：原本传入的是屏幕坐标，作者在这一部分改成传入【-1，1】范围坐标，未×ViewPort</p>
 <p>本人懒得改，于是选择修改zshader</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">fragment</span><span class="params">(Vec3f gl_FragCoord, Vec3f bar, TGAColor &amp;color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">float</span> z = bar * varying_tri[<span class="number">2</span>];</span><br><span class="line">	color = <span class="built_in">TGAColor</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>) * ((z + <span class="number">1.f</span>) / <span class="number">2.f</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">bool</span> <span class="hljs-title">fragment</span><span class="hljs-params">(Vec3f gl_FragCoord, Vec3f bar, TGAColor &amp;color)</span>
+	</span>&#123;
+		<span class="hljs-type">float</span> z = bar * varying_tri[<span class="hljs-number">2</span>];
+		color = <span class="hljs-built_in">TGAColor</span>(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>) * ((z + <span class="hljs-number">1.f</span>) / <span class="hljs-number">2.f</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250115175645614.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250115175645614.png"></p>
 <p>occl如上图所示，Vscode的<strong>TGA Image Preview看不了GRAYSCALE图</strong></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/09aabfbab73754d984df31fd7edd06063b6e9e42">forestlyn&#x2F;TinyRenderer at 09aabfbab73754d984df31fd7edd06063b6e9e42</a></p>
 <p>还以为错了，结果ps打开就能看到。😢</p>
 <p>注意由于total公式iter从1开始</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> iter = <span class="number">1</span>; iter &lt;= randomPointsNum; iter++)</span><br><span class="line">&#123;</span><br><span class="line">	......</span><br><span class="line">	total.<span class="built_in">set</span>(i, j, <span class="built_in">TGAColor</span>((tmp * (iter - <span class="number">1</span>) + occl.<span class="built_in">get</span>(i, j)[<span class="number">0</span>]) / (<span class="type">float</span>)iter + <span class="number">.5</span>f));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> iter = <span class="hljs-number">1</span>; iter &lt;= randomPointsNum; iter++)
+		&#123;
+			......
+			total.<span class="hljs-built_in">set</span>(i, j, <span class="hljs-built_in">TGAColor</span>((tmp * (iter - <span class="hljs-number">1</span>) + occl.<span class="hljs-built_in">get</span>(i, j)[<span class="hljs-number">0</span>]) / (<span class="hljs-type">float</span>)iter + <span class="hljs-number">.5</span>f));
+		&#125;
+</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250115235933110.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250115235933110.png"></p>
 <p><strong>Question:</strong> Why are there holes in obviously visible triangles?</p>
@@ -441,7 +434,18 @@
 <p>假设：uv对应100<em>100个点的区域透视到屏幕空间只有50</em>50的大小，于是进行三角形绘制只画了50*50个点，返回对应uv画回去，导致有洞（猜测不知道对不对）</p>
 <p>进行一下验证，对于uv*1024点画图</p>
 <p>test：进行绘制测试，不管深度进行绘制</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">fragment</span><span class="params">(Vec3f gl_FragCoord, Vec3f bar, TGAColor &amp;color)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Vec2f uv = varying_uv * bar;</span><br><span class="line">	<span class="keyword">if</span> (std::<span class="built_in">abs</span>(shadowbuffer[<span class="built_in">int</span>(gl_FragCoord.x + gl_FragCoord.y * width)] - gl_FragCoord.z &lt; <span class="number">1e-2</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// printf(&quot;occl\n&quot;);</span></span><br><span class="line">		occl.<span class="built_in">set</span>((<span class="type">int</span>)(uv.x * <span class="number">1024</span>), (<span class="type">int</span>)(uv.y * <span class="number">1024</span>), <span class="built_in">TGAColor</span>(<span class="number">255</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	occlTest.<span class="built_in">set</span>((<span class="type">int</span>)(uv.x * <span class="number">1024</span>), (<span class="type">int</span>)(uv.y * <span class="number">1024</span>), <span class="built_in">TGAColor</span>(<span class="number">255</span>));</span><br><span class="line">	color = <span class="built_in">TGAColor</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">bool</span> <span class="hljs-title">fragment</span><span class="hljs-params">(Vec3f gl_FragCoord, Vec3f bar, TGAColor &amp;color)</span>
+	</span>&#123;
+		Vec2f uv = varying_uv * bar;
+		<span class="hljs-keyword">if</span> (std::<span class="hljs-built_in">abs</span>(shadowbuffer[<span class="hljs-built_in">int</span>(gl_FragCoord.x + gl_FragCoord.y * width)] - gl_FragCoord.z &lt; <span class="hljs-number">1e-2</span>))
+		&#123;
+			<span class="hljs-comment">// printf(&quot;occl\n&quot;);</span>
+			occl.<span class="hljs-built_in">set</span>((<span class="hljs-type">int</span>)(uv.x * <span class="hljs-number">1024</span>), (<span class="hljs-type">int</span>)(uv.y * <span class="hljs-number">1024</span>), <span class="hljs-built_in">TGAColor</span>(<span class="hljs-number">255</span>));
+		&#125;
+		occlTest.<span class="hljs-built_in">set</span>((<span class="hljs-type">int</span>)(uv.x * <span class="hljs-number">1024</span>), (<span class="hljs-type">int</span>)(uv.y * <span class="hljs-number">1024</span>), <span class="hljs-built_in">TGAColor</span>(<span class="hljs-number">255</span>));
+		color = <span class="hljs-built_in">TGAColor</span>(<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>画100次出来occlTest如下所示，也存在洞</p>
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250116000945832.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250116000945832.png"></p>
@@ -465,7 +469,18 @@
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cralor/p/14015063.html">Win10 + VSCode + GLUT 配置 - cralor - 博客园</a></p>
 <p>把glut.h移动到文件夹下</p>
 <p>make报错</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">g++ -Wall  -o ./main main.o -lm -lGL -lglut -lGLU</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lGL</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/in::/inst::::::::::::/install/Mingw64/mingw:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../lib/glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../lib/glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../lib\glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../..\glut.lib when searching <span class="keyword">for</span> -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lglut</span><br><span class="line">F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lGLU</span><br><span class="line">collect2.exe: error: ld returned <span class="number">1</span> exit status</span><br><span class="line">make: *** [Makefile:<span class="number">14</span>: main] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">g++ -Wall  -o ./main main.o -lm -lGL -lglut -lGLU
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lGL
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/in::/inst::::::::::::/install/Mingw64/mingw:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../lib/glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../lib/glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../lib\glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: skipping incompatible F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../..\glut.lib when searching <span class="hljs-keyword">for</span> -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lglut
+F:/install/Mingw64/mingw64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/<span class="hljs-number">8.1</span><span class="hljs-number">.0</span>/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lGLU
+collect2.exe: error: ld returned <span class="hljs-number">1</span> exit status
+make: *** [Makefile:<span class="hljs-number">14</span>: main] Error <span class="hljs-number">1</span></code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p>整了半天没解决，干脆安装<a target="_blank" rel="noopener" href="https://www.msys2.org/">MSYS2 — MSYS2</a>的mingw make 设置环境变量等</p>
 <p>pacman -S mingw-w64-x86_64-freeglut</p>
@@ -477,108 +492,50 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/6ed21076a655211a97568ecb7131f324cdbd45ba">forestlyn&#x2F;TinyRenderer at 6ed21076a655211a97568ecb7131f324cdbd45ba</a></p>
 <h2 id="使用shader加快绘制正交投影"><a href="#使用shader加快绘制正交投影" class="headerlink" title="使用shader加快绘制正交投影"></a>使用shader加快绘制正交投影</h2><p><a target="_blank" rel="noopener" href="https://github.com/forestlyn/TinyRenderer/tree/d3b34fddf9914cceaaf84b27c84c37ec0e01f64e">forestlyn&#x2F;TinyRenderer at d3b34fddf9914cceaaf84b27c84c37ec0e01f64e</a></p>
 <p>感觉比较难理解的是frag.glsl</p>
-<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#version 120</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec4</span> viewport;</span><br><span class="line"><span class="keyword">varying</span> <span class="type">float</span> radius;</span><br><span class="line"><span class="keyword">varying</span> <span class="type">vec2</span> center;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main(<span class="type">void</span>) &#123;</span><br><span class="line">    <span class="comment">// 获得当前待处理像素在 NDC 坐标系中的位置，方便后续计算</span></span><br><span class="line">    <span class="comment">// 由于 gl_FragCoord 是在窗口坐标系中的，所以需要转换</span></span><br><span class="line">    <span class="comment">// 使用二维的NCD坐标，因为球在无论哪个角度投影都是圆</span></span><br><span class="line">    <span class="type">vec2</span> ndc_current_pixel = ((<span class="number">2.0</span> * <span class="built_in">gl_FragCoord</span>.xy) - (<span class="number">2.0</span> * viewport.xy)) / (viewport.zw) - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算当前像素与圆心的距离 也是在二维NDC坐标系中</span></span><br><span class="line">    <span class="type">vec2</span> diff = ndc_current_pixel - center;</span><br><span class="line">    <span class="type">float</span> d2 = <span class="built_in">dot</span>(diff, diff);</span><br><span class="line">    <span class="type">float</span> r2 = radius * radius;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 大于丢弃，小于则计算光照强度</span></span><br><span class="line">    <span class="keyword">if</span>(d2 &gt; r2) &#123;</span><br><span class="line">        <span class="keyword">discard</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 计算光照强度</span></span><br><span class="line">        <span class="comment">// 获得光线方向</span></span><br><span class="line">        <span class="type">vec3</span> l = <span class="built_in">normalize</span>(<span class="built_in">gl_LightSource</span>[<span class="number">0</span>].position.xyz);</span><br><span class="line">        <span class="comment">// 直角三角形计算出z方向的长度</span></span><br><span class="line">        <span class="type">float</span> dr = <span class="built_in">sqrt</span>(r2 - d2);</span><br><span class="line">        <span class="comment">// 法向量</span></span><br><span class="line">        <span class="type">vec3</span> n = <span class="type">vec3</span>(ndc_current_pixel - center, dr);</span><br><span class="line">        <span class="comment">// 计算光照强度</span></span><br><span class="line">        <span class="type">float</span> intensity = <span class="number">.2</span> + <span class="built_in">max</span>(<span class="built_in">dot</span>(l, <span class="built_in">normalize</span>(n)), <span class="number">0.0</span>);</span><br><span class="line">        <span class="built_in">gl_FragColor</span> = <span class="built_in">gl_Color</span> * intensity;</span><br><span class="line">        <span class="comment">// 计算当前像素实际深度</span></span><br><span class="line">        <span class="comment">// gl_FragCoord.z是待处理像素的深度，范围[0,1]，由于渲染的是点，深度就是点的深度</span></span><br><span class="line">        <span class="comment">// dr是ndc坐标中的z方向长度，后半段计算像素相对点的深度，由于ndc范围【-1，1】</span></span><br><span class="line">        <span class="comment">// 所以需要乘以gl_DepthRange.diff / 2.0 得到对应【0，1】深度范围的值</span></span><br><span class="line">        <span class="comment">// 再* gl_ProjectionMatrix[2].z获得窗口范围的值</span></span><br><span class="line">        <span class="built_in">gl_FragDepth</span> = <span class="built_in">gl_FragCoord</span>.z + dr * <span class="built_in">gl_DepthRange</span>.diff / <span class="number">2.0</span> * <span class="built_in">gl_ProjectionMatrix</span>[<span class="number">2</span>].z;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="code-block"><div class="code-toolbar"><span>glsl</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="glsl 代码"><code class="hljs"><span class="hljs-meta">#version 120</span>
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec4</span> viewport;
+<span class="hljs-keyword">varying</span> <span class="hljs-type">float</span> radius;
+<span class="hljs-keyword">varying</span> <span class="hljs-type">vec2</span> center;
+
+<span class="hljs-type">void</span> main(<span class="hljs-type">void</span>) &#123;
+    <span class="hljs-comment">// 获得当前待处理像素在 NDC 坐标系中的位置，方便后续计算</span>
+    <span class="hljs-comment">// 由于 gl_FragCoord 是在窗口坐标系中的，所以需要转换</span>
+    <span class="hljs-comment">// 使用二维的NCD坐标，因为球在无论哪个角度投影都是圆</span>
+    <span class="hljs-type">vec2</span> ndc_current_pixel = ((<span class="hljs-number">2.0</span> * <span class="hljs-built_in">gl_FragCoord</span>.xy) - (<span class="hljs-number">2.0</span> * viewport.xy)) / (viewport.zw) - <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">// 计算当前像素与圆心的距离 也是在二维NDC坐标系中</span>
+    <span class="hljs-type">vec2</span> diff = ndc_current_pixel - center;
+    <span class="hljs-type">float</span> d2 = <span class="hljs-built_in">dot</span>(diff, diff);
+    <span class="hljs-type">float</span> r2 = radius * radius;
+
+    <span class="hljs-comment">// 大于丢弃，小于则计算光照强度</span>
+    <span class="hljs-keyword">if</span>(d2 &gt; r2) &#123;
+        <span class="hljs-keyword">discard</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-comment">// 计算光照强度</span>
+        <span class="hljs-comment">// 获得光线方向</span>
+        <span class="hljs-type">vec3</span> l = <span class="hljs-built_in">normalize</span>(<span class="hljs-built_in">gl_LightSource</span>[<span class="hljs-number">0</span>].position.xyz);
+        <span class="hljs-comment">// 直角三角形计算出z方向的长度</span>
+        <span class="hljs-type">float</span> dr = <span class="hljs-built_in">sqrt</span>(r2 - d2);
+        <span class="hljs-comment">// 法向量</span>
+        <span class="hljs-type">vec3</span> n = <span class="hljs-type">vec3</span>(ndc_current_pixel - center, dr);
+        <span class="hljs-comment">// 计算光照强度</span>
+        <span class="hljs-type">float</span> intensity = <span class="hljs-number">.2</span> + <span class="hljs-built_in">max</span>(<span class="hljs-built_in">dot</span>(l, <span class="hljs-built_in">normalize</span>(n)), <span class="hljs-number">0.0</span>);
+        <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-built_in">gl_Color</span> * intensity;
+        <span class="hljs-comment">// 计算当前像素实际深度</span>
+        <span class="hljs-comment">// gl_FragCoord.z是待处理像素的深度，范围[0,1]，由于渲染的是点，深度就是点的深度</span>
+        <span class="hljs-comment">// dr是ndc坐标中的z方向长度，后半段计算像素相对点的深度，由于ndc范围【-1，1】</span>
+        <span class="hljs-comment">// 所以需要乘以gl_DepthRange.diff / 2.0 得到对应【0，1】深度范围的值</span>
+        <span class="hljs-comment">// 再* gl_ProjectionMatrix[2].z获得窗口范围的值</span>
+        <span class="hljs-built_in">gl_FragDepth</span> = <span class="hljs-built_in">gl_FragCoord</span>.z + dr * <span class="hljs-built_in">gl_DepthRange</span>.diff / <span class="hljs-number">2.0</span> * <span class="hljs-built_in">gl_ProjectionMatrix</span>[<span class="hljs-number">2</span>].z;
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250218213205817.png" alt="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/image-20250218213205817.png"></p>
-
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" rel="tag"><i class="fa fa-tag"></i> 图形学</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/b947cda5.html" rel="prev" title="frp xtcp/stcp实现内网穿透远程电脑">
-                  <i class="fa fa-angle-left"></i> frp xtcp/stcp实现内网穿透远程电脑
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/7c064536.html" rel="next" title="搭建属于自己的Qmsg私有云和机器人">
-                  搭建属于自己的Qmsg私有云和机器人 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
 </div>
-
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2024034079号 </a>
-  </div>
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">forestlyn</span>
-  </div>
-<div class="wordcount">
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-line"></i>
-    </span>
-    <span title="站点总字数">93k</span>
-  </span>
-  <span class="post-meta-item">
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">2:48</span>
-  </span>
-</div>
-
-    </div>
-  </footer>
-
-  
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
-<script src="/js/third-party/search/local-search.js"></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-
-</body>
-</html>
+<nav class="post-navigation" aria-label="相邻文章"><a class="previous-post" href="/7c064536.html"><span>← 前一篇</span><strong>搭建属于自己的Qmsg私有云和机器人</strong></a><a class="next-post" href="/b947cda5.html"><span>后一篇 →</span><strong>frp xtcp/stcp实现内网穿透远程电脑</strong></a></nav>
+<div class="article-end">— 感谢阅读 —<p><a href="/archives/">其他文章 ↗</a></p></div></article>
+<aside class="toc"><span class="eyebrow">目录</span><div class="toc-links"><a class="toc-level-1" href="#TinyRenderer">TinyRenderer</a><a class="toc-level-1" href="#lesson1-%E7%94%BB%E7%BA%BF">lesson1 画线</a><a class="toc-level-1" href="#lesson2-%E7%94%BB%E5%AE%9E%E5%BF%83%E4%B8%89%E8%A7%92%E5%BD%A2">lesson2 画实心三角形</a><a class="toc-level-2" href="#%E7%94%BB%E5%AE%9E%E5%BF%83%E4%B8%89%E8%A7%92%E5%BD%A2">画实心三角形</a><a class="toc-level-3" href="#%E6%80%9D%E8%B7%AF1">思路1</a><a class="toc-level-3" href="#%E6%80%9D%E8%B7%AF2">思路2</a><a class="toc-level-1" href="#lesson3-zbuffer-and-texture">lesson3 zbuffer and texture</a><a class="toc-level-2" href="#zbuffer">zbuffer</a><a class="toc-level-2" href="#home-assignment">home assignment</a><a class="toc-level-1" href="#lesson4-%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1">lesson4 透视投影</a><a class="toc-level-1" href="#lesson5-%E7%A7%BB%E5%8A%A8%E7%9B%B8%E6%9C%BA">lesson5 移动相机</a><a class="toc-level-1" href="#lesson6-shader">lesson6 shader</a><a class="toc-level-2" href="#fix-%E9%80%8F%E8%A7%86%E9%94%99%E8%AF%AF">fix 透视错误</a><a class="toc-level-2" href="#%E5%88%87%E7%BA%BF%E7%A9%BA%E9%97%B4">切线空间</a><a class="toc-level-1" href="#lesson7-Shadow-mapping">lesson7 Shadow mapping</a><a class="toc-level-2" href="#%E5%A2%9E%E5%8A%A0glow">增加glow</a><a class="toc-level-1" href="#lesson8-Ambient-occlusion-%E7%8E%AF%E5%A2%83%E5%85%89%E9%81%AE%E6%8C%A1">lesson8 Ambient occlusion 环境光遮挡</a><a class="toc-level-2" href="#%E5%8F%96%E7%90%83%E4%B8%8A%E7%82%B9">取球上点</a><a class="toc-level-3" href="#fix-draw-sphere-bug">fix draw sphere bug</a><a class="toc-level-2" href="#%E6%A0%B9%E6%8D%AEocclusion%E7%BB%98%E5%88%B6">根据occlusion绘制</a><a class="toc-level-2" href="#%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97">使用梯度计算</a><a class="toc-level-1" href="#lesson9-Real-OpenGL-GLSL-application">lesson9:Real OpenGL (GLSL) application</a><a class="toc-level-2" href="#shader-glsl">shader:glsl</a><a class="toc-level-2" href="#%E4%BD%BF%E7%94%A8shader%E5%8A%A0%E5%BF%AB%E7%BB%98%E5%88%B6%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1">使用shader加快绘制正交投影</a></div><a class="back-top" href="#">回到顶部 ↑</a></aside></div>
+</main><footer><a class="brand" href="/">Forestlyn’s Blog</a><small>© 2026 Forestlyn</small></footer>
+</div></body></html>
