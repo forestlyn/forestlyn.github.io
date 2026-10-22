@@ -3533,4 +3533,804 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
         <tag>游戏</tag>
       </tags>
   </entry>
+  <entry>
+    <title>UGUI 事件系统（EventSystem）</title>
+    <url>//7b736db4.html</url>
+    <content><![CDATA[<p>从一次按钮点击出发，梳理 UGUI EventSystem 的输入处理、射线检测、事件转发，以及 ScrollRect 拖拽与 Button 点击之间的关系。</p>
+<span id="more"></span>
+
+<h2 id="事件系统是什么"><a href="#事件系统是什么" class="headerlink" title="事件系统是什么"></a>事件系统是什么</h2><p>事件系统是一种根据输入（无论是键盘、鼠标、触摸还是自定义输入）向应用程序中的对象发送事件的方法。</p>
+<p>事件系统由几个组件组成，这些组件协同工作以发送事件。</p>
+<p>事件系统的主要功能如下：</p>
+<ul>
+<li>管理哪个游戏对象被视为已选中</li>
+<li>管理当前使用的输入模块</li>
+<li>管理光线投射（如有需要）</li>
+<li>根据需要更新所有输入模块</li>
+</ul>
+<h2 id="实际看看一次点击按钮发生了什么"><a href="#实际看看一次点击按钮发生了什么" class="headerlink" title="实际看看一次点击按钮发生了什么"></a>实际看看一次点击按钮发生了什么</h2><p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202610221154639.png" alt="image-20261021204729289"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202610221154714.png" alt="image-20261021204708163"></p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs"><span class="hljs-keyword">using</span> UnityEngine;
+<span class="hljs-keyword">using</span> UnityEngine.UI;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">StartMenu</span> : <span class="hljs-title">MonoBehaviour</span>
+&#123;
+    <span class="hljs-keyword">public</span> Button startButton;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Start</span>()</span>
+    &#123;
+        Debug.Log(<span class="hljs-string">&quot;StartMenu Start&quot;</span>);
+        startButton.onClick.AddListener(OnClickStartButton);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnClickStartButton</span>()</span>
+    &#123;
+        Debug.Log(<span class="hljs-string">&quot;click button&quot;</span>);
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<p>函数调用路径：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202610201605458.png" alt="image-20261020160526730"></p>
+<ul>
+<li><p>EventSystem:Update</p>
+<p>这里进行的是每帧一次的更新，没啥需要注意的，注意一下同时只Process一个输入模块即可</p>
+<p>EventSystem继承UIBehaviour，UIBehaviour继承MonoBehaviour</p>
+<p>这里的m_CurrentInputModule &#x3D; “EventSystem (UnityEngine.InputSystem.UI.InputSystemUIInputModule)”</p>
+</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Update</span>()</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (current != <span class="hljs-keyword">this</span>) <span class="hljs-comment">//同一时间只有一个EventSystem更新</span>
+                <span class="hljs-keyword">return</span>;
+            TickModules(); <span class="hljs-comment">//更新所有输入模块</span>
+
+            <span class="hljs-comment">//判断当前使用输入模块是否变化</span>
+            <span class="hljs-built_in">bool</span> changedModule = <span class="hljs-literal">false</span>;
+            <span class="hljs-keyword">var</span> systemInputModulesCount = m_SystemInputModules.Count;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; systemInputModulesCount; i++)
+            &#123;
+                <span class="hljs-keyword">var</span> module = m_SystemInputModules[i];
+                <span class="hljs-keyword">if</span> (module.IsModuleSupported() &amp;&amp; module.ShouldActivateModule())
+                &#123;
+                    <span class="hljs-keyword">if</span> (m_CurrentInputModule != module)
+                    &#123;
+                        ChangeEventModule(module);
+                        changedModule = <span class="hljs-literal">true</span>;
+                    &#125;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+
+            <span class="hljs-comment">// no event module set... set the first valid one...</span>
+            <span class="hljs-keyword">if</span> (m_CurrentInputModule == <span class="hljs-literal">null</span>)
+            &#123;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; systemInputModulesCount; i++)
+                &#123;
+                    <span class="hljs-keyword">var</span> module = m_SystemInputModules[i];
+                    <span class="hljs-keyword">if</span> (module.IsModuleSupported())
+                    &#123;
+                        ChangeEventModule(module);
+                        changedModule = <span class="hljs-literal">true</span>;
+                        <span class="hljs-keyword">break</span>;
+                    &#125;
+                &#125;
+            &#125;
+
+            <span class="hljs-keyword">if</span> (!changedModule &amp;&amp; m_CurrentInputModule != <span class="hljs-literal">null</span>)
+                m_CurrentInputModule.Process();
+        &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<ul>
+<li><p>InputSystemUIInputModule:Process</p>
+<p>PointerModel: 鼠标、一个触摸点状态</p>
+<p>处理一下pointmodel，也没啥特别的</p>
+</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">   <span class="hljs-keyword">internal</span> InlinedArray&lt;PointerModel&gt; m_PointerStates;   
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Process</span>()</span>
+   &#123;
+       .......
+       <span class="hljs-keyword">else</span>
+       &#123;
+           <span class="hljs-comment">// Navigation input.</span>
+           ProcessNavigation(<span class="hljs-keyword">ref</span> m_NavigationState);
+
+           FilterPointerStatesByType();
+
+           <span class="hljs-comment">// Pointer input.</span>
+           <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m_PointerStates.length; i++)
+           &#123;
+               <span class="hljs-keyword">ref</span> <span class="hljs-keyword">var</span> state = <span class="hljs-function"><span class="hljs-keyword">ref</span> <span class="hljs-title">GetPointerStateForIndex</span>(<span class="hljs-params">i</span>)</span>;
+
+               ProcessPointer(<span class="hljs-keyword">ref</span> state);
+
+               <span class="hljs-comment">// If it&#x27;s a touch and the touch has ended, release the pointer state.</span>
+               <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> We defer this by one frame such that OnPointerUp happens in the frame of release</span>
+               <span class="hljs-comment">//       and OnPointerExit happens one frame later. This is so that IsPointerOverGameObject()</span>
+               <span class="hljs-comment">//       stays true for the touch in the frame of release (see UI_TouchPointersAreKeptForOneFrameAfterRelease).</span>
+               <span class="hljs-keyword">if</span> (state.pointerType == UIPointerType.Touch &amp;&amp; !state.leftButton.isPressed &amp;&amp; !state.leftButton.wasReleasedThisFrame)
+               &#123;
+                   RemovePointerAtIndex(i);
+                   --i;
+                   <span class="hljs-keyword">continue</span>;
+               &#125;
+
+               state.OnFrameFinished();
+           &#125;
+       &#125;
+   &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+<ul>
+<li><p>InputSystemUIInputModule:ProcessPointer</p>
+<p>在这里开始正式的处理，获得pointmodel所在物体，调用移动处理、按键处理</p>
+</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">    <span class="hljs-comment">// Mouse, pen, touch, and tracked device pointer input all go through here.</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ProcessPointer</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> PointerModel state</span>)</span>
+    &#123;
+        <span class="hljs-keyword">var</span> eventData = state.eventData;
+
+        ........
+
+        <span class="hljs-comment">// Raycast from current position. </span>
+        <span class="hljs-comment">// 射线检测获得当前鼠标所在的物体</span>
+        eventData.pointerCurrentRaycast = PerformRaycast(eventData);
+
+       	....... 
+            
+        <span class="hljs-comment"><span class="hljs-doctag">///</span>/REVIEW: for touch, we only need the left button; should we skip right and middle button processing? then we also don&#x27;t need to copy to/from the event</span>
+
+        <span class="hljs-comment">// Left mouse button. Movement and scrolling is processed with event set left button.</span>
+        eventData.button = PointerEventData.InputButton.Left;
+        state.leftButton.CopyPressStateTo(eventData);
+
+        <span class="hljs-comment">// Unlike StandaloneInputModule, we process moves before processing buttons. This way</span>
+        <span class="hljs-comment">// UI elements get pointer enters/exits before they get button ups/downs and clicks.</span>
+        ProcessPointerMovement(<span class="hljs-keyword">ref</span> state, eventData);
+
+        <span class="hljs-comment">// We always need to process move-related events in order to get PointerEnter and Exit events</span>
+        <span class="hljs-comment">// when we change UI state (e.g. show/hide objects) without moving the pointer. This unfortunately</span>
+        <span class="hljs-comment">// also means that we will invariably raycast on every update.</span>
+        <span class="hljs-comment">// However, after that, early out at this point when there&#x27;s no changes to the pointer state (except</span>
+        <span class="hljs-comment">// for tracked pointers as the tracking origin may have moved).</span>
+        <span class="hljs-keyword">if</span> (!state.changedThisFrame &amp;&amp; (xrTrackingOrigin == <span class="hljs-literal">null</span> || state.pointerType != UIPointerType.Tracked))
+            <span class="hljs-keyword">return</span>;
+
+        ProcessPointerButton(<span class="hljs-keyword">ref</span> state.leftButton, eventData);
+        ProcessPointerButtonDrag(<span class="hljs-keyword">ref</span> state.leftButton, eventData);
+        ProcessPointerScroll(<span class="hljs-keyword">ref</span> state, eventData);
+
+        <span class="hljs-comment">// Right mouse button.</span>
+        eventData.button = PointerEventData.InputButton.Right;
+        state.rightButton.CopyPressStateTo(eventData);
+
+        ProcessPointerButton(<span class="hljs-keyword">ref</span> state.rightButton, eventData);
+        ProcessPointerButtonDrag(<span class="hljs-keyword">ref</span> state.rightButton, eventData);
+
+        <span class="hljs-comment">// Middle mouse button.</span>
+        eventData.button = PointerEventData.InputButton.Middle;
+        state.middleButton.CopyPressStateTo(eventData);
+
+        ProcessPointerButton(<span class="hljs-keyword">ref</span> state.middleButton, eventData);
+        ProcessPointerButtonDrag(<span class="hljs-keyword">ref</span> state.middleButton, eventData);
+    &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+<ul>
+<li><p>InputSystemUIInputModule:ProcessPointerButton</p>
+<p>处理按键事件，在这里可以看到Drag，pointup，pointdown，Click。。。等事件在这里发送出去</p>
+</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ProcessPointerButton</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> PointerModel.ButtonState button, PointerEventData eventData</span>)</span>
+        &#123;
+            <span class="hljs-comment">// 这里点击时GO实际上是TMP!</span>
+            <span class="hljs-keyword">var</span> currentOverGo = eventData.pointerCurrentRaycast.gameObject;
+
+            <span class="hljs-keyword">if</span> (currentOverGo != <span class="hljs-literal">null</span> &amp;&amp; PointerShouldIgnoreTransform(currentOverGo.transform))
+                <span class="hljs-keyword">return</span>;
+
+            <span class="hljs-comment">// Button press.</span>
+            <span class="hljs-keyword">if</span> (button.wasPressedThisFrame)
+            &#123;
+                button.pressTime = InputRuntime.s_Instance.unscaledGameTime;
+
+                eventData.delta = Vector2.zero;
+                eventData.dragging = <span class="hljs-literal">false</span>;
+                eventData.pressPosition = eventData.position;
+                eventData.pointerPressRaycast = eventData.pointerCurrentRaycast;
+                eventData.eligibleForClick = <span class="hljs-literal">true</span>;
+                eventData.useDragThreshold = <span class="hljs-literal">true</span>;
+
+                <span class="hljs-keyword">var</span> selectHandler = ExecuteEvents.GetEventHandler&lt;ISelectHandler&gt;(currentOverGo);
+
+                <span class="hljs-comment">// If we have clicked something new, deselect the old thing and leave &#x27;selection handling&#x27; up</span>
+                <span class="hljs-comment">// to the press event (except if there&#x27;s none and we&#x27;re told to not deselect in that case).</span>
+                <span class="hljs-keyword">if</span> (selectHandler != eventSystem.currentSelectedGameObject &amp;&amp; (selectHandler != <span class="hljs-literal">null</span> || m_DeselectOnBackgroundClick))
+                    eventSystem.SetSelectedGameObject(<span class="hljs-literal">null</span>, eventData);
+
+                <span class="hljs-comment">// Invoke OnPointerDown, if present.</span>
+                <span class="hljs-keyword">var</span> newPressed = ExecuteEvents.ExecuteHierarchy(currentOverGo, eventData, ExecuteEvents.pointerDownHandler);
+
+                <span class="hljs-keyword">var</span> pointerClickHandler = ExecuteEvents.GetEventHandler&lt;IPointerClickHandler&gt;(currentOverGo);
+
+                <span class="hljs-comment">// If no GO responded to OnPointerDown, look for one that responds to OnPointerClick.</span>
+                <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> This only looks up the handler. We don&#x27;t invoke OnPointerClick here.</span>
+                <span class="hljs-keyword">if</span> (newPressed == <span class="hljs-literal">null</span>)
+                    newPressed = pointerClickHandler;
+
+                <span class="hljs-comment">// Reset click state if delay to last release was too long or if we didn&#x27;t</span>
+                <span class="hljs-comment">// press on the same object as last time. The latter part we don&#x27;t know until</span>
+                <span class="hljs-comment">// we&#x27;ve actually run the press handler.</span>
+                button.clickedOnSameGameObject = newPressed == eventData.lastPress &amp;&amp; button.pressTime - eventData.clickTime &lt;= kClickSpeed;
+                <span class="hljs-keyword">if</span> (eventData.clickCount &gt; <span class="hljs-number">0</span> &amp;&amp; !button.clickedOnSameGameObject)
+                &#123;
+                    eventData.clickCount = <span class="hljs-literal">default</span>;
+                    eventData.clickTime = <span class="hljs-literal">default</span>;
+                &#125;
+
+                <span class="hljs-comment">// Set pointerPress. This nukes lastPress. Meaning that after OnPointerDown, lastPress will</span>
+                <span class="hljs-comment">// become null.</span>
+                eventData.pointerPress = newPressed;
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER // pointerClick doesn&#x27;t exist before this.</span>
+                eventData.pointerClick = pointerClickHandler;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                eventData.rawPointerPress = currentOverGo;
+
+                <span class="hljs-comment">// Save the drag handler for drag events during this mouse down.</span>
+                eventData.pointerDrag = ExecuteEvents.GetEventHandler&lt;IDragHandler&gt;(currentOverGo);
+
+                <span class="hljs-keyword">if</span> (eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.initializePotentialDrag);
+            &#125;
+
+            <span class="hljs-comment">// Button release.</span>
+            <span class="hljs-keyword">if</span> (button.wasReleasedThisFrame)
+            &#123;
+                <span class="hljs-comment">// Check for click. Release must be on same GO that we pressed on and we must not</span>
+                <span class="hljs-comment">// have moved beyond our move tolerance (doing so will set eligibleForClick to false).</span>
+                <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> There&#x27;s two difference to click handling here compared to StandaloneInputModule.</span>
+                <span class="hljs-comment">//       1) StandaloneInputModule counts clicks entirely on press meaning that clickCount is increased</span>
+                <span class="hljs-comment">//          before a click has actually happened.</span>
+                <span class="hljs-comment">//       2) StandaloneInputModule increases click counts even if something is eventually not deemed a</span>
+                <span class="hljs-comment">//          click and OnPointerClick is thus never invoked.</span>
+                <span class="hljs-keyword">var</span> pointerClickHandler = ExecuteEvents.GetEventHandler&lt;IPointerClickHandler&gt;(currentOverGo);
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER</span>
+                <span class="hljs-keyword">var</span> isClick = eventData.pointerClick != <span class="hljs-literal">null</span> &amp;&amp; eventData.pointerClick == pointerClickHandler &amp;&amp; eventData.eligibleForClick;
+<span class="hljs-meta">#<span class="hljs-keyword">else</span></span>
+                <span class="hljs-keyword">var</span> isClick = eventData.pointerPress != <span class="hljs-literal">null</span> &amp;&amp; eventData.pointerPress == pointerClickHandler &amp;&amp; eventData.eligibleForClick;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                <span class="hljs-keyword">if</span> (isClick)
+                &#123;
+                    <span class="hljs-comment">// Count clicks.</span>
+                    <span class="hljs-keyword">if</span> (button.clickedOnSameGameObject)
+                    &#123;
+                        <span class="hljs-comment">// We re-clicked on the same UI element within 0.3 seconds so count</span>
+                        <span class="hljs-comment">// it as a repeat click.</span>
+                        ++eventData.clickCount;
+                    &#125;
+                    <span class="hljs-keyword">else</span>
+                    &#123;
+                        <span class="hljs-comment">// First click on this object.</span>
+                        eventData.clickCount = <span class="hljs-number">1</span>;
+                    &#125;
+                    eventData.clickTime = InputRuntime.s_Instance.unscaledGameTime;
+                &#125;
+
+                <span class="hljs-comment">// Invoke OnPointerUp.</span>
+                ExecuteEvents.Execute(eventData.pointerPress, eventData, ExecuteEvents.pointerUpHandler);
+
+                <span class="hljs-comment">// Invoke OnPointerClick or OnDrop.</span>
+                <span class="hljs-keyword">if</span> (isClick)
+                &#123;
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER</span>
+                    ExecuteEvents.Execute(eventData.pointerClick, eventData, ExecuteEvents.pointerClickHandler);
+<span class="hljs-meta">#<span class="hljs-keyword">else</span></span>
+                    ExecuteEvents.Execute(eventData.pointerPress, eventData, ExecuteEvents.pointerClickHandler);
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                &#125;
+                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (eventData.dragging &amp;&amp; eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.ExecuteHierarchy(currentOverGo, eventData, ExecuteEvents.dropHandler);
+
+                eventData.eligibleForClick = <span class="hljs-literal">false</span>;
+                eventData.pointerPress = <span class="hljs-literal">null</span>;
+                eventData.rawPointerPress = <span class="hljs-literal">null</span>;
+
+                <span class="hljs-keyword">if</span> (eventData.dragging &amp;&amp; eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.endDragHandler);
+
+                eventData.dragging = <span class="hljs-literal">false</span>;
+                eventData.pointerDrag = <span class="hljs-literal">null</span>;
+
+                button.ignoreNextClick = <span class="hljs-literal">false</span>;
+            &#125;
+
+            button.CopyPressStateFrom(eventData);
+        &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<ul>
+<li><p>Button:OnPointerClick</p>
+<div class="code-block"><div class="code-toolbar"><span>cpp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="cpp 代码"><code class="hljs">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">OnPointerClick</span><span class="hljs-params">(PointerEventData eventData)</span>
+  </span>&#123;
+      <span class="hljs-keyword">if</span> (eventData.button != PointerEventData.InputButton.Left)
+          <span class="hljs-keyword">return</span>;
+  
+      <span class="hljs-built_in">Press</span>();
+  &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div></li>
+<li><p>Button:Press</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Press</span>()</span>
+  &#123;
+      <span class="hljs-keyword">if</span> (!IsActive() || !IsInteractable())
+          <span class="hljs-keyword">return</span>;
+  
+      UISystemProfilerApi.AddMarker(<span class="hljs-string">&quot;Button.onClick&quot;</span>, <span class="hljs-keyword">this</span>);
+      m_OnClick.Invoke();
+  &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div></li>
+</ul>
+<p>到此一次完整点击按钮事件完成</p>
+<p>总结一下：Unity EventSystem每一帧都在Tick Input模块输入 -&gt; InputSystemUIInputModule处理输入：更新point（鼠标，触屏点）状态，更新hover ui elements，鼠标点击&#x2F;释放-&gt;OnPointerClick-&gt;Press</p>
+<p>看起来很简单</p>
+<ul>
+<li>Unity每一帧都在进行输入更新和射线检测，不管鼠标有没有移动，因为有OnPointerEnter&#x2F;Exit 对应事件</li>
+<li>Unity按下按钮触发实际上是在鼠标松开的时候，如果一直按着移出去是不会触发点击事件</li>
+<li>Unity触发事件实际上是链式触发，对于Button点击，实际上是click了TMP，TMP没有相应click事件所以输入模块向上查找能处理事件的对象，找到 Button。</li>
+</ul>
+<h3 id="为什么点击是TMP"><a href="#为什么点击是TMP" class="headerlink" title="为什么点击是TMP?"></a>为什么点击是TMP?</h3><p>我们需要回到射线检测的地方looklook</p>
+<p>在ProcessPointer中<code>eventData.pointerCurrentRaycast = PerformRaycast(eventData);</code>获得点击的GO</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">        <span class="hljs-function"><span class="hljs-keyword">private</span> RaycastResult <span class="hljs-title">PerformRaycast</span>(<span class="hljs-params">ExtendedPointerEventData eventData</span>)</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (eventData == <span class="hljs-literal">null</span>)
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ArgumentNullException(<span class="hljs-keyword">nameof</span>(eventData));
+
+			.......
+			
+            <span class="hljs-comment">// Otherwise pass it along to the normal raycasting logic.</span>
+            eventSystem.RaycastAll(eventData, m_RaycastResultCache);
+            <span class="hljs-comment">// 这一行就是找到第一个合法的GO，忽略也没问题</span>
+            <span class="hljs-keyword">var</span> result = FindFirstRaycast(m_RaycastResultCache);
+            m_RaycastResultCache.Clear();
+            <span class="hljs-keyword">return</span> result;
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">RaycastAll</span>(<span class="hljs-params">PointerEventData eventData, List&lt;RaycastResult&gt; raycastResults</span>)</span>
+        &#123;
+            raycastResults.Clear();
+            <span class="hljs-keyword">var</span> modules = RaycasterManager.GetRaycasters();
+            <span class="hljs-keyword">var</span> modulesCount = modules.Count;
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; modulesCount; ++i)
+            &#123;
+                <span class="hljs-keyword">var</span> module = modules[i];
+                <span class="hljs-keyword">if</span> (module == <span class="hljs-literal">null</span> || !module.IsActive())
+                    <span class="hljs-keyword">continue</span>;
+
+                module.Raycast(eventData, raycastResults);
+            &#125;
+
+            raycastResults.Sort(s_RaycastComparer);
+        &#125;
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> <span class="hljs-title">RaycastComparer</span>(<span class="hljs-params">RaycastResult lhs, RaycastResult rhs</span>)</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (lhs.module != rhs.module)
+            &#123;
+                <span class="hljs-keyword">var</span> lhsEventCamera = lhs.module.eventCamera;
+                <span class="hljs-keyword">var</span> rhsEventCamera = rhs.module.eventCamera;
+                <span class="hljs-keyword">if</span> (lhsEventCamera != <span class="hljs-literal">null</span> &amp;&amp; rhsEventCamera != <span class="hljs-literal">null</span> &amp;&amp; lhsEventCamera.depth != rhsEventCamera.depth)
+                &#123;
+                    <span class="hljs-comment">// need to reverse the standard compareTo</span>
+                    <span class="hljs-keyword">if</span> (lhsEventCamera.depth &lt; rhsEventCamera.depth)
+                        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">if</span> (lhsEventCamera.depth == rhsEventCamera.depth)
+                        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+                &#125;
+
+                <span class="hljs-keyword">if</span> (lhs.module.sortOrderPriority != rhs.module.sortOrderPriority)
+                    <span class="hljs-keyword">return</span> rhs.module.sortOrderPriority.CompareTo(lhs.module.sortOrderPriority);
+
+                <span class="hljs-keyword">if</span> (lhs.module.renderOrderPriority != rhs.module.renderOrderPriority)
+                    <span class="hljs-keyword">return</span> rhs.module.renderOrderPriority.CompareTo(lhs.module.renderOrderPriority);
+            &#125;
+
+            <span class="hljs-comment">// Renderer sorting</span>
+            <span class="hljs-keyword">if</span> (lhs.sortingLayer != rhs.sortingLayer)
+            &#123;
+                <span class="hljs-comment">// Uses the layer value to properly compare the relative order of the layers.</span>
+                <span class="hljs-keyword">var</span> rid = SortingLayer.GetLayerValueFromID(rhs.sortingLayer);
+                <span class="hljs-keyword">var</span> lid = SortingLayer.GetLayerValueFromID(lhs.sortingLayer);
+                <span class="hljs-keyword">return</span> rid.CompareTo(lid);
+            &#125;
+
+            <span class="hljs-keyword">if</span> (lhs.sortingOrder != rhs.sortingOrder)
+                <span class="hljs-keyword">return</span> rhs.sortingOrder.CompareTo(lhs.sortingOrder);
+
+            <span class="hljs-comment">// comparing depth only makes sense if the two raycast results have the same root canvas (case 912396)</span>
+            <span class="hljs-keyword">if</span> (lhs.depth != rhs.depth &amp;&amp; lhs.module.rootRaycaster == rhs.module.rootRaycaster)
+                <span class="hljs-keyword">return</span> rhs.depth.CompareTo(lhs.depth);
+
+            <span class="hljs-keyword">if</span> (lhs.distance != rhs.distance)
+                <span class="hljs-keyword">return</span> lhs.distance.CompareTo(rhs.distance);
+
+            <span class="hljs-meta">#<span class="hljs-keyword">if</span> PACKAGE_PHYSICS2D</span>
+			<span class="hljs-comment">// Sorting group</span>
+            <span class="hljs-keyword">if</span> (lhs.sortingGroupID != SortingGroup.invalidSortingGroupID &amp;&amp; rhs.sortingGroupID != SortingGroup.invalidSortingGroupID)
+            &#123;
+                <span class="hljs-keyword">if</span> (lhs.sortingGroupID != rhs.sortingGroupID)
+                    <span class="hljs-keyword">return</span> lhs.sortingGroupID.CompareTo(rhs.sortingGroupID);
+                <span class="hljs-keyword">if</span> (lhs.sortingGroupOrder != rhs.sortingGroupOrder)
+                    <span class="hljs-keyword">return</span> rhs.sortingGroupOrder.CompareTo(lhs.sortingGroupOrder);
+            &#125;
+            <span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+
+            <span class="hljs-keyword">return</span> lhs.index.CompareTo(rhs.index);
+        &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<p>排序逻辑</p>
+<ul>
+<li><p>比较Raycaster，是不是一个同一个射线检测到的物体？</p>
+<ul>
+<li><p>不是</p>
+<blockquote>
+<p> 首先比较相机depth，因为射线从射线检测器，射线总有一个发送点，一般是相机发送的嘛（But相机从哪里来？）<br> 然后比较sortOrderPriority<br>继续比较renderOrderPriority</p>
+</blockquote>
+</li>
+<li><p>是 or 以上比较都相等，进入这一次比较</p>
+<blockquote>
+<p>比较sortingLayer</p>
+<p>比较sortingOrder</p>
+<p>depth比较（for UI in same canvas 啥是depth？就是ui渲染的深度值，depth越大的越后渲染）</p>
+<p>distance比较（ for 物理检测，距离近优先）</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>以上了解了，也就知道为啥其实是TMP了，TMP在button之后渲染，depth更大，所以是TMP</p>
+<p>（关于depth怎么排的，为什么TMP更大？这就涉及到UGUI渲染部分了，在此pass，感兴趣自己学:））</p>
+<p>相机来源:</p>
+<table>
+<thead>
+<tr>
+<th>Raycaster 类型</th>
+<th>通常挂在哪里</th>
+<th>检测对象</th>
+<th>相机来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GraphicRaycaster</code></td>
+<td>Canvas 上</td>
+<td>UI 图形</td>
+<td>Canvas 的相机</td>
+</tr>
+<tr>
+<td><code>PhysicsRaycaster</code></td>
+<td>Camera 上</td>
+<td>3D Collider</td>
+<td>Camera</td>
+</tr>
+<tr>
+<td><code>Physics2DRaycaster</code></td>
+<td>Camera 上</td>
+<td>2D Collider</td>
+<td>Camera</td>
+</tr>
+</tbody></table>
+<h3 id="层级转发？-and-移除不点击？"><a href="#层级转发？-and-移除不点击？" class="headerlink" title="层级转发？ and 移除不点击？"></a>层级转发？ and 移除不点击？</h3><p>在ProcessPointerButton中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202610221154043.png" alt="image-20261021214839217"></p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ProcessPointerButton</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> PointerModel.ButtonState button, PointerEventData eventData</span>)</span>
+        &#123;
+            <span class="hljs-keyword">var</span> currentOverGo = eventData.pointerCurrentRaycast.gameObject;
+
+            <span class="hljs-keyword">if</span> (currentOverGo != <span class="hljs-literal">null</span> &amp;&amp; PointerShouldIgnoreTransform(currentOverGo.transform))
+                <span class="hljs-keyword">return</span>;
+
+            <span class="hljs-comment">// Button press.</span>
+            <span class="hljs-keyword">if</span> (button.wasPressedThisFrame)
+            &#123;
+                button.pressTime = InputRuntime.s_Instance.unscaledGameTime;
+
+                eventData.delta = Vector2.zero;
+                eventData.dragging = <span class="hljs-literal">false</span>;
+                eventData.pressPosition = eventData.position;
+                eventData.pointerPressRaycast = eventData.pointerCurrentRaycast;
+                eventData.eligibleForClick = <span class="hljs-literal">true</span>;
+                eventData.useDragThreshold = <span class="hljs-literal">true</span>;
+
+                <span class="hljs-keyword">var</span> selectHandler = ExecuteEvents.GetEventHandler&lt;ISelectHandler&gt;(currentOverGo);
+
+                <span class="hljs-comment">// If we have clicked something new, deselect the old thing and leave &#x27;selection handling&#x27; up</span>
+                <span class="hljs-comment">// to the press event (except if there&#x27;s none and we&#x27;re told to not deselect in that case).</span>
+                <span class="hljs-keyword">if</span> (selectHandler != eventSystem.currentSelectedGameObject &amp;&amp; (selectHandler != <span class="hljs-literal">null</span> || m_DeselectOnBackgroundClick))
+                    eventSystem.SetSelectedGameObject(<span class="hljs-literal">null</span>, eventData);
+
+                <span class="hljs-comment">// Invoke OnPointerDown, if present.</span>
+                <span class="hljs-keyword">var</span> newPressed = ExecuteEvents.ExecuteHierarchy(currentOverGo, eventData, ExecuteEvents.pointerDownHandler);
+
+                <span class="hljs-keyword">var</span> pointerClickHandler = ExecuteEvents.GetEventHandler&lt;IPointerClickHandler&gt;(currentOverGo);
+
+                <span class="hljs-comment">// If no GO responded to OnPointerDown, look for one that responds to OnPointerClick.</span>
+                <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> This only looks up the handler. We don&#x27;t invoke OnPointerClick here.</span>
+                <span class="hljs-keyword">if</span> (newPressed == <span class="hljs-literal">null</span>)
+                    newPressed = pointerClickHandler;
+
+                <span class="hljs-comment">// Reset click state if delay to last release was too long or if we didn&#x27;t</span>
+                <span class="hljs-comment">// press on the same object as last time. The latter part we don&#x27;t know until</span>
+                <span class="hljs-comment">// we&#x27;ve actually run the press handler.</span>
+                button.clickedOnSameGameObject = newPressed == eventData.lastPress &amp;&amp; button.pressTime - eventData.clickTime &lt;= kClickSpeed;
+                <span class="hljs-keyword">if</span> (eventData.clickCount &gt; <span class="hljs-number">0</span> &amp;&amp; !button.clickedOnSameGameObject)
+                &#123;
+                    eventData.clickCount = <span class="hljs-literal">default</span>;
+                    eventData.clickTime = <span class="hljs-literal">default</span>;
+                &#125;
+
+                <span class="hljs-comment">// Set pointerPress. This nukes lastPress. Meaning that after OnPointerDown, lastPress will</span>
+                <span class="hljs-comment">// become null.</span>
+                eventData.pointerPress = newPressed;
+                <span class="hljs-comment">// 保存按下时点击物体</span>
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER // pointerClick doesn&#x27;t exist before this.</span>
+                eventData.pointerClick = pointerClickHandler;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                eventData.rawPointerPress = currentOverGo;
+
+                <span class="hljs-comment">// Save the drag handler for drag events during this mouse down.</span>
+                eventData.pointerDrag = ExecuteEvents.GetEventHandler&lt;IDragHandler&gt;(currentOverGo);
+
+                <span class="hljs-keyword">if</span> (eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.initializePotentialDrag);
+            &#125;
+
+            <span class="hljs-comment">// Button release.</span>
+            <span class="hljs-keyword">if</span> (button.wasReleasedThisFrame)
+            &#123;
+                <span class="hljs-comment">// Check for click. Release must be on same GO that we pressed on and we must not</span>
+                <span class="hljs-comment">// have moved beyond our move tolerance (doing so will set eligibleForClick to false).</span>
+                <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> There&#x27;s two difference to click handling here compared to StandaloneInputModule.</span>
+                <span class="hljs-comment">//       1) StandaloneInputModule counts clicks entirely on press meaning that clickCount is increased</span>
+                <span class="hljs-comment">//          before a click has actually happened.</span>
+                <span class="hljs-comment">//       2) StandaloneInputModule increases click counts even if something is eventually not deemed a</span>
+                <span class="hljs-comment">//          click and OnPointerClick is thus never invoked.</span>
+                <span class="hljs-comment">// 找到当前鼠标所在物体的点击接受对象</span>
+                <span class="hljs-keyword">var</span> pointerClickHandler = ExecuteEvents.GetEventHandler&lt;IPointerClickHandler&gt;(currentOverGo);
+                <span class="hljs-comment">// 比较和上一次是不是同一个</span>
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER</span>
+                <span class="hljs-keyword">var</span> isClick = eventData.pointerClick != <span class="hljs-literal">null</span> &amp;&amp; eventData.pointerClick == pointerClickHandler &amp;&amp; eventData.eligibleForClick;
+<span class="hljs-meta">#<span class="hljs-keyword">else</span></span>
+                <span class="hljs-keyword">var</span> isClick = eventData.pointerPress != <span class="hljs-literal">null</span> &amp;&amp; eventData.pointerPress == pointerClickHandler &amp;&amp; eventData.eligibleForClick;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                <span class="hljs-keyword">if</span> (isClick)
+                &#123;
+                    <span class="hljs-comment">// Count clicks.</span>
+                    <span class="hljs-keyword">if</span> (button.clickedOnSameGameObject)
+                    &#123;
+                        <span class="hljs-comment">// We re-clicked on the same UI element within 0.3 seconds so count</span>
+                        <span class="hljs-comment">// it as a repeat click.</span>
+                        ++eventData.clickCount;
+                    &#125;
+                    <span class="hljs-keyword">else</span>
+                    &#123;
+                        <span class="hljs-comment">// First click on this object.</span>
+                        eventData.clickCount = <span class="hljs-number">1</span>;
+                    &#125;
+                    eventData.clickTime = InputRuntime.s_Instance.unscaledGameTime;
+                &#125;
+
+                <span class="hljs-comment">// Invoke OnPointerUp.</span>
+                ExecuteEvents.Execute(eventData.pointerPress, eventData, ExecuteEvents.pointerUpHandler);
+
+                <span class="hljs-comment">// Invoke OnPointerClick or OnDrop.</span>
+                <span class="hljs-keyword">if</span> (isClick)
+                &#123;
+<span class="hljs-meta">#<span class="hljs-keyword">if</span> UNITY_2020_1_OR_NEWER</span>
+                    ExecuteEvents.Execute(eventData.pointerClick, eventData, ExecuteEvents.pointerClickHandler);
+<span class="hljs-meta">#<span class="hljs-keyword">else</span></span>
+                    ExecuteEvents.Execute(eventData.pointerPress, eventData, ExecuteEvents.pointerClickHandler);
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+                &#125;
+                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (eventData.dragging &amp;&amp; eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.ExecuteHierarchy(currentOverGo, eventData, ExecuteEvents.dropHandler);
+
+                eventData.eligibleForClick = <span class="hljs-literal">false</span>;
+                eventData.pointerPress = <span class="hljs-literal">null</span>;
+                eventData.rawPointerPress = <span class="hljs-literal">null</span>;
+
+                <span class="hljs-keyword">if</span> (eventData.dragging &amp;&amp; eventData.pointerDrag != <span class="hljs-literal">null</span>)
+                    ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.endDragHandler);
+
+                eventData.dragging = <span class="hljs-literal">false</span>;
+                eventData.pointerDrag = <span class="hljs-literal">null</span>;
+
+                button.ignoreNextClick = <span class="hljs-literal">false</span>;
+            &#125;
+
+            button.CopyPressStateFrom(eventData);
+        &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<p>总结：处理点击事件时会根据当前射线物体一直向上找到第一个接受对应事件的GO，处理对应时间，且会比较鼠标按下时和松开时是否时同一个处理的物体。</p>
+<h3 id="怎么向上找到接受对应处理的物体"><a href="#怎么向上找到接受对应处理的物体" class="headerlink" title="怎么向上找到接受对应处理的物体"></a>怎么向上找到接受对应处理的物体</h3><p>一路寻找满足条件的parent。</p>
+<p>GetEventHandler+Execute基本等价ExecuteHierarchy。</p>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> GameObject <span class="hljs-title">GetEventHandler</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">GameObject root</span>) <span class="hljs-keyword">where</span> T : IEventSystemHandler</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>)
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+            Transform t = root.transform;
+            <span class="hljs-keyword">while</span> (t != <span class="hljs-literal">null</span>)
+            &#123;
+                <span class="hljs-keyword">if</span> (CanHandleEvent&lt;T&gt;(t.gameObject))
+                    <span class="hljs-keyword">return</span> t.gameObject;
+                t = t.parent;
+            &#125;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        &#125;
+        
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Execute</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">GameObject target, BaseEventData eventData, EventFunction&lt;T&gt; functor</span>) <span class="hljs-keyword">where</span> T : IEventSystemHandler</span>
+        &#123;
+            <span class="hljs-keyword">var</span> internalHandlers = ListPool&lt;IEventSystemHandler&gt;.Get();
+            GetEventList&lt;T&gt;(target, internalHandlers);
+            <span class="hljs-comment">//  if (s_InternalHandlers.Count &gt; 0)</span>
+            <span class="hljs-comment">//      Debug.Log(&quot;Executinng &quot; + typeof (T) + &quot; on &quot; + target);</span>
+
+            <span class="hljs-keyword">var</span> internalHandlersCount = internalHandlers.Count;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; internalHandlersCount; i++)
+            &#123;
+                T arg;
+                <span class="hljs-keyword">try</span>
+                &#123;
+                    arg = (T)internalHandlers[i];
+                &#125;
+                <span class="hljs-keyword">catch</span> (Exception e)
+                &#123;
+                    <span class="hljs-keyword">var</span> temp = internalHandlers[i];
+                    Debug.LogException(<span class="hljs-keyword">new</span> Exception(<span class="hljs-built_in">string</span>.Format(<span class="hljs-string">&quot;Type &#123;0&#125; expected &#123;1&#125; received.&quot;</span>, <span class="hljs-keyword">typeof</span>(T).Name, temp.GetType().Name), e));
+                    <span class="hljs-keyword">continue</span>;
+                &#125;
+
+                <span class="hljs-keyword">try</span>
+                &#123;
+                    functor(arg, eventData);
+                &#125;
+                <span class="hljs-keyword">catch</span> (Exception e)
+                &#123;
+                    Debug.LogException(e);
+                &#125;
+            &#125;
+
+            <span class="hljs-keyword">var</span> handlerCount = internalHandlers.Count;
+            ListPool&lt;IEventSystemHandler&gt;.Release(internalHandlers);
+            <span class="hljs-keyword">return</span> handlerCount &gt; <span class="hljs-number">0</span>;
+        &#125;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> GameObject <span class="hljs-title">ExecuteHierarchy</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">GameObject root, BaseEventData eventData, EventFunction&lt;T&gt; callbackFunction</span>) <span class="hljs-keyword">where</span> T : IEventSystemHandler</span>
+        &#123;
+            GetEventChain(root, s_InternalTransformList);
+
+            <span class="hljs-keyword">var</span> internalTransformListCount = s_InternalTransformList.Count;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; internalTransformListCount; i++)
+            &#123;
+                <span class="hljs-keyword">var</span> transform = s_InternalTransformList[i];
+                <span class="hljs-keyword">if</span> (Execute(transform.gameObject, eventData, callbackFunction))
+                    <span class="hljs-keyword">return</span> transform.gameObject;
+            &#125;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        &#125;
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">GetEventChain</span>(<span class="hljs-params">GameObject root, IList&lt;Transform&gt; eventChain</span>)</span>
+        &#123;
+            eventChain.Clear();
+            <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">null</span>)
+                <span class="hljs-keyword">return</span>;
+
+            <span class="hljs-keyword">var</span> t = root.transform;
+            <span class="hljs-keyword">while</span> (t != <span class="hljs-literal">null</span>)
+            &#123;
+                eventChain.Add(t);
+                t = t.parent;
+            &#125;
+        &#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<h2 id="Scroll-and-Click"><a href="#Scroll-and-Click" class="headerlink" title="Scroll and Click?"></a>Scroll and Click?</h2><p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/202610221233040.gif" alt="屏幕录制 2026-10-22 123254"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/forestlyn/Drawing-bed/blog/20261022132049199.png" alt="image-20261022130554306"></p>
+<p>看图，虽然按住了Buntton但是拖拽时Scroll移动，且松开没触发Button Click。单独点击一次才出发了Click，Why？</p>
+<ul>
+<li>在ProcessPointerButton中，按下我们处理了潜在的拖拽事件，没有实际真的开始Drag！</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs">eventData.pointerDrag =
+    ExecuteEvents.GetEventHandler&lt;IDragHandler&gt;(currentOverGo);
+
+<span class="hljs-keyword">if</span> (eventData.pointerDrag != <span class="hljs-literal">null</span>)
+    ExecuteEvents.Execute(
+        eventData.pointerDrag,
+        eventData,
+        ExecuteEvents.initializePotentialDrag);</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<ul>
+<li><p>ProcessPointerButtonDrag处理拖拽</p>
+<p>指针没移动，跳过。鼠标／笔且光标锁定，跳过。没找到拖拽目标，跳过。</p>
+<p>开始处理拖拽。</p>
+<p>拖拽阈值判断，移动超过阈值认定在拖拽，<strong>将点击事件取消</strong>。不是直接取消但是将对应条件置空&#x2F;false，因此不会触发click。</p>
+<p><code>var isClick = eventData.pointerClick != null &amp;&amp; eventData.pointerClick == pointerClickHandler &amp;&amp; eventData.eligibleForClick;</code></p>
+</li>
+</ul>
+<div class="code-block"><div class="code-toolbar"><span>csharp</span><button type="button" class="copy-code" aria-label="复制代码">复制</button></div><pre tabindex="0" aria-label="csharp 代码"><code class="hljs"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ProcessPointerButtonDrag</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> PointerModel.ButtonState button, ExtendedPointerEventData eventData</span>)</span>
+&#123;
+    <span class="hljs-keyword">if</span> (!eventData.IsPointerMoving() ||
+        (eventData.pointerType == UIPointerType.MouseOrPen &amp;&amp; Cursor.lockState == CursorLockMode.Locked) ||
+        eventData.pointerDrag == <span class="hljs-literal">null</span>)
+        <span class="hljs-keyword">return</span>;
+
+    <span class="hljs-comment">// Detect drags.</span>
+    <span class="hljs-keyword">if</span> (!eventData.dragging)
+    &#123;
+        <span class="hljs-keyword">if</span> (!eventData.useDragThreshold || (eventData.pressPosition - eventData.position).sqrMagnitude &gt;=
+            (<span class="hljs-built_in">double</span>)eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold * (eventData.pointerType == UIPointerType.Tracked
+                                                                                       ? m_TrackedDeviceDragThresholdMultiplier
+                                                                                       : <span class="hljs-number">1</span>))
+        &#123;
+            <span class="hljs-comment">// Started dragging. Invoke OnBeginDrag.</span>
+            ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.beginDragHandler);
+            eventData.dragging = <span class="hljs-literal">true</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">if</span> (eventData.dragging)
+    &#123;
+        <span class="hljs-comment">// If we moved from our initial press object, process an up for that object.</span>
+        <span class="hljs-keyword">if</span> (eventData.pointerPress != eventData.pointerDrag)
+        &#123;
+            ExecuteEvents.Execute(eventData.pointerPress, eventData, ExecuteEvents.pointerUpHandler);
+
+            eventData.eligibleForClick = <span class="hljs-literal">false</span>;
+            eventData.pointerPress = <span class="hljs-literal">null</span>;
+            eventData.rawPointerPress = <span class="hljs-literal">null</span>;
+        &#125;
+
+        ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.dragHandler);
+        button.CopyPressStateFrom(eventData);
+    &#125;
+&#125;</code></pre><span class="copy-status" role="status" aria-live="polite"></span></div>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>按钮点击、列表拖拽，其实都是同一个事件链路：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>主要职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>EventSystem</code></td>
+<td>管理选中对象，调度输入模块</td>
+</tr>
+<tr>
+<td><code>InputSystemUIInputModule</code></td>
+<td>处理输入状态，判断点击、拖拽等交互</td>
+</tr>
+<tr>
+<td><code>Raycaster</code></td>
+<td>找到符合条件的命中对象</td>
+</tr>
+<tr>
+<td><code>ExecuteEvents</code></td>
+<td>查找事件处理组件并调用接口</td>
+</tr>
+<tr>
+<td><code>Button</code>、<code>ScrollRect</code> 等组件</td>
+<td>响应事件，执行控件行为</td>
+</tr>
+</tbody></table>
+<p>理解这条链路后，遇到交互异常，可以按三个问题检查：</p>
+<ol>
+<li><strong>命中了谁？</strong><br>查看 <code>pointerCurrentRaycast</code>，检查遮挡、Raycast Target 和射线过滤条件。</li>
+<li><strong>事件交给了谁？</strong><br>查看 <code>pointerPress</code>、<code>pointerClick</code>、<code>pointerDrag</code>，检查父子节点上的事件接口。</li>
+<li><strong>为什么执行或没有执行？</strong><br>检查 <code>eligibleForClick</code>、拖拽状态，以及控件的可交互状态。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.unity.cn/Packages/com.unity.ugui%402.0/manual/EventSystem.html">Event System | Unity UI | 2.0.0</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzkzNTI2MjE2MA==&mid=2247484173&idx=1&sn=7d41f0546a12ce101f2001d18e237020&chksm=c2b1e1b2f5c668a499ea9e5fed6dcc1e44ed0b42cefe7f5931a70a43b11a148f944e317a07f6&cur_album_id=4698725620049182723&scene=189#wechat_redirect">UGUI源码解析——点击事件</a></p>
+<p>Repo:<a href="https://github.com/forestlyn/StudyUGUI">forestlyn&#x2F;StudyUGUI</a></p>
+]]></content>
+      <categories>
+        <category>Unity</category>
+      </categories>
+      <tags>
+        <tag>Unity</tag>
+        <tag>UGUI</tag>
+        <tag>EventSystem</tag>
+      </tags>
+  </entry>
 </search>
